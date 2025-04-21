@@ -21,15 +21,15 @@ public class PolleriaMenu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtPedidoID;
+	private JTextField txtCant;
+	private JTextField txtNumPedido;
+	private JTextField txtNombre;
+	private JTextField txtDireccion;
+	private JTextField txtDNI;
 	private JScrollPane scrollPane;
-	private JTable table;
-	private JTextField textField_6;
+	private JTable tbPedido;
+	private JTextField txtCosto;
 
 	/**
 	 * Launch the application.
@@ -74,33 +74,33 @@ public class PolleriaMenu extends JFrame {
 		lblNewLabel_1.setBounds(15, 27, 152, 20);
 		panel.add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		textField.setBounds(15, 51, 167, 25);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtPedidoID = new JTextField();
+		txtPedidoID.setBounds(15, 51, 167, 25);
+		panel.add(txtPedidoID);
+		txtPedidoID.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Elige la cantidad");
 		lblNewLabel_2.setBounds(15, 87, 138, 25);
 		panel.add(lblNewLabel_2);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(15, 112, 167, 25);
-		panel.add(textField_1);
+		txtCant = new JTextField();
+		txtCant.setColumns(10);
+		txtCant.setBounds(15, 112, 167, 25);
+		panel.add(txtCant);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(15, 173, 167, 25);
-		panel.add(textField_2);
+		txtNumPedido = new JTextField();
+		txtNumPedido.setColumns(10);
+		txtNumPedido.setBounds(15, 173, 167, 25);
+		panel.add(txtNumPedido);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Elimina N° pedido");
 		lblNewLabel_2_1.setBounds(15, 148, 138, 25);
 		panel.add(lblNewLabel_2_1);
 		
-		JButton btnNewButton = new JButton("Agregar");
+		JButton btnAgregar = new JButton("Agregar");
 
-		btnNewButton.setBounds(199, 40, 95, 36);
-		panel.add(btnNewButton);
+		btnAgregar.setBounds(199, 40, 95, 36);
+		panel.add(btnAgregar);
 		
 		JButton btnVerCarta = new JButton("Ver Carta");
 		btnVerCarta.setBounds(199, 100, 95, 36);
@@ -120,24 +120,24 @@ public class PolleriaMenu extends JFrame {
 		lblNewLabel_1_1.setBounds(15, 27, 152, 20);
 		panel_1.add(lblNewLabel_1_1);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(15, 51, 167, 25);
-		panel_1.add(textField_3);
+		txtNombre = new JTextField();
+		txtNombre.setColumns(10);
+		txtNombre.setBounds(15, 51, 167, 25);
+		panel_1.add(txtNombre);
 		
 		JLabel lblNewLabel_2_2 = new JLabel("Direccion");
 		lblNewLabel_2_2.setBounds(15, 87, 138, 25);
 		panel_1.add(lblNewLabel_2_2);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(15, 112, 167, 25);
-		panel_1.add(textField_4);
+		txtDireccion = new JTextField();
+		txtDireccion.setColumns(10);
+		txtDireccion.setBounds(15, 112, 167, 25);
+		panel_1.add(txtDireccion);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(15, 173, 167, 25);
-		panel_1.add(textField_5);
+		txtDNI = new JTextField();
+		txtDNI.setColumns(10);
+		txtDNI.setBounds(15, 173, 167, 25);
+		panel_1.add(txtDNI);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("DNI:");
 		lblNewLabel_2_1_1.setBounds(15, 148, 138, 25);
@@ -147,8 +147,8 @@ public class PolleriaMenu extends JFrame {
 			scrollPane.setBounds(24, 307, 523, 188);
 			contentPane.add(scrollPane);
 			{
-				table = new JTable();
-				table.setModel(new DefaultTableModel(
+				tbPedido = new JTable();
+				tbPedido.setModel(new DefaultTableModel(
 					new Object[][] {
 					},
 					new String[] {
@@ -162,23 +162,27 @@ public class PolleriaMenu extends JFrame {
 						return columnTypes[columnIndex];
 					}
 				});
-				table.getColumnModel().getColumn(0).setPreferredWidth(30);
-				table.getColumnModel().getColumn(1).setPreferredWidth(150);
-				table.getColumnModel().getColumn(2).setPreferredWidth(70);
-				table.getColumnModel().getColumn(3).setPreferredWidth(70);
-				table.getColumnModel().getColumn(4).setPreferredWidth(70);
+				tbPedido.getColumnModel().getColumn(0).setPreferredWidth(30);
+				tbPedido.getColumnModel().getColumn(1).setPreferredWidth(150);
+				tbPedido.getColumnModel().getColumn(2).setPreferredWidth(70);
+				tbPedido.getColumnModel().getColumn(3).setPreferredWidth(70);
+				tbPedido.getColumnModel().getColumn(4).setPreferredWidth(70);
 
-				scrollPane.setViewportView(table);
+				scrollPane.setViewportView(tbPedido);
 			}
 		}
 		
-		textField_6 = new JTextField();
-		textField_6.setBounds(418, 495, 129, 29);
-		contentPane.add(textField_6);
-		textField_6.setColumns(10);
+		txtCosto = new JTextField();
+		txtCosto.setBounds(418, 495, 129, 29);
+		contentPane.add(txtCosto);
+		txtCosto.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Costo Total");
 		lblNewLabel_3.setBounds(342, 499, 68, 21);
 		contentPane.add(lblNewLabel_3);
+		
+		JButton btnEnviar = new JButton("Enviar");
+		btnEnviar.setBounds(24, 495, 100, 29);
+		contentPane.add(btnEnviar);
 	}
 }
