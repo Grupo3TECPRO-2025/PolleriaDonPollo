@@ -26,7 +26,7 @@ public class PolleriaMenu extends JFrame {
 	private JTextField txtNumPedido;
 	private JTextField txtNombre;
 	private JTextField txtDireccion;
-	private JTextField txtDNI;
+	private JTextField txtTelefono;
 	private JScrollPane scrollPane;
 	private JTable tbPedido;
 	private JTextField txtCosto;
@@ -134,12 +134,12 @@ public class PolleriaMenu extends JFrame {
 		txtDireccion.setBounds(15, 112, 167, 25);
 		panel_1.add(txtDireccion);
 		
-		txtDNI = new JTextField();
-		txtDNI.setColumns(10);
-		txtDNI.setBounds(15, 173, 167, 25);
-		panel_1.add(txtDNI);
+		txtTelefono = new JTextField();
+		txtTelefono.setColumns(10);
+		txtTelefono.setBounds(15, 173, 167, 25);
+		panel_1.add(txtTelefono);
 		
-		JLabel lblNewLabel_2_1_1 = new JLabel("DNI:");
+		JLabel lblNewLabel_2_1_1 = new JLabel("Telefono");
 		lblNewLabel_2_1_1.setBounds(15, 148, 138, 25);
 		panel_1.add(lblNewLabel_2_1_1);
 		{
@@ -173,6 +173,7 @@ public class PolleriaMenu extends JFrame {
 		}
 		
 		txtCosto = new JTextField();
+		txtCosto.setEditable(false);
 		txtCosto.setBounds(418, 495, 129, 29);
 		contentPane.add(txtCosto);
 		txtCosto.setColumns(10);
