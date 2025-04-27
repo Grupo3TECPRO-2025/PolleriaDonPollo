@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -30,6 +31,8 @@ public class PolleriaMenu extends JFrame {
 	private JScrollPane scrollPane;
 	private JTable tbPedido;
 	private JTextField txtCosto;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -52,7 +55,7 @@ public class PolleriaMenu extends JFrame {
 	 */
 	public PolleriaMenu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 587, 604);
+		setBounds(100, 100, 587, 623);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -65,7 +68,7 @@ public class PolleriaMenu extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(24, 72, 318, 220);
+		panel.setBounds(24, 72, 318, 251);
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Pedido", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION) );
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -80,21 +83,21 @@ public class PolleriaMenu extends JFrame {
 		txtPedidoID.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Elige la cantidad");
-		lblNewLabel_2.setBounds(15, 87, 138, 25);
+		lblNewLabel_2.setBounds(15, 76, 138, 25);
 		panel.add(lblNewLabel_2);
 		
 		txtCant = new JTextField();
 		txtCant.setColumns(10);
-		txtCant.setBounds(15, 112, 167, 25);
+		txtCant.setBounds(15, 101, 167, 25);
 		panel.add(txtCant);
 		
 		txtNumPedido = new JTextField();
 		txtNumPedido.setColumns(10);
-		txtNumPedido.setBounds(15, 173, 167, 25);
+		txtNumPedido.setBounds(15, 156, 167, 25);
 		panel.add(txtNumPedido);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Elimina N° pedido");
-		lblNewLabel_2_1.setBounds(15, 148, 138, 25);
+		lblNewLabel_2_1.setBounds(15, 131, 138, 25);
 		panel.add(lblNewLabel_2_1);
 		
 		JButton btnAgregar = new JButton("Agregar");
@@ -103,17 +106,30 @@ public class PolleriaMenu extends JFrame {
 		panel.add(btnAgregar);
 		
 		JButton btnVerCarta = new JButton("Ver Carta");
-		btnVerCarta.setBounds(199, 100, 95, 36);
+		btnVerCarta.setBounds(199, 96, 95, 36);
 		panel.add(btnVerCarta);
 		
 		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(199, 162, 95, 36);
+		btnEliminar.setBounds(198, 152, 95, 36);
 		panel.add(btnEliminar);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(15, 209, 167, 25);
+		panel.add(textField_1);
+		
+		JLabel lblNewLabel_2_1_2 = new JLabel("Codigo de Promociones");
+		lblNewLabel_2_1_2.setBounds(15, 184, 138, 25);
+		panel.add(lblNewLabel_2_1_2);
+		
+		JButton btnCanjear = new JButton("Canjear");
+		btnCanjear.setBounds(198, 202, 95, 36);
+		panel.add(btnCanjear);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Datos Personales", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
-		panel_1.setBounds(350, 72, 200, 220);
+		panel_1.setBounds(350, 72, 200, 251);
 		contentPane.add(panel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Nombres y Apellidos");
@@ -125,26 +141,37 @@ public class PolleriaMenu extends JFrame {
 		txtNombre.setBounds(15, 51, 167, 25);
 		panel_1.add(txtNombre);
 		
+		
+		
 		JLabel lblNewLabel_2_2 = new JLabel("Direccion");
-		lblNewLabel_2_2.setBounds(15, 87, 138, 25);
+		lblNewLabel_2_2.setBounds(16, 80, 138, 25);
 		panel_1.add(lblNewLabel_2_2);
 		
 		txtDireccion = new JTextField();
 		txtDireccion.setColumns(10);
-		txtDireccion.setBounds(15, 112, 167, 25);
+		txtDireccion.setBounds(15, 102, 167, 25);
 		panel_1.add(txtDireccion);
 		
 		txtTelefono = new JTextField();
 		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(15, 173, 167, 25);
+		txtTelefono.setBounds(15, 153, 167, 25);
 		panel_1.add(txtTelefono);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Telefono");
-		lblNewLabel_2_1_1.setBounds(15, 148, 138, 25);
+		lblNewLabel_2_1_1.setBounds(15, 132, 138, 25);
 		panel_1.add(lblNewLabel_2_1_1);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(15, 209, 167, 25);
+		panel_1.add(textField);
+		
+		JLabel lblNewLabel_2_1_1_1 = new JLabel("DNI (opcional):");
+		lblNewLabel_2_1_1_1.setBounds(15, 186, 138, 25);
+		panel_1.add(lblNewLabel_2_1_1_1);
 		{
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(24, 307, 523, 188);
+			scrollPane.setBounds(23, 333, 523, 200);
 			contentPane.add(scrollPane);
 			{
 				tbPedido = new JTable();
@@ -174,16 +201,16 @@ public class PolleriaMenu extends JFrame {
 		
 		txtCosto = new JTextField();
 		txtCosto.setEditable(false);
-		txtCosto.setBounds(418, 495, 129, 29);
+		txtCosto.setBounds(417, 533, 129, 29);
 		contentPane.add(txtCosto);
 		txtCosto.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Costo Total");
-		lblNewLabel_3.setBounds(342, 499, 68, 21);
+		lblNewLabel_3.setBounds(341, 537, 68, 21);
 		contentPane.add(lblNewLabel_3);
 		
 		JButton btnEnviar = new JButton("Enviar");
-		btnEnviar.setBounds(24, 495, 100, 29);
+		btnEnviar.setBounds(23, 533, 100, 29);
 		contentPane.add(btnEnviar);
 	}
 }
