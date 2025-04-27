@@ -18,6 +18,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import Clases.Carta;
+import Clases.Cliente;
+import Clases.Pedidos;
+import Clases.Productos;
+
 public class PolleriaMenu extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -235,16 +240,37 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 			do_btnAgregar_actionPerformed(e);
 		}
 	}
+	Cliente cli;
+	Pedidos ped;
+	Carta cart;
 	protected void do_btnAgregar_actionPerformed(ActionEvent e) {
 		try {
-	        String idPedido = txtPedidoID.getText().trim();
+			Productos pro;
+			
+	        String idProducto = txtPedidoID.getText().trim();
 	        int cantidad = Integer.parseInt(txtCant.getText()); 
 	        String NombreCompleto= txtNombre.getText();
 	        String DNI = txtDni.getText();
 	        int telefono = Integer.parseInt(txtTelefono.getText());
-	        String Direccion = txtDireccion.getText();
+	        String Direccion = txtDireccion.getText();  
+	        
+	        double precio_ut=cart.Buscar(idProducto).getPrecio_Unitario();
+	        
+	        if(ped.tamano()==0) {  
+	        	
+	        	if(DNI.isBlank()) {
+		        	cli=new Cliente(telefono, NombreCompleto, Direccion);
+		        }
+		        else {
+		        	cli=new Cliente(telefono, NombreCompleto, Direccion,DNI);
+		        }
+	        	ped=new Pedidos(cli);
+	        }
+		     pro=new Productos(precio_ut, idProducto, NombreCompleto, cantidad);
+		     ped.Adicionar(pro);
+	   
 	        JOptionPane.showMessageDialog(this, "Pedido agregado correctamente.");
-	    
+	        
 	    } catch (Exception ex) {
 	        JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar el pedido, ingrese los datos correctamente. " );
 	    }
