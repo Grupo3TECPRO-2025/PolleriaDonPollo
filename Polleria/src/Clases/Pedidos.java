@@ -1,5 +1,6 @@
 package Clases;
 
+import java.awt.Menu;
 import java.util.ArrayList;
 
 public class Pedidos {
@@ -12,25 +13,21 @@ public class Pedidos {
     {
         Pedi = new ArrayList<Productos>();
         cli=nuevo;
-        Adicionar(new Productos(10, "Pollo1/4.01", "1/4 Pollo", 4));
-        Adicionar(new Productos(10, "Pollo1/4.02", "1/4 Pollo Con Chaufa y Gaseosa", 4));
-        Adicionar(new Productos(10, "PolloEntero.01", "Pollo Entero con Gaseosa y Ensalada", 4));
+      
     }
 
     public Productos Buscar(String id)
     {
         for (Productos producto : Pedi) {
 
-            if(producto.getId() == id) 
-            {
-                return producto;
-            }
+            if(producto.getId().equals(id)) return producto;
         }
         return null;
     }
     
-    public int tamano() {
+    public int tamaño() {
     	return Pedi.size();
+    	
     }
     
     public void Eliminar(int nPedidos)
@@ -48,7 +45,7 @@ public class Pedidos {
     public double Costo_Total() {
     	double total=0.0;
     	for(int i=0;i<Pedi.size();i++) {
-    		total+=Obtner(i).cantidad*Obtner(i).precio_unitario;
+    		total+=Obtner(i).cantidad*Obtner(i).precioUnitario;
     	}
     	return total;
     }   
@@ -56,13 +53,13 @@ public class Pedidos {
     	double total=0.0;
     	if(cod.tipo.trim().toLowerCase()=="fijo") {
         	for(int i=0;i<Pedi.size();i++) {
-        		total+=Obtner(i).cantidad*Obtner(i).precio_unitario;
+        		total+=Obtner(i).cantidad*Obtner(i).precioUnitario;
         	}
         	total-=cod.descuento;
     	}
     	else if(cod.tipo.trim().toLowerCase()=="porcentaje"){
             for(int i=0;i<Pedi.size();i++) {
-            		total+=Obtner(i).cantidad*Obtner(i).precio_unitario;
+            		total+=Obtner(i).cantidad*Obtner(i).precioUnitario;
             }
             total*=cod.descuento/100;
     	}

@@ -20,8 +20,10 @@ import javax.swing.table.DefaultTableModel;
 
 import Clases.Carta;
 import Clases.Cliente;
+import Clases.MenuProducto;
 import Clases.Pedidos;
 import Clases.Productos;
+import java.awt.Color;
 
 public class PolleriaMenu extends JFrame implements ActionListener {
 
@@ -66,6 +68,7 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 587, 623);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(175, 238, 238));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -77,6 +80,7 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(224, 255, 255));
 		panel.setBounds(24, 72, 318, 251);
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Pedido", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION) );
 		contentPane.add(panel);
@@ -140,6 +144,7 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 		panel.add(btnCanjear);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(224, 255, 255));
 		panel_1.setLayout(null);
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Datos Personales", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 		panel_1.setBounds(350, 72, 200, 251);
@@ -192,7 +197,7 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 					new Object[][] {
 					},
 					new String[] {
-						"N\u00B0", "Detalle", "Cantidad", "Precio Unitario", "Costo"
+						"N\u00B0", "Detalle", "Cant.", "Precio U.", "Costo"
 					}
 				) {
 					Class[] columnTypes = new Class[] {
@@ -202,11 +207,11 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 						return columnTypes[columnIndex];
 					}
 				});
-				tbPedido.getColumnModel().getColumn(0).setPreferredWidth(30);
-				tbPedido.getColumnModel().getColumn(1).setPreferredWidth(150);
-				tbPedido.getColumnModel().getColumn(2).setPreferredWidth(70);
-				tbPedido.getColumnModel().getColumn(3).setPreferredWidth(70);
-				tbPedido.getColumnModel().getColumn(4).setPreferredWidth(70);
+				tbPedido.getColumnModel().getColumn(0).setPreferredWidth(5);
+				tbPedido.getColumnModel().getColumn(1).setPreferredWidth(270);
+				tbPedido.getColumnModel().getColumn(2).setPreferredWidth(30);
+				tbPedido.getColumnModel().getColumn(3).setPreferredWidth(30);
+				tbPedido.getColumnModel().getColumn(4).setPreferredWidth(40);
 
 				scrollPane.setViewportView(tbPedido);
 			}
@@ -241,8 +246,8 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 		}
 	}
 	Cliente cli;
-	Pedidos ped;
-	Carta cart;
+	Pedidos ped = new Pedidos(null);
+	Carta cart = new Carta();
 	protected void do_btnAgregar_actionPerformed(ActionEvent e) {
 		try {
 			Productos pro;
@@ -254,25 +259,35 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 	        int telefono = Integer.parseInt(txtTelefono.getText());
 	        String Direccion = txtDireccion.getText();  
 	        
-	        double precio_ut=cart.Buscar(idProducto).getPrecio_Unitario();
+	        MenuProducto encontrado = cart.Buscar(idProducto);
 	        
-	        if(ped.tamano()==0) {  
+	        if(encontrado!=null) {
+
+		        double precioU=encontrado.getPrecioUnitario();
+	        	if(ped.tamaño()==0) {  
+		        	
+		        	if(DNI.isBlank()) cli=new Cliente(telefono, NombreCompleto, Direccion);
+		        	else cli=new Cliente(telefono, NombreCompleto, Direccion,DNI);
+
+		        	ped=new Pedidos(cli);
+		        }
 	        	
-	        	if(DNI.isBlank()) {
-		        	cli=new Cliente(telefono, NombreCompleto, Direccion);
-		        }
-		        else {
-		        	cli=new Cliente(telefono, NombreCompleto, Direccion,DNI);
-		        }
-	        	ped=new Pedidos(cli);
-	        }
-		     pro=new Productos(precio_ut, idProducto, NombreCompleto, cantidad);
-		     ped.Adicionar(pro);
-	   
-	        JOptionPane.showMessageDialog(this, "Pedido agregado correctamente.");
-	        
+	        	if(ped.Buscar(idProducto)!=null) {
+	        		ped.Buscar(idProducto).setCantidad(cantidad);
+	        	}else {
+	        		pro=new Productos(precioU, idProducto, cart.Buscar(idProducto).getDescripcion(), cantidad);
+				    ped.Adicionar(pro);
+	        	}
+	        	
+	        	
+			    
+		        JOptionPane.showMessageDialog(this, "Pedido agregado correctamente.");
+		        Listar();
+
+	        }else JOptionPane.showMessageDialog(this, "No existe el Producto en la Carta.");
+
 	    } catch (Exception ex) {
-	        JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar el pedido, ingrese los datos correctamente. " );
+	        JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar el pedido, ingrese los datos correctamente. " + ex.getMessage());
 	    }
 	}
 	
@@ -282,12 +297,21 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 	protected void do_btnEliminar_actionPerformed(ActionEvent e) {
 		try {
 	        int filaSeleccionada = Integer.parseInt(txtNumPedido.getText());
+	        
+	        ped.Eliminar(filaSeleccionada-1);
+	        Listar();
 
 	        JOptionPane.showMessageDialog(this, "Pedido eliminado correctamente.");
-	    } catch (NumberFormatException ex) {
-	        JOptionPane.showMessageDialog(this, "Se debe ingresar el numero del pedido. ");
-	    }
+	    } catch (NumberFormatException ex)  {
+	    	JOptionPane.showMessageDialog(this, "Se debe ingresar el número del pedido. ");
+	    } catch (Exception ex) {
+	    	JOptionPane.showMessageDialog(this, "Se debe ingresar un número de fila del pedido existente");
+	    	
+		}
+	  
+
 	}
+	
 	protected void do_btnCanjear_actionPerformed(ActionEvent e) {
 		try {
 	        
@@ -295,8 +319,25 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 	    
 
 	    } catch (Exception ex) {
-	        JOptionPane.showMessageDialog(this, "Las Promociones solo son digitos. " );
+	        JOptionPane.showMessageDialog(this, "Se debe digitar números. " );
 	    }
 	
 	}
+	
+	void Listar() {
+		DefaultTableModel model = (DefaultTableModel) tbPedido.getModel();
+	    model.setRowCount(0); 
+
+	    for (int i = 0; i < ped.tamaño(); i++) {
+	        Productos pro = ped.Obtner(i); 
+	        model.addRow(new Object[]{
+	            (i + 1), 
+	            pro.getNombre(),
+	            pro.getCantidad(), 
+	            pro.getPrecioUnitario(),
+	            pro.getCantidad() * pro.getPrecioUnitario() 
+	        });
+	    }
+	}
+	
 }

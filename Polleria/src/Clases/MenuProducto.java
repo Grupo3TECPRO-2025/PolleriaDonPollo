@@ -1,17 +1,17 @@
 package Clases;
 
 public class MenuProducto {
-	String id_Producto,descripcion;
-	Double precio_Unitario;
+	String idProducto,descripcion;
+	Double precioUnitario;
 	
-	public MenuProducto(String id_Producto, String descripcion, Double precio_Unitario) {
-		this.id_Producto = id_Producto;
+	public MenuProducto(String idProducto, String descripcion, Double precioUnitario) {
+		this.idProducto = idProducto;
 		this.descripcion = descripcion;
-		this.precio_Unitario = precio_Unitario;
+		this.precioUnitario = precioUnitario;
 	}
 
-	public String getId_Producto() {
-		return id_Producto;
+	public String getIdProducto() {
+		return idProducto;
 	}
 
 	public String getDescripcion() {
@@ -22,12 +22,12 @@ public class MenuProducto {
 		this.descripcion = descripcion;
 	}
 
-	public Double getPrecio_Unitario() {
-		return precio_Unitario;
+	public Double getPrecioUnitario() {
+		return precioUnitario;
 	}
 
-	public void setPrecio_Unitario(Double precio_Unitario) {
-		this.precio_Unitario = precio_Unitario;
+	public void setPrecioUnitario(Double precioUnitario) {
+		this.precioUnitario = precioUnitario;
 	}
 	
 	
