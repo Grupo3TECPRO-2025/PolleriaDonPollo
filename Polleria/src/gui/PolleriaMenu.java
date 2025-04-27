@@ -312,17 +312,39 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 
 	}
 	
+	
+	//PROGRAMADO
 	protected void do_btnCanjear_actionPerformed(ActionEvent e) {
-		try {
-	        
-			int codigoPromocion= Integer.parseInt(txtPromocion.getText());
-	    
-
+		
+		String CodigoProm1 = "123456";
+		String CodigoProm2 = "343425";
+		String CodigoProm3 = "322423";
+	    double descuento = 0.0;
+		
+		try {	        
+			
+			String codigoIngresado = txtPromocion.getText();
+					
+			if (codigoIngresado.equals(CodigoProm1)) {
+		        descuento = 10; 
+		    } else if (codigoIngresado.equals(CodigoProm2)) {
+		        descuento = 15; 
+		    } else if (codigoIngresado.equals(CodigoProm3)) {
+		        descuento = 20;
+		    } else {
+		        JOptionPane.showMessageDialog(this, "Debe ingresar un Codigo Existente y Solo numeros.");
+		    }
+		    
+		    if (descuento > 0) {
+		        JOptionPane.showMessageDialog(this, "El codigo es Valido, Gananste un " + descuento + "% de descuento");
+		    }	 
+			
 	    } catch (Exception ex) {
 	        JOptionPane.showMessageDialog(this, "Se debe digitar números. " );
 	    }
 	
 	}
+	
 	
 	void Listar() {
 		DefaultTableModel model = (DefaultTableModel) tbPedido.getModel();

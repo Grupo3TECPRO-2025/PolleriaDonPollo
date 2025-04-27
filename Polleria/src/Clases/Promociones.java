@@ -5,6 +5,7 @@ public class Promociones {
  double descuento;
  String tipo;
  
+ 
 public Promociones(int id, double descuento, String tipo) {
 	super();
 	this.id = id;
@@ -22,5 +23,5 @@ public String getTipo() {
 	return tipo;
 }
  
- 
+
 }
