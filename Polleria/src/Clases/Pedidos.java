@@ -10,7 +10,7 @@ public class Pedidos {
     {
         Pedi = new ArrayList<Productos>();
         Adicionar(new Productos(10, "Pollo1/4.01", "1/4 Pollo", 4));
-        Adicionar(new Productos(10, "Pollo1/4.21", "1/4 Pollo Con Chaufa y Gaseosa", 4));
+        Adicionar(new Productos(10, "Pollo1/4.02", "1/4 Pollo Con Chaufa y Gaseosa", 4));
         Adicionar(new Productos(10, "PolloEntero.01", "Pollo Entero con Gaseosa y Ensalada", 4));
 
     }

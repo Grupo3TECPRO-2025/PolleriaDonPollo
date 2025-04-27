@@ -18,7 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class PolleriaMenu extends JFrame {
+public class PolleriaMenu extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -31,8 +31,12 @@ public class PolleriaMenu extends JFrame {
 	private JScrollPane scrollPane;
 	private JTable tbPedido;
 	private JTextField txtCosto;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtDni;
+	private JTextField txtPromocion;
+	private JButton btnAgregar;
+	private JButton btnVerCarta;
+	private JButton btnEliminar;
+	private JButton btnCanjear;
 
 	/**
 	 * Launch the application.
@@ -100,29 +104,33 @@ public class PolleriaMenu extends JFrame {
 		lblNewLabel_2_1.setBounds(15, 131, 138, 25);
 		panel.add(lblNewLabel_2_1);
 		
-		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar = new JButton("Agregar");
+		btnAgregar.addActionListener(this);
 
 		btnAgregar.setBounds(199, 40, 95, 36);
 		panel.add(btnAgregar);
 		
-		JButton btnVerCarta = new JButton("Ver Carta");
+		btnVerCarta = new JButton("Ver Carta");
+		btnVerCarta.addActionListener(this);
 		btnVerCarta.setBounds(199, 96, 95, 36);
 		panel.add(btnVerCarta);
 		
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(this);
 		btnEliminar.setBounds(198, 152, 95, 36);
 		panel.add(btnEliminar);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(15, 209, 167, 25);
-		panel.add(textField_1);
+		txtPromocion = new JTextField();
+		txtPromocion.setColumns(10);
+		txtPromocion.setBounds(15, 209, 167, 25);
+		panel.add(txtPromocion);
 		
 		JLabel lblNewLabel_2_1_2 = new JLabel("Codigo de Promociones");
 		lblNewLabel_2_1_2.setBounds(15, 184, 138, 25);
 		panel.add(lblNewLabel_2_1_2);
 		
-		JButton btnCanjear = new JButton("Canjear");
+		btnCanjear = new JButton("Canjear");
+		btnCanjear.addActionListener(this);
 		btnCanjear.setBounds(198, 202, 95, 36);
 		panel.add(btnCanjear);
 		
@@ -161,10 +169,10 @@ public class PolleriaMenu extends JFrame {
 		lblNewLabel_2_1_1.setBounds(15, 132, 138, 25);
 		panel_1.add(lblNewLabel_2_1_1);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(15, 209, 167, 25);
-		panel_1.add(textField);
+		txtDni = new JTextField();
+		txtDni.setColumns(10);
+		txtDni.setBounds(15, 209, 167, 25);
+		panel_1.add(txtDni);
 		
 		JLabel lblNewLabel_2_1_1_1 = new JLabel("DNI (opcional):");
 		lblNewLabel_2_1_1_1.setBounds(15, 186, 138, 25);
@@ -212,5 +220,57 @@ public class PolleriaMenu extends JFrame {
 		JButton btnEnviar = new JButton("Enviar");
 		btnEnviar.setBounds(23, 533, 100, 29);
 		contentPane.add(btnEnviar);
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnCanjear) {
+			do_btnCanjear_actionPerformed(e);
+		}
+		if (e.getSource() == btnEliminar) {
+			do_btnEliminar_actionPerformed(e);
+		}
+		if (e.getSource() == btnVerCarta) {
+			do_btnVerCarta_actionPerformed(e);
+		}
+		if (e.getSource() == btnAgregar) {
+			do_btnAgregar_actionPerformed(e);
+		}
+	}
+	protected void do_btnAgregar_actionPerformed(ActionEvent e) {
+		try {
+	        String idPedido = txtPedidoID.getText().trim();
+	        int cantidad = Integer.parseInt(txtCant.getText()); 
+	        String NombreCompleto= txtNombre.getText();
+	        String DNI = txtDni.getText();
+	        int telefono = Integer.parseInt(txtTelefono.getText());
+	        String Direccion = txtDireccion.getText();
+	        JOptionPane.showMessageDialog(this, "Pedido agregado correctamente.");
+	    
+	    } catch (Exception ex) {
+	        JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar el pedido, ingrese los datos correctamente. " );
+	    }
+	}
+	
+	protected void do_btnVerCarta_actionPerformed(ActionEvent e) {
+	    }
+
+	protected void do_btnEliminar_actionPerformed(ActionEvent e) {
+		try {
+	        int filaSeleccionada = Integer.parseInt(txtNumPedido.getText());
+
+	        JOptionPane.showMessageDialog(this, "Pedido eliminado correctamente.");
+	    } catch (NumberFormatException ex) {
+	        JOptionPane.showMessageDialog(this, "Se debe ingresar el numero del pedido. ");
+	    }
+	}
+	protected void do_btnCanjear_actionPerformed(ActionEvent e) {
+		try {
+	        
+			int codigoPromocion= Integer.parseInt(txtPromocion.getText());
+	    
+
+	    } catch (Exception ex) {
+	        JOptionPane.showMessageDialog(this, "Las Promociones solo son digitos. " );
+	    }
+	
 	}
 }
