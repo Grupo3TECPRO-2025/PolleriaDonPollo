@@ -368,6 +368,8 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 	}
 	
 	protected void do_btnVerCarta_actionPerformed(ActionEvent e) {
+			CartaGUI ventanaCarta = new CartaGUI(this);
+			ventanaCarta.setVisible(true);
 	    }
 
 	protected void do_btnEliminar_actionPerformed(ActionEvent e) {
@@ -530,5 +532,8 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Hubo un error al momento de realizar el pedido, verifica que \nlos datos esten escritos correctamente");
 		}
 
+	}
+	public void setPedidoId(String id) {
+	    txtPedidoID.setText(id);
 	}
 }

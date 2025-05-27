@@ -28,21 +28,34 @@ public class FacturaGenerador {
             writer.println();
             writer.println("DETALLES DEL PEDIDO:");
             writer.println("----------------------------------");
-            writer.printf("N\tProducto\t\t\t\tCant\tPrecio\tSubtotal");
+            writer.printf("%-3s\t|%-24s\t|%-5s\t|%-7s|%-8s\n", "N", "Producto", "Cant", "Precio", "Subtotal");
 
             int i = 1;
 
             for (DetallePedido det : pedido.getListaProductos()) {
-                String nombre = det.getProducto().getDescripcion();
+                String descripcion = det.getProducto().getDescripcion();
                 int cantidad = det.getCantidad();
                 double precio = det.getProducto().getPrecioUnitario();
                 double subtotal = cantidad * precio;
-                writer.printf("\n" + (i++) + "\t"+ det.getProducto().getDescripcion() + "\t"
-                		+ det.getCantidad() + "\t"
-                		+ det.getProducto().getPrecioUnitario()+ "\t"
-                		+ det.Costo());
+
+                // Ajuste de descripción
+                int maxLong = 24;  // longitud máxima por línea
+                String[] partes = dividirTexto(descripcion, maxLong);
+
+                // Imprimir la primera línea con todos los datos
+                writer.printf("\n%d\t|%-24s\t|%d\t|%.2f\t|%.2f",
+                    i++, partes[0], cantidad, precio, subtotal
+                );
+
+                // Imprimir líneas restantes de la descripción
+                for (int j = 1; j < partes.length; j++) {
+                    writer.printf("\n\t|%-24s\t|\t|\t|", partes[j]);
+                }
                 
+
             }
+            
+            
             
             if(pedido.getProm()!=null) {
             	if(pedido.getProm().getTipo().equals("fijo")) writer.println("\n\nCupon aplicado -> "+pedido.getProm().getDescuento());
@@ -61,7 +74,9 @@ public class FacturaGenerador {
             JOptionPane.showMessageDialog(null, "Error al generar la factura: " + e.getMessage());
         }
     }
-
+	private static String[] dividirTexto(String texto, int maxLong) {
+	    return texto.split("(?<=\\G.{" + maxLong + "})");  // divide cada maxLong caracteres
+	}
     private static void crearCarpetaReportes() {
         File carpeta = new File("facturas-polleria");
         if (!carpeta.exists()) {
