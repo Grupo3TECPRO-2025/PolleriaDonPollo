@@ -1,20 +1,30 @@
-package Clases;
+package DatosPersonales;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Gestiones.Pedido;
 
 public class Cliente {
-    int  telefono;
-    String NombreCompleto,DNI,Direccion;
+    private int  telefono;
+    private String NombreCompleto,DNI,Direccion;
+    private static List<Pedido> listaPedidos;
     
-	public Cliente(int telefono, String nombreCompleto, String direccion,String dNI) {
+    
+	public Cliente(int telefono, String nombreCompleto, String direccion,String DNI) {
 		this.telefono = telefono;
-		NombreCompleto = nombreCompleto;
-		DNI = dNI;
-		Direccion = direccion;
+		this.NombreCompleto = nombreCompleto;
+		this.DNI = DNI;
+		this.Direccion = direccion;
+		listaPedidos = new ArrayList<Pedido>();
 	}
 	
 	public Cliente(int telefono, String nombreCompleto, String direccion) {
 		this.telefono = telefono;
-		NombreCompleto = nombreCompleto;
-		Direccion = direccion;
+		this.NombreCompleto = nombreCompleto;
+		this.Direccion = direccion;
+		listaPedidos = new ArrayList<Pedido>();
+
 	}
 
 	public int getTelefono() {
@@ -43,5 +53,9 @@ public class Cliente {
 
 	public void setDireccion(String direccion) {
 		Direccion = direccion;
+	}
+	
+	public List<Pedido> ListarPedidos() {
+		return listaPedidos;
 	}
 }

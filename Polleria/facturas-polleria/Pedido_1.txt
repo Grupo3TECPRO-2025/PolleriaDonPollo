@@ -1,0 +1,14 @@
+------ FACTURA DON POLLO ------
+Número de Pedido: 1
+Cliente: rodrigo
+Dirección: lima
+Teléfono: 214
+
+DETALLES DEL PEDIDO:
+----------------------------------
+N	Producto				Cant	Precio	Subtotal
+1	1/4 Pollo + Papas + Ensalada y Cremas	3	18.0	54.0
+----------------------------------
+TOTAL: S/. 54.0
+¡Gracias por su compra!
+----------------------------------

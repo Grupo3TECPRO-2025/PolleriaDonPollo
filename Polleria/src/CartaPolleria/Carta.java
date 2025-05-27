@@ -1,21 +1,22 @@
-package Clases;
+package CartaPolleria;
 
 import java.awt.Component;
 import java.awt.Menu;
 import java.io.Console;
 import java.lang.System.Logger;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import gui.PolleriaMenu;
 
 public class Carta {
-	ArrayList<MenuProducto> menu;
+	static private List<MenuProducto> menu;
 
 	public Carta() {
 		menu = new ArrayList<MenuProducto>();
-		
+
 		Adicionar(new MenuProducto("1/4P01","1/4 Pollo + Papas + Ensalada y Cremas", 18.00));
 		Adicionar(new MenuProducto("1/4P02","1/4 Pollo + Papas + Ensalada + Gaseosa 500ml y Cremas", 21.00));
 	
@@ -27,10 +28,9 @@ public class Carta {
 	
 		Adicionar(new MenuProducto("S01","1 Salchipapa y Cremas", 12.00));
 	
-		
 	}
 
-	public ArrayList<MenuProducto> getMenu() {
+	public List<MenuProducto> getMenu() {
 		return menu;
 	}
 
