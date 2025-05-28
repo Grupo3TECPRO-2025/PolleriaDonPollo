@@ -390,7 +390,10 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 		try {
 	        int filaSeleccionada = Integer.parseInt(txtNumPedido.getText());
 	        
+	        
 	        ped.Eliminar(filaSeleccionada-1);
+	        if(ped.getProm()!=null) txtCosto.setText("$"+ped.CostoTotal(true));
+	        else txtCosto.setText("$"+ped.CostoTotal());
 	        Listar();
 
 	        JOptionPane.showMessageDialog(this, "Pedido eliminado correctamente.");
