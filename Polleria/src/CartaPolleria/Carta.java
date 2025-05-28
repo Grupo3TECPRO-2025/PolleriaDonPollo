@@ -20,11 +20,11 @@ public class Carta {
 		Adicionar(new MenuProducto("1/4P01","1/4 Pollo + Papas + Ensalada y Cremas", 18.00));
 		Adicionar(new MenuProducto("1/4P02","1/4 Pollo + Papas + Ensalada + Gaseosa 500ml y Cremas", 21.00));
 	
-		Adicionar(new MenuProducto("1/2P01","1/4 Pollo + Papas + Ensalada  y Cremas", 32.00));
-		Adicionar(new MenuProducto("1/2P02","1/4 Pollo + Papas + Ensalada + Gaseosa 1.5L y Cremas", 36.00));
+		Adicionar(new MenuProducto("1/2P01","1/2 Pollo + Papas + Ensalada  y Cremas", 32.00));
+		Adicionar(new MenuProducto("1/2P02","1/2 Pollo + Papas + Ensalada + Gaseosa 1.5L y Cremas", 36.00));
 		
-		Adicionar(new MenuProducto("1/1P01","1/4 Pollo + Papas + Ensalada y Cremas", 55.00));
-		Adicionar(new MenuProducto("1/1P02","1/4 Pollo + Papas + Ensalada + Gaseosa 2.5L y Cremas", 64.00));
+		Adicionar(new MenuProducto("1/1P01","1 Pollo + Papas + Ensalada y Cremas", 55.00));
+		Adicionar(new MenuProducto("1/1P02","1 Pollo + Papas + Ensalada + Gaseosa 2.5L y Cremas", 64.00));
 	
 		Adicionar(new MenuProducto("S01","1 Salchipapa y Cremas", 12.00));
 	

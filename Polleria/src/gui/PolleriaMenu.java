@@ -37,6 +37,9 @@ import java.awt.Toolkit;
 import java.awt.Label;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
+import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class PolleriaMenu extends JFrame implements ActionListener {
 
@@ -153,17 +156,17 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(this);
 
-		btnAgregar.setBounds(199, 47, 95, 36);
+		btnAgregar.setBounds(199, 47, 95, 29);
 		panel.add(btnAgregar);
 		
 		btnVerCarta = new JButton("Ver Carta");
 		btnVerCarta.addActionListener(this);
-		btnVerCarta.setBounds(199, 96, 95, 36);
+		btnVerCarta.setBounds(199, 99, 95, 31);
 		panel.add(btnVerCarta);
 		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(this);
-		btnEliminar.setBounds(199, 147, 95, 36);
+		btnEliminar.setBounds(199, 149, 95, 29);
 		panel.add(btnEliminar);
 		
 		txtPromocion = new JTextField();
@@ -178,13 +181,19 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 		
 		btnCanjear = new JButton("Canjear");
 		btnCanjear.addActionListener(this);
-		btnCanjear.setBounds(199, 197, 95, 36);
+		btnCanjear.setBounds(199, 199, 95, 30);
 		panel.add(btnCanjear);
 		
 		btnEnviar = new JButton("Enviar");
 		btnEnviar.addActionListener(this);
-		btnEnviar.setBounds(111, 249, 85, 36);
+		btnEnviar.setBounds(46, 245, 108, 33);
 		panel.add(btnEnviar);
+		{
+			cboTipo = new JComboBox();
+			cboTipo.setModel(new DefaultComboBoxModel(new String[] {"Delivery", "Presencial"}));
+			cboTipo.setBounds(196, 249, 98, 29);
+			panel.add(cboTipo);
+		}
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 250, 250));
@@ -366,10 +375,15 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 	        JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar el pedido, ingrese los datos correctamente.");
 	    }
 	}
-	
+	CartaGUI ventanaCarta;
 	protected void do_btnVerCarta_actionPerformed(ActionEvent e) {
-			CartaGUI ventanaCarta = new CartaGUI(this);
-			ventanaCarta.setVisible(true);
+			
+			if(ventanaCarta == null || !ventanaCarta.isDisplayable()) {
+				 ventanaCarta= new CartaGUI(this);
+
+				ventanaCarta.setVisible(true);
+				
+			}
 	    }
 
 	protected void do_btnEliminar_actionPerformed(ActionEvent e) {
@@ -402,6 +416,7 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 	private JMenuItem mntmNewMenuItem_1;
 	private JLabel lblNewLabel_4;
 	private JButton btnEnviar;
+	private JComboBox cboTipo;
 	
 	protected void do_btnCanjear_actionPerformed(ActionEvent e) {
 		
@@ -423,7 +438,7 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 			
 			
 	    } catch (Exception ex) {
-	        JOptionPane.showMessageDialog(this, "Se debe digitar números. " +ex);
+	        JOptionPane.showMessageDialog(this, "Se debe digitar números. ");
 	    }
 	
 	}
@@ -508,6 +523,9 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 	protected void do_btnEnviar_actionPerformed(ActionEvent e) {
 		try {
 	      	if(ped.tamaño()>0) {
+	      		
+	      		ped.setTipo(cboTipo.getSelectedItem().toString());
+	      		
 	      		//SACAR CUENTA
 		      	if(ped.getProm()!=null) ped.setMonto(ped.CostoTotal(true));
 		        else ped.setMonto(ped.CostoTotal());

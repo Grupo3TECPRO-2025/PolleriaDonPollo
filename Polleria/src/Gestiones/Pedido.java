@@ -18,6 +18,7 @@ public class Pedido {
     static private List<DetallePedido> listaProductos;
     private Cupon prom;
     private Cliente cli;
+    private String tipo;
     
 
     public Pedido(int pedidoId, Cliente cli)
@@ -57,6 +58,15 @@ public class Pedido {
 		return cli;
 	}
 
+	
+	public String getTipo() {
+		return tipo;
+	}
+
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 
 	public Cupon getProm() {

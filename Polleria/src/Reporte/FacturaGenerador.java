@@ -2,6 +2,7 @@ package Reporte;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PipedOutputStream;
 import java.io.PrintWriter;
 
 import javax.swing.JOptionPane;
@@ -23,6 +24,7 @@ public class FacturaGenerador {
             writer.println("Cliente: " + pedido.getCli().getNombreCompleto());
             writer.println("Dirección: " + pedido.getCli().getDireccion());
             writer.println("Teléfono: " + pedido.getCli().getTelefono());
+            writer.println("Tipo de Pedido: "+pedido.getTipo());
             if(pedido.getCli().getDNI()!=null) writer.println("DNI: " + pedido.getCli().getDNI());
 
             writer.println();
