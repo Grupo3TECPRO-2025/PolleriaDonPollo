@@ -381,9 +381,10 @@ public class PolleriaMenu extends JFrame implements ActionListener {
 			if(ventanaCarta == null || !ventanaCarta.isDisplayable()) {
 				 ventanaCarta= new CartaGUI(this);
 
-				ventanaCarta.setVisible(true);
 				
 			}
+			ventanaCarta.setVisible(true);
+
 	    }
 
 	protected void do_btnEliminar_actionPerformed(ActionEvent e) {
