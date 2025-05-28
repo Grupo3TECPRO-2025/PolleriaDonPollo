@@ -120,7 +120,7 @@ public class CartaGUI extends JDialog implements ActionListener {
 			
 		}
 		{
-			JLabel lblNewLabel = new JLabel("ESCOGE UN PRODUCTO DE NUESTRO MENU!");
+			JLabel lblNewLabel = new JLabel("ESCOGE UN PRODUCTO DE NUESTRO MENÚ!");
 			lblNewLabel.setForeground(Color.WHITE);
 			lblNewLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 26));
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
