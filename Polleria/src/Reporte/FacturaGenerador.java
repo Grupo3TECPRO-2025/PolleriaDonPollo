@@ -71,7 +71,7 @@ public class FacturaGenerador {
             writer.println("¡Gracias por su compra!");
             writer.println("----------------------------------");
 
-            JOptionPane.showMessageDialog(null, "Factura generada correctamente en la carpeta 'reportes'");
+            JOptionPane.showMessageDialog(null, "Factura generada correctamente");
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error al generar la factura: " + e.getMessage());
         }
