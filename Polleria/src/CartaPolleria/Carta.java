@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import gui.PolleriaMenu;
+import gui.ClienteGUI;
 
 public class Carta {
 	static private List<MenuProducto> menu;

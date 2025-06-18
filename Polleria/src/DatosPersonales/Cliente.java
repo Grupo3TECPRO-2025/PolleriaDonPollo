@@ -7,22 +7,24 @@ import Gestiones.Pedido;
 
 public class Cliente {
     private int  telefono;
-    private String NombreCompleto,DNI,Direccion;
+    private String NombreCompleto,DNI,Direccion,Metodo_Pago;
     private static List<Pedido> listaPedidos;
     
     
-	public Cliente(int telefono, String nombreCompleto, String direccion,String DNI) {
+	public Cliente(int telefono, String nombreCompleto, String direccion,String metodo_Pago,String DNI) {
 		this.telefono = telefono;
 		this.NombreCompleto = nombreCompleto;
 		this.DNI = DNI;
 		this.Direccion = direccion;
+		this.Metodo_Pago=metodo_Pago;
 		listaPedidos = new ArrayList<Pedido>();
 	}
 	
-	public Cliente(int telefono, String nombreCompleto, String direccion) {
+	public Cliente(int telefono, String nombreCompleto, String direccion,String metodo_Pago) {
 		this.telefono = telefono;
 		this.NombreCompleto = nombreCompleto;
 		this.Direccion = direccion;
+		this.Metodo_Pago=metodo_Pago;
 		listaPedidos = new ArrayList<Pedido>();
 
 	}
@@ -58,4 +60,13 @@ public class Cliente {
 	public List<Pedido> ListarPedidos() {
 		return listaPedidos;
 	}
+
+	public String getMetodo_Pago() {
+		return Metodo_Pago;
+	}
+
+	public void setMetodo_Pago(String metodo_Pago) {
+		Metodo_Pago = metodo_Pago;
+	}
+	
 }
