@@ -1,167 +1,209 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.net.URL;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.JLayeredPane;
+import java.awt.Font;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class LoginGUI extends JFrame implements ActionListener {
-    private static final long serialVersionUID = 1L;
+public class LoginGUI extends JDialog implements ActionListener {
 
-    private ClienteGUI ventanaCliente;
-    private AdministradorGUI ventanaAdministrador;
+	private static final long serialVersionUID = 1L;
+	private final JPanel contentPanel = new JPanel();
+	private JLabel lblNewLabel;
+	private JMenuBar MenuBarra;
+	private JMenu Menu;
+	private JMenuItem itemLogin;
+	private JMenuItem itemRegistrar;
+	private JPanel panel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JTextField txtUsuario;
+	private JTextField txtContraseña;
+	private JButton btnIngresar;
+	private String rol;
+	
+	
+	private AdministradorGUI ventanaAdministrador;
     private ProveedorGUI ventanaProveedor;
+    private ClienteGUI ventanaCliente;
 
-    public LoginGUI() {
-        setTitle("Don Pollo");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setMinimumSize(new Dimension(800, 600));
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			LoginGUI dialog = new LoginGUI("");
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-        URL iconURL = getClass().getResource("/img/DonPollo.jpg");
-        if (iconURL != null) {
-            Image icon = new ImageIcon(iconURL).getImage();
-            setIconImage(icon);
-        }
-
-        GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0};
-        gbl_panel.columnWeights = new double[]{1.0};
-        JPanel panel = new JPanel(gbl_panel);
-        panel.setOpaque(false); 
-        setContentPane(panel);
-
-        try {
-            URL bgURL = getClass().getResource("/img/local_desenfocado.jpg");
-            if (bgURL != null) {
-                ImageIcon bgIcon = new ImageIcon(bgURL);
-                Image bgImage = bgIcon.getImage();
-                setContentPane(new JPanel() {
-                    @Override
-                    protected void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-                        g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
-                    }
-                });
-                ((JPanel)getContentPane()).setLayout(new GridBagLayout());
-            }
-        } catch (Exception e) {
-            System.err.println("Error al cargar la imagen de fondo: " + e.getMessage());
-        }
-
-        Font btnFont = new Font("Comic Sans MS", Font.PLAIN, 20);
-        Dimension btnSize = new Dimension(300, 50);
-        Color btnColor = Color.WHITE;
-
-        JLabel lblTitulo = new JLabel("BIENVENIDO A DON POLLO");
-        lblTitulo.setFont(new Font("Comic Sans MS", Font.BOLD, 36));
-        lblTitulo.setForeground(Color.DARK_GRAY);
-        lblTitulo.setOpaque(true);
-        lblTitulo.setBackground(Color.YELLOW);
-        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitulo.setPreferredSize(new Dimension(600, 60));
-        
-        GridBagConstraints gbcTitulo = new GridBagConstraints();
-        gbcTitulo.gridx = 0;
-        gbcTitulo.gridy = 0;
-        gbcTitulo.insets = new Insets(20, 20, 20, 20);
-        getContentPane().add(lblTitulo, gbcTitulo);
-
-        JButton btnCliente = new JButton("Cliente");
-        btnCliente.setFont(btnFont);
-        btnCliente.setPreferredSize(btnSize);
-        btnCliente.setBackground(btnColor);
-        
-        GridBagConstraints gbcCliente = new GridBagConstraints();
-        gbcCliente.gridx = 0;
-        gbcCliente.gridy = 1;
-        gbcCliente.insets = new Insets(20, 20, 20, 20);
-        getContentPane().add(btnCliente, gbcCliente);
-
-        JButton btnAdministrador = new JButton("Administrador");
-        btnAdministrador.setFont(btnFont);
-        btnAdministrador.setPreferredSize(btnSize);
-        btnAdministrador.setBackground(btnColor);
-        
-        GridBagConstraints gbcAdmin = new GridBagConstraints();
-        gbcAdmin.gridx = 0;
-        gbcAdmin.gridy = 2;
-        gbcAdmin.insets = new Insets(20, 20, 20, 20);
-        getContentPane().add(btnAdministrador, gbcAdmin);
-
-        JButton btnProveedor = new JButton("Proveedor");
-        btnProveedor.setFont(btnFont);
-        btnProveedor.setPreferredSize(btnSize);
-        btnProveedor.setBackground(btnColor);
-        
-        GridBagConstraints gbcProveedor = new GridBagConstraints();
-        gbcProveedor.gridx = 0;
-        gbcProveedor.gridy = 3;
-        gbcProveedor.insets = new Insets(20, 20, 20, 20);
-        getContentPane().add(btnProveedor, gbcProveedor);
-        
-        JLayeredPane layeredPane = new JLayeredPane();
-        GridBagConstraints gbc_layeredPane = new GridBagConstraints();
-        gbc_layeredPane.fill = GridBagConstraints.BOTH;
-        gbc_layeredPane.gridx = 0;
-        gbc_layeredPane.gridy = 4;
-        panel.add(layeredPane, gbc_layeredPane);
-
-        btnCliente.addActionListener(e -> {
-            if (ventanaCliente == null || !ventanaCliente.isDisplayable()) {
-                ventanaCliente = new ClienteGUI();
-                ventanaCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                ventanaCliente.setVisible(true);
-            } else {
-                ventanaCliente.toFront();
-                ventanaCliente.requestFocus();
-            }
-        });
-
-        btnAdministrador.addActionListener(e -> {
-            if (ventanaAdministrador == null || !ventanaAdministrador.isDisplayable()) {
-                ventanaAdministrador = new AdministradorGUI();
-                ventanaAdministrador.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                ventanaAdministrador.setVisible(true);
-            } else {
-                ventanaAdministrador.toFront();
-                ventanaAdministrador.requestFocus();
-            }
-        });
-
-        btnProveedor.addActionListener(e -> {
-            if (ventanaProveedor == null || !ventanaProveedor.isDisplayable()) {
-                ventanaProveedor = new ProveedorGUI();
-                ventanaProveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                ventanaProveedor.setVisible(true);
-            } else {
-                ventanaProveedor.toFront();
-                ventanaProveedor.requestFocus();
-            }
-        });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            LoginGUI frame = new LoginGUI();
-            frame.setVisible(true);
-        });
-    }
+	/**
+	 * Create the dialog.
+	 */
+	public LoginGUI(String rol) {
+		this.rol = rol;
+		setBounds(100, 100, 601, 421);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		{
+			lblNewLabel = new JLabel("Ingresa al Sistema: "+rol);
+			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 27));
+			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		panel = new JPanel();
+		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		gl_contentPanel.setHorizontalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(45)
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 479, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(29)
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 538, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(21, Short.MAX_VALUE))
+		);
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(23)
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE)
+					.addGap(32))
+		);
+		panel.setLayout(null);
+		{
+			lblNewLabel_1 = new JLabel("Usuario");
+			lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 21));
+			lblNewLabel_1.setBounds(87, 27, 127, 26);
+			panel.add(lblNewLabel_1);
+		}
+		{
+			lblNewLabel_2 = new JLabel("");
+			lblNewLabel_2.setBounds(31, 86, 46, 14);
+			panel.add(lblNewLabel_2);
+		}
+		{
+			lblNewLabel_3 = new JLabel("Contraseña");
+			lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 21));
+			lblNewLabel_3.setBounds(64, 93, 127, 17);
+			panel.add(lblNewLabel_3);
+		}
+		{
+			txtUsuario = new JTextField();
+			txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			txtUsuario.setBounds(224, 24, 192, 34);
+			panel.add(txtUsuario);
+			txtUsuario.setColumns(10);
+		}
+		{
+			txtContraseña = new JTextField();
+			txtContraseña.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			txtContraseña.setColumns(10);
+			txtContraseña.setBounds(224, 85, 192, 34);
+			panel.add(txtContraseña);
+		}
+		{
+			btnIngresar = new JButton("Entrar");
+			btnIngresar.addActionListener(this);
+			btnIngresar.setFont(new Font("Tahoma", Font.PLAIN, 19));
+			btnIngresar.setBounds(176, 154, 127, 49);
+			panel.add(btnIngresar);
+		}
+		contentPanel.setLayout(gl_contentPanel);
+		{
+			MenuBarra = new JMenuBar();
+			setJMenuBar(MenuBarra);
+			{
+				Menu = new JMenu("Sistema Menu");
+				MenuBarra.add(Menu);
+				{
+					itemLogin = new JMenuItem("Login");
+					Menu.add(itemLogin);
+				}
+				{
+					itemRegistrar = new JMenuItem("Registrar");
+					Menu.add(itemRegistrar);
+					itemRegistrar.addActionListener(e -> {
+					    dispose(); 
+					    RegisterGUI registrar = new RegisterGUI(rol);
+					    registrar.setVisible(true);}
+					);
+				}
+			}
+		}
+	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnIngresar) {
+			do_btnIngresar_actionPerformed(e);
+		}
+	}
+	protected void do_btnIngresar_actionPerformed(ActionEvent e) {
+		
+		JOptionPane.showMessageDialog(this, "Se ingresó correctamente");
+		this.dispose();
+		
+		if(rol=="cliente") {
+
+        	if (ventanaCliente != null && ventanaCliente.isDisplayable()) {
+        		ventanaCliente.dispose();
+            }
+        	
+
+        	ventanaCliente = null;  
+        	ventanaCliente = new ClienteGUI();
+        	ventanaCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	ventanaCliente.setVisible(true);
+		}
+		
+		else if(rol=="administrador") {
+
+        	if (ventanaAdministrador != null && ventanaAdministrador.isDisplayable()) {
+        		ventanaAdministrador.dispose();
+            }
+        	
+
+        	ventanaAdministrador = null;  
+        	ventanaAdministrador = new AdministradorGUI();
+        	ventanaAdministrador.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	ventanaAdministrador.setVisible(true);
+		}
+		
+		else if(rol=="proveedor") {
+
+        	if (ventanaProveedor != null && ventanaProveedor.isDisplayable()) {
+        		ventanaProveedor.dispose();
+            }
+        	
+
+        	ventanaProveedor = null;  
+        	ventanaProveedor = new ProveedorGUI();
+        	ventanaProveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	ventanaProveedor.setVisible(true);
+		}
 	}
 }
