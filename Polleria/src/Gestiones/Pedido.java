@@ -18,20 +18,42 @@ public class Pedido {
     static private List<DetallePedido> listaProductos;
     private Cupon prom;
     private Cliente cli;
-    private String tipo;
-    
+    private String tipo, MetodoPago;
+    private int NumMesa;
 
-    public Pedido(int pedidoId, Cliente cli)
+    public Pedido(int pedidoId, String MetodoPago, Cliente cli)
     {
     	this.pedidoId = pedidoId;
         this.cli=cli;
+        this.MetodoPago = MetodoPago;
+        listaProductos = new ArrayList<DetallePedido>();
+        fecha = LocalDateTime.now();
+        
+    }
+    
+    public Pedido(int pedidoId, String MetodoPago, int NumMesa, Cliente cli)
+    {
+    	this.pedidoId = pedidoId;
+        this.cli=cli;
+        this.NumMesa = NumMesa;
+        this.MetodoPago = MetodoPago;
         listaProductos = new ArrayList<DetallePedido>();
         fecha = LocalDateTime.now();
         
     }
     
     
-    public int getPedidoId() {
+    public String getMetodoPago() {
+		return MetodoPago;
+	}
+
+
+	public void setMetodoPago(String metodoPago) {
+		MetodoPago = metodoPago;
+	}
+
+
+	public int getPedidoId() {
 		return pedidoId;
 	}
 

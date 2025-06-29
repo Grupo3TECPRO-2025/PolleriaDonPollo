@@ -97,104 +97,53 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		lblNewLabel.setBackground(new Color(0, 0, 0));
 		lblNewLabel.setForeground(Color.BLACK);
 		lblNewLabel.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
-		lblNewLabel.setBounds(33, 19, 408, 50);
+		lblNewLabel.setBounds(94, 18, 408, 50);
 		contentPane.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 250, 250));
 		panel_1.setLayout(null);
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Datos Personales", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
-		panel_1.setBounds(10, 79, 652, 153);
+		panel_1.setBounds(10, 79, 352, 153);
 		contentPane.add(panel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Nombre Completo:");
-		lblNewLabel_1_1.setBounds(150, 32, 152, 20);
+		lblNewLabel_1_1.setBounds(23, 32, 152, 20);
 		panel_1.add(lblNewLabel_1_1);
 		
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(150, 56, 116, 25);
+		txtNombre.setBounds(23, 56, 160, 25);
 		panel_1.add(txtNombre);
 		
 		
 		
 		JLabel lblNewLabel_2_2 = new JLabel("Dirección:");
-		lblNewLabel_2_2.setBounds(151, 85, 138, 25);
+		lblNewLabel_2_2.setBounds(24, 85, 138, 25);
 		panel_1.add(lblNewLabel_2_2);
 		
 		txtDireccion = new JTextField();
 		txtDireccion.setColumns(10);
-		txtDireccion.setBounds(150, 107, 116, 25);
+		txtDireccion.setBounds(23, 107, 158, 25);
 		panel_1.add(txtDireccion);
 		
 		txtTelefono = new JTextField();
 		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(274, 56, 116, 25);
+		txtTelefono.setBounds(204, 56, 116, 25);
 		panel_1.add(txtTelefono);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Teléfono:");
-		lblNewLabel_2_1_1.setBounds(274, 35, 138, 25);
+		lblNewLabel_2_1_1.setBounds(204, 32, 138, 25);
 		panel_1.add(lblNewLabel_2_1_1);
 		
 		txtDni = new JTextField();
 		txtDni.setColumns(10);
-		txtDni.setBounds(274, 107, 116, 25);
+		txtDni.setBounds(204, 107, 116, 25);
 		panel_1.add(txtDni);
 		
 		JLabel lblNewLabel_2_1_1_1 = new JLabel("DNI (Opcional):");
-		lblNewLabel_2_1_1_1.setBounds(274, 84, 138, 25);
+		lblNewLabel_2_1_1_1.setBounds(204, 85, 138, 25);
 		panel_1.add(lblNewLabel_2_1_1_1);
-		{
-			btnEnviarDatos = new JButton("Enviar Datos");
-			btnEnviarDatos.addActionListener(this);
-			btnEnviarDatos.setBounds(526, 32, 116, 36);
-			panel_1.add(btnEnviarDatos);
-		}
-		{
-			lblNewLabel_2_1_5 = new JLabel("Pedido:");
-			lblNewLabel_2_1_5.setBounds(10, 67, 138, 25);
-			panel_1.add(lblNewLabel_2_1_5);
-		}
-		{
-			cbxPedido = new JComboBox();
-			cbxPedido.setFont(new Font("Tahoma", Font.PLAIN, 10));
-			cbxPedido.addItemListener(this);
-			cbxPedido.setBounds(10, 87, 116, 21);
-			panel_1.add(cbxPedido);
-			cbxPedido.setModel(new DefaultComboBoxModel(new String[] {"--Selecciona--", "Local/Llevar", "Domicilio"}));
-		}
-		
-		btnRegistrar = new JButton("Registrar");
-		btnRegistrar.addActionListener(this);
-		btnRegistrar.setBounds(536, 112, 94, 20);
-		panel_1.add(btnRegistrar);
-		{
-			lblNewLabel_2_1_1_2 = new JLabel("Deseas?");
-			lblNewLabel_2_1_1_2.setBounds(563, 85, 69, 25);
-			panel_1.add(lblNewLabel_2_1_1_2);
-		}
-		{
-			lblNewLabel_1_2 = new JLabel("Método de Pago:");
-			lblNewLabel_1_2.setBounds(401, 32, 152, 20);
-			panel_1.add(lblNewLabel_1_2);
-		}
-		{
-			lblNewLabel_1_3 = new JLabel("Número de Mesa:");
-			lblNewLabel_1_3.setBounds(401, 87, 152, 20);
-			panel_1.add(lblNewLabel_1_3);
-		}
-		{
-			cbxMetodoPago = new JComboBox();
-			cbxMetodoPago.setModel(new DefaultComboBoxModel(new String[] {"--Selecciona--", "Efectivo", "Tarjeta"}));
-			cbxMetodoPago.setBounds(400, 56, 116, 25);
-			panel_1.add(cbxMetodoPago);
-		}
-		{
-			cbxNumeroMesa = new JComboBox();
-			cbxNumeroMesa.setModel(new DefaultComboBoxModel(new String[] {"--Selecciona--", "1", "2", "3", "4", "5", "6", "7", "8"}));
-			cbxNumeroMesa.setBounds(400, 107, 116, 25);
-			panel_1.add(cbxNumeroMesa);
-		}
 		{
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(9, 405, 653, 176);
@@ -226,6 +175,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		}
 		
 		txtCosto = new JTextField();
+		txtCosto.setEnabled(false);
 		txtCosto.setEditable(false);
 		txtCosto.setBounds(532, 592, 129, 29);
 		contentPane.add(txtCosto);
@@ -235,13 +185,13 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		lblNewLabel_3.setBounds(454, 596, 68, 21);
 		contentPane.add(lblNewLabel_3);
 		
-		btnCancelarPedido = new JButton("Eliminar Cuenta");
+		btnCancelarPedido = new JButton("Eliminar Pedido");
 		btnCancelarPedido.addActionListener(this);
 		btnCancelarPedido.setBounds(21, 591, 144, 33);
 		contentPane.add(btnCancelarPedido);
 		{
 			lblNewLabel_4 = new JLabel("");
-			lblNewLabel_4.setBounds(455, 11, 67, 62);
+			lblNewLabel_4.setBounds(577, 11, 67, 62);
 			contentPane.add(lblNewLabel_4);
 			lblNewLabel_4.setIcon(new ImageIcon(new ImageIcon(ClienteGUI.class.getResource
 					("/img/DonPollo.jpg")).getImage().getScaledInstance(70, 62, Image.SCALE_FAST)));
@@ -270,13 +220,11 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		panel.add(lblNewLabel_2);
 		
 		txtCant = new JTextField();
-		txtCant.setEditable(false);
 		txtCant.setColumns(10);
 		txtCant.setBounds(21, 97, 167, 25);
 		panel.add(txtCant);
 		
 		txtNumPedido = new JTextField();
-		txtNumPedido.setEditable(false);
 		txtNumPedido.setColumns(10);
 		txtNumPedido.setBounds(342, 46, 167, 25);
 		panel.add(txtNumPedido);
@@ -298,11 +246,10 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 				
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(this);
-				btnEliminar.setBounds(519, 37, 95, 36);
+				btnEliminar.setBounds(519, 40, 95, 36);
 				panel.add(btnEliminar);
 				
 				txtPromocion = new JTextField();
-				txtPromocion.setEditable(false);
 				txtPromocion.setColumns(10);
 				txtPromocion.setBounds(342, 97, 167, 25);
 				panel.add(txtPromocion);
@@ -313,32 +260,61 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 				
 				btnCanjear = new JButton("Canjear");
 				btnCanjear.addActionListener(this);
-				btnCanjear.setBounds(519, 83, 95, 36);
+				btnCanjear.setBounds(519, 91, 95, 36);
 				panel.add(btnCanjear);
 				
-				btnEnviar = new JButton("Cancelar Cuenta");
+				btnEnviar = new JButton("Enviar");
 				btnEnviar.setBounds(198, 588, 144, 36);
 				contentPane.add(btnEnviar);
 				btnEnviar.addActionListener(this);
 				DesactivarCliente();
-				btnVerCarta.setEnabled(false);
-				btnEliminar.setEnabled(false);
-				btnAgregar.setEnabled(false);
-				btnCanjear.setEnabled(false);
+				
+				panel_2 = new JPanel();
+				panel_2.setLayout(null);
+				panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Datos Pedido", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+				panel_2.setBackground(new Color(255, 250, 250));
+				panel_2.setBounds(380, 80, 281, 153);
+				contentPane.add(panel_2);
+				
+				lblNewLabel_2_1_4 = new JLabel("Pedido:");
+				lblNewLabel_2_1_4.setBounds(147, 31, 138, 25);
+				panel_2.add(lblNewLabel_2_1_4);
+				
+				cbxPedido = new JComboBox();
+				cbxPedido.addActionListener(this);
+				cbxPedido.setModel(new DefaultComboBoxModel(new String[] {"Delivery", "Presencial"}));
+				cbxPedido.setFont(new Font("Tahoma", Font.PLAIN, 13));
+				cbxPedido.setBounds(147, 59, 116, 21);
+				panel_2.add(cbxPedido);
+				
+				lblNewLabel_1_5 = new JLabel("Método de Pago:");
+				lblNewLabel_1_5.setBounds(11, 33, 152, 20);
+				panel_2.add(lblNewLabel_1_5);
+				
+				lblNewLabel_1_6 = new JLabel("Número de Mesa:");
+				lblNewLabel_1_6.setBounds(11, 88, 152, 20);
+				panel_2.add(lblNewLabel_1_6);
+				
+				cbxMetodoPago = new JComboBox();
+				cbxMetodoPago.setModel(new DefaultComboBoxModel(new String[] {"Tarjeta", "Efectivo"}));
+				cbxMetodoPago.setBounds(13, 57, 116, 25);
+				panel_2.add(cbxMetodoPago);
+				
+				cbxNumeroMesa = new JComboBox();
+				cbxNumeroMesa.setEnabled(false);
+				cbxNumeroMesa.setBounds(12, 111, 116, 25);
+				panel_2.add(cbxNumeroMesa);
 				
 	}
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnRegistrar) {
-			do_btnRegistrar_actionPerformed(e);
+		if (e.getSource() == cbxPedido) {
+			do_cbxPedido_actionPerformed(e);
 		}
 		if (e.getSource() == btnEnviar) {
 			do_btnEnviar_actionPerformed(e);
 		}
 		if (e.getSource() == btnCancelarPedido) {
 			do_btnCancelarPedido_actionPerformed(e);
-		}
-		if (e.getSource() == btnEnviarDatos) {
-			do_btnEnviarDatos_actionPerformed(e);
 		}
 		if (e.getSource() == btnCanjear) {
 			do_btnCanjear_actionPerformed(e);
@@ -368,14 +344,22 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	        String idProducto = txtPedidoID.getText().trim();
 	        int cantidad = Integer.parseInt(txtCant.getText()); 
 	        MenuProducto encontrado = cart.Buscar(idProducto);
+	        String metodoPago = cbxMetodoPago.getSelectedItem().toString();
 	        
 	        if(encontrado!=null) {
 
 		        double precioU = encontrado.getPrecioUnitario();
 		        
 		        if(ped == null) {
-			        ped=new Pedido(numped,cli);
-			        numped++;
+			        if(cbxPedido.getSelectedItem().equals("Presencial")) {
+			        	int mesa = Integer.parseInt(cbxNumeroMesa.getSelectedItem().toString());
+			        	ped=new Pedido(numped,metodoPago, mesa,cli);
+				        numped++;
+			        }
+			        else {
+			        	ped=new Pedido(numped,metodoPago, cli);
+				        numped++;
+			        }
 		        }
 		        
 	        	if(ped.Buscar(idProducto)!=null) {
@@ -416,7 +400,9 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	    } else {
 	        ventanaCarta.toFront(); // Traer al frente si ya existe
 	    }
-	    }
+		
+		
+	}
 
 	protected void do_btnEliminar_actionPerformed(ActionEvent e) {
 		try {
@@ -438,18 +424,14 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	
 	
 	CuponeraLista lis = new CuponeraLista();
-	
-	
-	private JButton btnEnviarDatos;
 	private JButton btnCancelarPedido;
 	private JLabel lblNewLabel_4;
 	private JButton btnEnviar;
+	private JPanel panel_2;
+	private JLabel lblNewLabel_2_1_4;
 	private JComboBox cbxPedido;
-	private JLabel lblNewLabel_2_1_5;
-	private JButton btnRegistrar;
-	private JLabel lblNewLabel_2_1_1_2;
-	private JLabel lblNewLabel_1_2;
-	private JLabel lblNewLabel_1_3;
+	private JLabel lblNewLabel_1_5;
+	private JLabel lblNewLabel_1_6;
 	private JComboBox cbxMetodoPago;
 	private JComboBox cbxNumeroMesa;
 	
@@ -528,43 +510,12 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		txtDni.setEditable(false);
 		txtDireccion.setEditable(false);
 		txtTelefono.setEditable(false);
-		cbxMetodoPago.setEnabled(false);
-		cbxNumeroMesa.setEnabled(false);
 	}
 	void LimpiarCliente() {
 		txtNombre.setText("");
 		txtDni.setText("");
 		txtDireccion.setText("");
 		txtTelefono.setText("");
-	}
-	protected void do_btnEnviarDatos_actionPerformed(ActionEvent e) {
-		if ((cbxPedido.getSelectedItem().equals("Local/Llevar") && cbxNumeroMesa.getSelectedItem().equals("--Selecciona--")) 
-			    || cbxMetodoPago.getSelectedItem().equals("--Selecciona--")) {
-			    
-			    JOptionPane.showMessageDialog(this, "Complete los campos correctamente!");
-			} else {
-			    try {
-			        String nombreCompleto = txtNombre.getText();
-			        String dni = txtDni.getText();
-			        int telefono = Integer.parseInt(txtTelefono.getText());
-			        String direccion = txtDireccion.getText();
-			        String Metodo_Pago=cbxMetodoPago.getSelectedItem().toString();
-
-			        cli = dni.isBlank()
-			            ? new Cliente(telefono, nombreCompleto, direccion,Metodo_Pago)
-			            : new Cliente(telefono, nombreCompleto, direccion,Metodo_Pago, dni);
-
-			        DesactivarCliente();
-					btnVerCarta.setEnabled(true);
-					btnEliminar.setEnabled(true);
-					btnAgregar.setEnabled(true);
-					btnCanjear.setEnabled(true);
-			        cbxPedido.setEnabled(true);
-			        Activar();
-			    } catch (Exception ex) {
-			        JOptionPane.showMessageDialog(this, "Complete los campos correctamente!");
-			    }
-			}
 	}
 	protected void do_btnCancelarPedido_actionPerformed(ActionEvent e) {
 		if(ped != null) {
@@ -609,58 +560,20 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	public void setPedidoId(String id) {
 	    txtPedidoID.setText(id);
 	}
-	protected void do_btnRegistrar_actionPerformed(ActionEvent e) {
-		txtNombre.setEditable(true);
-      	txtDni.setEditable(true);
-      	txtTelefono.setEditable(true);
-      	txtDireccion.setEditable(true);
-	}
 	public void itemStateChanged(ItemEvent e) {
-		if (e.getSource() == cbxPedido) {
-			do_cbxPedido_itemStateChanged(e);
-		}
 	}
-	protected void do_cbxPedido_itemStateChanged(ItemEvent e) {
-		int index = cbxPedido.getSelectedIndex();
+	protected void do_cbxPedido_actionPerformed(ActionEvent e) {
+		
+		if(cbxPedido.getSelectedItem().equals("Presencial")) {
+			cbxNumeroMesa.setEnabled(true);
+			cbxNumeroMesa.addItem("hola");
+			cbxNumeroMesa.addItem("holdda");
 
-		if (index == 0 && cbxPedido.getSelectedItem().equals("--Seleciona--")) {
-		    JOptionPane.showMessageDialog(this, "Complete el campo del tipo de pedido");
 		}
-
-		boolean editableNombre = false;
-		boolean editableDni = false;
-		boolean editableTelefono = false;
-		boolean editableDireccion = false;
-		boolean habilitarMetodoPago = false;
-		boolean habilitarNumeroMesa = false;
-
-		switch (index) {
-		    case 0:
-		        LimpiarCliente();
-		        break;
-		    case 1:
-		        editableNombre = true;
-		        editableDni = true;
-		        editableTelefono = true;
-		        habilitarMetodoPago = true;
-		        habilitarNumeroMesa = true;
-		        txtDireccion.setText("");
-		        break;
-		    case 2:
-		        editableNombre = true;
-		        editableDni = true;
-		        editableTelefono = true;
-		        editableDireccion = true;
-		        habilitarMetodoPago = true;
-		        break;
+		else if(cbxPedido.getSelectedItem().equals("Delivery")){
+			cbxNumeroMesa.removeAllItems();
+			cbxNumeroMesa.setEnabled(false);	
 		}
-
-		txtNombre.setEditable(editableNombre);
-		txtDni.setEditable(editableDni);
-		txtTelefono.setEditable(editableTelefono);
-		txtDireccion.setEditable(editableDireccion);
-		cbxMetodoPago.setEnabled(habilitarMetodoPago);
-		cbxNumeroMesa.setEnabled(habilitarNumeroMesa);
-
+		
 	}
 }

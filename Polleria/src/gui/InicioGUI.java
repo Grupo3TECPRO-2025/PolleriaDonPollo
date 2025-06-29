@@ -28,8 +28,8 @@ import java.awt.event.ActionEvent;
 public class InicioGUI extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
-    private LoginGUI ventanaLogin;
-    private RegisterGUI ventanaRegister;
+    public LoginGUI ventanaLogin;
+    public RegisterGUI ventanaRegister;
     private AdministradorGUI ventanaAdministrador;
     private ProveedorGUI ventanaProveedor;
 
@@ -134,38 +134,56 @@ public class InicioGUI extends JFrame implements ActionListener {
         panel.add(layeredPane, gbc_layeredPane);
 
         btnCliente.addActionListener(e -> {
-        	if (ventanaLogin != null && ventanaLogin.isDisplayable()) {
+        	if (ventanaLogin != null && ventanaLogin.isDisplayable() && ventanaRegister != null && ventanaRegister.isDisplayable()) {
                 ventanaLogin.dispose();
+                ventanaRegister.dispose();
             }
 
             ventanaLogin = null;  
-            ventanaLogin = new LoginGUI("cliente");
+            ventanaLogin = new LoginGUI("cliente",this);
         	ventanaLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         	ventanaLogin.setVisible(true);
+        	
+        	ventanaRegister	= null;  
+        	ventanaRegister = new RegisterGUI("cliente",this);
+        	ventanaRegister.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	ventanaRegister.setVisible(false);
         });
 
         btnAdministrador.addActionListener(e -> {
 
-        	if (ventanaLogin != null && ventanaLogin.isDisplayable()) {
+        	if (ventanaLogin != null && ventanaLogin.isDisplayable() && ventanaRegister != null && ventanaRegister.isDisplayable()) {
                 ventanaLogin.dispose();
+                ventanaRegister.dispose();
             }
         	
 
             ventanaLogin = null;  
-            ventanaLogin = new LoginGUI("administrador");
+            ventanaLogin = new LoginGUI("administrador",this);
         	ventanaLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         	ventanaLogin.setVisible(true);
+        	
+        	ventanaRegister	= null;  
+        	ventanaRegister = new RegisterGUI("administrador",this);
+        	ventanaRegister.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	ventanaRegister.setVisible(false);
         });
 
         btnProveedor.addActionListener(e -> {
-        	if (ventanaLogin != null && ventanaLogin.isDisplayable()) {
+        	if (ventanaLogin != null && ventanaLogin.isDisplayable() && ventanaRegister != null && ventanaRegister.isDisplayable()) {
                 ventanaLogin.dispose();
+                ventanaRegister.dispose();
             }
 
             ventanaLogin = null;  
-        	ventanaLogin = new LoginGUI("proveedor");
+        	ventanaLogin = new LoginGUI("proveedor",this);
         	ventanaLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         	ventanaLogin.setVisible(true);
+        	
+        	ventanaRegister	= null;  
+        	ventanaRegister = new RegisterGUI("proveedor",this);
+        	ventanaRegister.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	ventanaRegister.setVisible(false);
         });
     }
 

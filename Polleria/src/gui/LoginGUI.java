@@ -39,7 +39,8 @@ public class LoginGUI extends JDialog implements ActionListener {
 	private JTextField txtContraseña;
 	private JButton btnIngresar;
 	private String rol;
-	
+	private RegisterGUI registrar;
+	private InicioGUI inicio;
 	
 	private AdministradorGUI ventanaAdministrador;
     private ProveedorGUI ventanaProveedor;
@@ -50,7 +51,7 @@ public class LoginGUI extends JDialog implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			LoginGUI dialog = new LoginGUI("");
+			LoginGUI dialog = new LoginGUI("",null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -61,8 +62,9 @@ public class LoginGUI extends JDialog implements ActionListener {
 	/**
 	 * Create the dialog.
 	 */
-	public LoginGUI(String rol) {
+	public LoginGUI(String rol,InicioGUI inicio) {
 		this.rol = rol;
+		this.inicio = inicio;
 		setBounds(100, 100, 601, 421);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -149,9 +151,11 @@ public class LoginGUI extends JDialog implements ActionListener {
 					itemRegistrar = new JMenuItem("Registrar");
 					Menu.add(itemRegistrar);
 					itemRegistrar.addActionListener(e -> {
-					    dispose(); 
-					    RegisterGUI registrar = new RegisterGUI(rol);
-					    registrar.setVisible(true);}
+					    setVisible(false);
+					    inicio.ventanaRegister.setVisible(true);
+					}
+					    
+					    
 					);
 				}
 			}
@@ -167,7 +171,7 @@ public class LoginGUI extends JDialog implements ActionListener {
 		JOptionPane.showMessageDialog(this, "Se ingresó correctamente");
 		this.dispose();
 		
-		if(rol=="cliente") {
+		if(rol.equals("cliente")) {
 
         	if (ventanaCliente != null && ventanaCliente.isDisplayable()) {
         		ventanaCliente.dispose();
@@ -180,7 +184,7 @@ public class LoginGUI extends JDialog implements ActionListener {
         	ventanaCliente.setVisible(true);
 		}
 		
-		else if(rol=="administrador") {
+		else if(rol.equals("administrador")) {
 
         	if (ventanaAdministrador != null && ventanaAdministrador.isDisplayable()) {
         		ventanaAdministrador.dispose();
@@ -193,7 +197,7 @@ public class LoginGUI extends JDialog implements ActionListener {
         	ventanaAdministrador.setVisible(true);
 		}
 		
-		else if(rol=="proveedor") {
+		else if(rol.equals("proveedor")) {
 
         	if (ventanaProveedor != null && ventanaProveedor.isDisplayable()) {
         		ventanaProveedor.dispose();

@@ -54,13 +54,17 @@ public class RegisterGUI extends JDialog implements ActionListener {
 	private JLabel lblNewLabel_9;
 	private JTextField txtNombreEmpresa;
 	private JTextField txtRUC;
+	private LoginGUI login;
+	
+	
+	private InicioGUI inicio;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegisterGUI dialog = new RegisterGUI("");
+			RegisterGUI dialog = new RegisterGUI("",null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -71,8 +75,10 @@ public class RegisterGUI extends JDialog implements ActionListener {
 	/**
 	 * Create the dialog.
 	 */
-	public RegisterGUI(String rol) {
+	public RegisterGUI(String rol, InicioGUI inicio) {
+		
 		this.rol = rol;
+		this.inicio= inicio;
 		setBounds(100, 100, 603, 627);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -259,8 +265,9 @@ public class RegisterGUI extends JDialog implements ActionListener {
 						dispose(); // Cierra la ventana actual de login
 
 					    // Abre la ventana de registro con el mismo rol
-					    LoginGUI registrar = new LoginGUI(rol);
-					    registrar.setVisible(true);
+					    setVisible(false);
+					    inicio.ventanaLogin.setVisible(true);
+
 					    
 						}
 					);
@@ -279,8 +286,10 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		}
 	}
 	protected void do_btnRegistrar_actionPerformed(ActionEvent e) {
-		this.dispose();
 		
 		JOptionPane.showMessageDialog(this, "Se registró correctamente");
+		this.dispose();
+		
+		
 	}
 }
