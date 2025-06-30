@@ -8,6 +8,10 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Arraylist.ArregloUsuario;
+import Gestiones.Usuario;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -168,20 +172,44 @@ public class LoginGUI extends JDialog implements ActionListener {
 	}
 	protected void do_btnIngresar_actionPerformed(ActionEvent e) {
 		
-		JOptionPane.showMessageDialog(this, "Se ingresó correctamente");
-		this.dispose();
+		
 		
 		if(rol.equals("cliente")) {
 
-        	if (ventanaCliente != null && ventanaCliente.isDisplayable()) {
-        		ventanaCliente.dispose();
-            }
-        	
+			try {
+				String user = txtUsuario.getText();
+				String password = txtContraseña.getText();
+				
+				
+				Usuario u = ArregloUsuario.VerificarLogin(user, password);
 
-        	ventanaCliente = null;  
-        	ventanaCliente = new ClienteGUI();
-        	ventanaCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        	ventanaCliente.setVisible(true);
+				if (u != null) {
+				    System.out.println("Login exitoso: " + u.getPersona().getNombreCompleto());
+				    System.out.println("Rol: " + u.getRol());
+				    
+				    JOptionPane.showMessageDialog(this, "Se ingresó correctamente");
+					this.dispose();
+				    
+				    if (ventanaCliente != null && ventanaCliente.isDisplayable()) {
+		        		ventanaCliente.dispose();
+		            }
+		        	
+
+		        	ventanaCliente = null;  
+		        	ventanaCliente = new ClienteGUI(u);
+		        	ventanaCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		        	ventanaCliente.setVisible(true);
+		        	
+				} else {
+				    System.out.println("Usuario o contraseña incorrectos.");
+				}
+				
+			}catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, "Ingresa todos los campos");
+			}
+			
+			
+        	
 		}
 		
 		else if(rol.equals("administrador")) {

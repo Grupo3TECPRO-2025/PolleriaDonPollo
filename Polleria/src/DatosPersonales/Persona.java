@@ -3,10 +3,10 @@ package DatosPersonales;
 public class Persona {
 	private int  telefono;
     private String NombreCompleto,DNI,Direccion;
-	public Persona(int telefono, String nombreCompleto, String dNI, String direccion) {
+	public Persona(int telefono, String nombreCompleto, String DNI, String direccion) {
 		this.telefono = telefono;
 		NombreCompleto = nombreCompleto;
-		DNI = dNI;
+		this.DNI = DNI;
 		Direccion = direccion;
 	}
 	

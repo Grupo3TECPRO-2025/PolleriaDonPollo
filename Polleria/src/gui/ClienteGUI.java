@@ -20,13 +20,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import Arraylist.Carta;
 import CartaPolleria.CuponeraLista;
-import CartaPolleria.Carta;
 import CartaPolleria.Cupon;
 import CartaPolleria.MenuProducto;
 import DatosPersonales.Cliente;
 import Gestiones.DetallePedido;
 import Gestiones.Pedido;
+import Gestiones.Usuario;
 import Reporte.FacturaGenerador;
 
 import java.awt.Color;
@@ -61,7 +62,8 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	private JButton btnVerCarta;
 	private JButton btnEliminar;
 	private JButton btnCanjear;
-
+	private Usuario user;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +71,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClienteGUI frame = new ClienteGUI();
+					ClienteGUI frame = new ClienteGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -81,7 +83,8 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	/**
 	 * Create the frame.
 	 */
-	public ClienteGUI() {
+	public ClienteGUI(Usuario user) {
+		this.user = user;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteGUI.class.getResource("/img/DonPollo.jpg")));
 		setTitle("Polleria Don Pollo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -114,6 +117,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
 		txtNombre.setBounds(23, 56, 160, 25);
+		txtNombre.setText(user.getPersona().getNombreCompleto());
 		panel_1.add(txtNombre);
 		
 		
@@ -125,11 +129,13 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		txtDireccion = new JTextField();
 		txtDireccion.setColumns(10);
 		txtDireccion.setBounds(23, 107, 158, 25);
+		txtDireccion.setText(user.getPersona().getDireccion());
 		panel_1.add(txtDireccion);
 		
 		txtTelefono = new JTextField();
 		txtTelefono.setColumns(10);
 		txtTelefono.setBounds(204, 56, 116, 25);
+		txtTelefono.setText(""+user.getPersona().getTelefono());
 		panel_1.add(txtTelefono);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Teléfono:");
@@ -139,6 +145,8 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		txtDni = new JTextField();
 		txtDni.setColumns(10);
 		txtDni.setBounds(204, 107, 116, 25);
+		if(user.getPersona().getDNI()!=null) txtDni.setText(user.getPersona().getDNI());
+		else txtDni.setText("Sin registro");
 		panel_1.add(txtDni);
 		
 		JLabel lblNewLabel_2_1_1_1 = new JLabel("DNI (Opcional):");
@@ -175,7 +183,6 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		}
 		
 		txtCosto = new JTextField();
-		txtCosto.setEnabled(false);
 		txtCosto.setEditable(false);
 		txtCosto.setBounds(532, 592, 129, 29);
 		contentPane.add(txtCosto);

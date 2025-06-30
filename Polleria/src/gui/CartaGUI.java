@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import CartaPolleria.Carta;
+import Arraylist.Carta;
 import CartaPolleria.MenuProducto;
 
 import javax.swing.JScrollPane;
@@ -30,6 +30,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -183,7 +184,8 @@ public class CartaGUI extends JDialog implements ActionListener {
 	
 	 private void cargarProductos() {
 	        tableModel.setRowCount(0);
-	        for (MenuProducto producto : cartaPolleria.getMenu()) {
+	        ArrayList<MenuProducto> productos = Carta.VerCarta();
+	        for (MenuProducto producto : productos) {
 	            tableModel.addRow(new Object[]{
 	                producto.getDescripcion(),
 	                String.format("%.2f", producto.getPrecioUnitario()),

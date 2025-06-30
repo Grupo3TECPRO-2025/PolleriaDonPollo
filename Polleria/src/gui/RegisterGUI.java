@@ -9,6 +9,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import Arraylist.ArregloUsuario;
+import DatosPersonales.Administrador;
+import DatosPersonales.Cliente;
+import DatosPersonales.Persona;
+import DatosPersonales.Proveedor;
+import Gestiones.Usuario;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -22,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class RegisterGUI extends JDialog implements ActionListener {
 
@@ -39,7 +48,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 	private JTextField txtContraseña;
 	private String rol;
 	private JButton btnVerificar;
-	private JLabel lblNewLabel_2;
+	private JLabel lblVerificar;
 	private JPanel panel_1;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
@@ -58,6 +67,10 @@ public class RegisterGUI extends JDialog implements ActionListener {
 	
 	
 	private InicioGUI inicio;
+	private JTextField txtClavePolleria;
+	private JLabel lblNewLabel_10;
+	private JLabel lblNewLabel_2;
+	private JTextField txtProveedorClave;
 
 	/**
 	 * Launch the application.
@@ -79,10 +92,10 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		
 		this.rol = rol;
 		this.inicio= inicio;
-		setBounds(100, 100, 603, 627);
-		getContentPane().setLayout(new BorderLayout());
+		setBounds(100, 100, 577, 673);
+		getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		getContentPane().add(contentPanel);
 		{
 			lblNewLabel = new JLabel("Registrar al Sistema: "+rol);
 			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 27));
@@ -95,62 +108,68 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		{
 			lblNewLabel_4 = new JLabel("Nombre Completo");
 			lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			lblNewLabel_4.setBounds(21, 32, 197, 26);
+			lblNewLabel_4.setBounds(21, 22, 197, 26);
 			panel_1.add(lblNewLabel_4);
 		}
 		{
 			lblNewLabel_5 = new JLabel("Direccion");
 			lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			lblNewLabel_5.setBounds(23, 104, 127, 17);
+			lblNewLabel_5.setBounds(23, 94, 127, 17);
 			panel_1.add(lblNewLabel_5);
 		}
 		{
 			txtNombre = new JTextField();
 			txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			txtNombre.setColumns(10);
-			txtNombre.setBounds(19, 64, 156, 26);
+			txtNombre.setBounds(19, 54, 156, 26);
 			panel_1.add(txtNombre);
 		}
 		{
 			txtDireccion = new JTextField();
 			txtDireccion.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			txtDireccion.setColumns(10);
-			txtDireccion.setBounds(22, 130, 156, 26);
+			txtDireccion.setBounds(22, 113, 156, 26);
 			panel_1.add(txtDireccion);
 		}
 		btnRegistrar = new JButton("Enviar");
 		btnRegistrar.addActionListener(this);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(53)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 475, GroupLayout.PREFERRED_SIZE)
+							.addGap(49))
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(29)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 505, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 538, GroupLayout.PREFERRED_SIZE)
-								.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 505, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(221)
-							.addComponent(btnRegistrar, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(64, Short.MAX_VALUE))))
+				.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
+					.addGap(55)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 459, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(63, Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
+					.addGap(217)
+					.addComponent(btnRegistrar, GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+					.addGap(242))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(23)
+					.addGap(22)
 					.addComponent(lblNewLabel)
-					.addGap(32)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-					.addGap(18)
+					.addGap(30)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+					.addGap(17)
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+					.addGap(13)
 					.addComponent(btnRegistrar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addGap(20))
+					.addGap(8))
 		);
 		{
-			lblNewLabel_7 = new JLabel("DNI");
+			if(rol.equals("cliente")) lblNewLabel_7 = new JLabel("DNI (opcional)");
+			else lblNewLabel_7 = new JLabel("DNI");
 			lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 17));
 			lblNewLabel_7.setBounds(212, 29, 197, 26);
 			panel_1.add(lblNewLabel_7);
@@ -159,47 +178,61 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			txtDNI = new JTextField();
 			txtDNI.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			txtDNI.setColumns(10);
-			txtDNI.setBounds(211, 64, 156, 26);
+			txtDNI.setBounds(211, 54, 156, 26);
 			panel_1.add(txtDNI);
 		}
 		{
 			lblNewLabel_6 = new JLabel("Telefono");
 			lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			lblNewLabel_6.setBounds(210, 99, 197, 26);
+			lblNewLabel_6.setBounds(211, 89, 197, 26);
 			panel_1.add(lblNewLabel_6);
 		}
 		{
 			txtTelefono = new JTextField();
 			txtTelefono.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			txtTelefono.setColumns(10);
-			txtTelefono.setBounds(210, 130, 156, 26);
+			txtTelefono.setBounds(211, 113, 156, 26);
 			panel_1.add(txtTelefono);
 		}
 		{
 			lblNewLabel_8 = new JLabel("RUC");
 			lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			lblNewLabel_8.setBounds(212, 169, 197, 26);
+			lblNewLabel_8.setBounds(211, 157, 197, 26);
 			panel_1.add(lblNewLabel_8);
 		}
 		{
 			lblNewLabel_9 = new JLabel("Nombre Empresa");
 			lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			lblNewLabel_9.setBounds(21, 167, 197, 26);
+			lblNewLabel_9.setBounds(22, 155, 197, 26);
 			panel_1.add(lblNewLabel_9);
 		}
 		{
 			txtNombreEmpresa = new JTextField();
 			txtNombreEmpresa.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			txtNombreEmpresa.setColumns(10);
-			txtNombreEmpresa.setBounds(21, 198, 156, 26);
+			txtNombreEmpresa.setBounds(21, 181, 156, 26);
 			panel_1.add(txtNombreEmpresa);
 		}
 		{
 			txtRUC = new JTextField();
 			txtRUC.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			txtRUC.setColumns(10);
-			txtRUC.setBounds(212, 198, 156, 26);
+			txtRUC.setBounds(212, 183, 156, 26);
 			panel_1.add(txtRUC);
+		}
+		{
+			lblNewLabel_2 = new JLabel("Clave de Polleria");
+			lblNewLabel_2.setVisible(false);
+			lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			lblNewLabel_2.setBounds(21, 225, 156, 14);
+			panel_1.add(lblNewLabel_2);
+		}
+		{
+			txtProveedorClave = new JTextField();
+			txtProveedorClave.setVisible(false);
+			txtProveedorClave.setBounds(21, 246, 154, 25);
+			panel_1.add(txtProveedorClave);
+			txtProveedorClave.setColumns(10);
 		}
 		txtRUC.setVisible(false);
 		txtNombreEmpresa.setVisible(false);
@@ -229,7 +262,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		{
 			txtUsuario = new JTextField();
 			txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			txtUsuario.setBounds(151, 28, 156, 26);
+			txtUsuario.setBounds(141, 28, 156, 26);
 			panel.add(txtUsuario);
 			txtUsuario.setColumns(10);
 		}
@@ -237,19 +270,40 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			txtContraseña = new JTextField();
 			txtContraseña.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			txtContraseña.setColumns(10);
-			txtContraseña.setBounds(151, 65, 156, 26);
+			txtContraseña.setBounds(140, 61, 156, 26);
 			panel.add(txtContraseña);
 		}
 		{
 			btnVerificar = new JButton("Verificar");
-			btnVerificar.setBounds(361, 33, 89, 23);
+			btnVerificar.addActionListener(this);
+			btnVerificar.setBounds(329, 31, 89, 23);
 			panel.add(btnVerificar);
 		}
 		{
-			lblNewLabel_2 = new JLabel("verificar");
-			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_2.setBounds(339, 74, 127, 14);
-			panel.add(lblNewLabel_2);
+			lblVerificar = new JLabel("");
+			lblVerificar.setForeground(Color.RED);
+			lblVerificar.setHorizontalAlignment(SwingConstants.CENTER);
+			lblVerificar.setBounds(322, 69, 114, 14);
+			panel.add(lblVerificar);
+		}
+		{
+			if(rol.equals("administrador")) {
+				txtClavePolleria = new JTextField();
+				txtClavePolleria.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				txtClavePolleria.setColumns(10);
+				txtClavePolleria.setBounds(151, 96, 156, 26);
+				panel.add(txtClavePolleria);
+			}
+			
+		}
+		{
+			if(rol.equals("administrador")) {
+				lblNewLabel_10 = new JLabel("Clave Polleria");
+				lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblNewLabel_10.setBounds(23, 100, 127, 17);
+				panel.add(lblNewLabel_10);
+			}
+			
 		}
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -279,17 +333,119 @@ public class RegisterGUI extends JDialog implements ActionListener {
 				}
 			}
 		}
+		
+		if(rol.equals("proveedor")) MostrarProveedor();
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnVerificar) {
+			do_btnVerificar_actionPerformed(e);
+		}
 		if (e.getSource() == btnRegistrar) {
 			do_btnRegistrar_actionPerformed(e);
 		}
 	}
 	protected void do_btnRegistrar_actionPerformed(ActionEvent e) {
 		
-		JOptionPane.showMessageDialog(this, "Se registró correctamente");
+		
+		try {
+			
+			Persona nuevaPersona;
+			
+			//CUENTA DATOS
+			String usuario = txtUsuario.getText();
+			String contraseña = txtContraseña.getText();
+			
+			Usuario nuevoUsuario;
+			
+			if(ArregloUsuario.verificarUsuario(usuario)==null) {
+				//DATOS PERSONALES
+				
+				String nombreCompleto = txtNombre.getText();
+				String DNI = txtDNI.getText();
+				String direccion = txtDireccion.getText();
+				int telefono = Integer.parseInt(txtTelefono.getText());
+				
+				
+				if(rol.equals("cliente")) {
+					
+					if(DNI.isBlank())nuevaPersona = new Cliente(telefono, nombreCompleto, direccion);
+					else nuevaPersona = new Cliente(telefono, nombreCompleto, DNI, direccion);
+					
+					nuevoUsuario = new Usuario(usuario, contraseña, "cliente", nuevaPersona);
+					
+					if(ArregloUsuario.RegistrarCliente(nuevoUsuario)) JOptionPane.showMessageDialog(this, "Se registró correctamente");
+					
+				}else if(rol.equals("administrador")) {
+					String claveEmpresa = txtClavePolleria.getText();
+					nuevaPersona = new Administrador(telefono, nombreCompleto, DNI, direccion, claveEmpresa);
+					
+					nuevoUsuario = new Usuario(usuario, contraseña, "cliente", nuevaPersona);
+
+					if(ArregloUsuario.RegistrarAdministrador(nuevoUsuario, claveEmpresa)) JOptionPane.showMessageDialog(this, "Se registró correctamente");
+
+					
+				}else if(rol.equals("proveedor")) {
+					String nombreEmpresa = txtNombreEmpresa.getText();
+					String RUC = txtRUC.getText();
+					
+					String claveProveedor = txtProveedorClave.getText();
+					
+					if(ArregloUsuario.VerificarSucursalKey(claveProveedor))	{
+						nuevaPersona = new Proveedor(telefono, nombreCompleto, DNI, direccion, RUC, nombreEmpresa);
+					
+						nuevoUsuario = new Usuario(usuario, contraseña, "cliente", nuevaPersona);
+
+						if(ArregloUsuario.RegistrarProveedor(nuevoUsuario, RUC, nombreEmpresa)) JOptionPane.showMessageDialog(this, "Se registró correctamente");
+					}
+					else JOptionPane.showMessageDialog(this, "El código de validación no existe, ingrese uno correcto");
+				
+				
+
+				
+				}
+			}
+			
+			
+			
+			
+			
+	
+
+			
+			
+			
+		}catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Completa todos los campos");
+		}
+		JOptionPane.showMessageDialog(this, "Volviendo al inicio...");
 		this.dispose();
 		
 		
+	}
+	protected void do_btnVerificar_actionPerformed(ActionEvent e) {
+		try {
+			String usuario =  txtUsuario.getText();
+			
+			Usuario user = ArregloUsuario.verificarUsuario(usuario);
+			
+			if(user == null) {
+				lblVerificar.setText("Usuario Permitido");
+				lblVerificar.setForeground(Color.green);
+			}else {
+				lblVerificar.setText("El nombre ya existe");
+				lblVerificar.setForeground(Color.RED);				
+			}
+		}catch (Exception ex) {
+			
+		}
+	}
+
+	void MostrarProveedor() {
+		lblNewLabel_9.setVisible(true);
+		lblNewLabel_8.setVisible(true);
+		lblNewLabel_2.setVisible(true);
+		txtRUC.setVisible(true);
+		txtNombreEmpresa.setVisible(true);
+		txtProveedorClave.setVisible(true);
 	}
 }

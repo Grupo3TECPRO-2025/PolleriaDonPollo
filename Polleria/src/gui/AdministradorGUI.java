@@ -65,9 +65,6 @@ public class AdministradorGUI extends JFrame {
 	private JTable tbOrdenHistorial;
 	private JButton btnAgregarPlato;
 	private JPanel panel_5;
-	private JLabel lblNewLabel_1;
-	private JButton btnListar_1;
-	private JButton btnAgregarPlato_1;
 	private JButton btnActualizarPedido;
 	private JButton btnVerDetalleOrden;
 	private JButton btnActualizarOrden;
@@ -357,22 +354,6 @@ public class AdministradorGUI extends JFrame {
 			panel_5.setLayout(null);
 			panel_5.setBounds(420, 237, 325, 112);
 			contentPane.add(panel_5);
-			{
-				lblNewLabel_1 = new JLabel("Gestion de Inventario / Stock");
-				lblNewLabel_1.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 18));
-				lblNewLabel_1.setBounds(31, 13, 255, 24);
-				panel_5.add(lblNewLabel_1);
-			}
-			{
-				btnListar_1 = new JButton("Listar Inventario");
-				btnListar_1.setBounds(29, 51, 119, 35);
-				panel_5.add(btnListar_1);
-			}
-			{
-				btnAgregarPlato_1 = new JButton("Agregar Plato");
-				btnAgregarPlato_1.setBounds(177, 52, 119, 35);
-				panel_5.add(btnAgregarPlato_1);
-			}
 		}
 	}
 }

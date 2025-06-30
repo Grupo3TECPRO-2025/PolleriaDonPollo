@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import Arraylist.ConexionSQL;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -37,7 +39,7 @@ public class InicioGUI extends JFrame implements ActionListener {
     
     
     public InicioGUI() {
-    	getConexion();
+    	ConexionSQL.getConexion();
     	
         setTitle("Don Pollo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -196,25 +198,7 @@ public class InicioGUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	}
 	
-	public static Connection getConexion() {
-		Connection cnx = null;
-		try {
-			
-			Class.forName("com.mysql.cj.jdbc.Driver");
-
-			
-			System.out.println("Driver Correcto");
-
-			cnx = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/PolleriaDonPolloDB", "root", "mysql"
-					);
-
-			System.out.println("Conexion correcta");
-		}catch (Exception e) {
-			System.out.println("Error: "+e);
-		}
-		
-		return cnx;
-		
-	}
+	
+	
+	
 }
