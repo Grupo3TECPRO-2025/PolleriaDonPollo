@@ -22,8 +22,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class RegistrosGUI extends JFrame {
+public class RegistrosGUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -68,6 +70,7 @@ public class RegistrosGUI extends JFrame {
 	private JButton btnVerDetalleOrden;
 	private JButton btnActualizarOrden;
 	private JButton btnAgregarMateriaPrima;
+	private JButton btnVolver;
 
 	/**
 	 * Launch the application.
@@ -189,8 +192,8 @@ public class RegistrosGUI extends JFrame {
 		}
 		{
 			lblAdministradorPolleria = new JLabel("REGISTROS - POLLERIA DON POLLO");
-			lblAdministradorPolleria.setHorizontalAlignment(SwingConstants.CENTER);
-			lblAdministradorPolleria.setBounds(15, 21, 753, 50);
+			lblAdministradorPolleria.setHorizontalAlignment(SwingConstants.RIGHT);
+			lblAdministradorPolleria.setBounds(134, 22, 612, 50);
 			contentPane.add(lblAdministradorPolleria);
 			lblAdministradorPolleria.setForeground(Color.BLACK);
 			lblAdministradorPolleria.setFont(new Font("Segoe UI Black", Font.PLAIN, 34));
@@ -353,5 +356,22 @@ public class RegistrosGUI extends JFrame {
 				panel_4.add(btnActualizarOrden);
 			}
 		}
+		{
+			btnVolver = new JButton("Volver");
+			btnVolver.addActionListener(this);
+			btnVolver.setBounds(36, 27, 101, 38);
+			contentPane.add(btnVolver);
+		}
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnVolver) {
+			do_btnVolver_actionPerformed(e);
+		}
+	}
+	protected void do_btnVolver_actionPerformed(ActionEvent e) {
+		this.dispose();
+		AdministradorGUI volver = new AdministradorGUI(null);
+		volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		volver.setVisible(true);
 	}
 }

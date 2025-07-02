@@ -62,6 +62,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 	private JTextField textField_2;
 	private JLabel lblNewLabel_6;
 	private JTextField txtDireccion;
+	private JButton btnVolver;
 
 	/**
 	 * Launch the application.
@@ -92,10 +93,11 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 		{
 			lblNewLabel = new JLabel("PROVEEDOR - POLLERIA DON POLLO");
+			lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblNewLabel.setForeground(Color.BLACK);
-			lblNewLabel.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+			lblNewLabel.setFont(new Font("Segoe UI Black", Font.PLAIN, 31));
 			lblNewLabel.setBackground(Color.BLACK);
-			lblNewLabel.setBounds(39, 2, 654, 50);
+			lblNewLabel.setBounds(121, 7, 590, 50);
 			contentPane.add(lblNewLabel);
 		}
 		{
@@ -103,7 +105,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 			panel_1.setLayout(null);
 			panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Buscar Empresa", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			panel_1.setBackground(new Color(255, 250, 250));
-			panel_1.setBounds(22, 59, 264, 120);
+			panel_1.setBounds(22, 68, 264, 120);
 			contentPane.add(panel_1);
 			{
 				lblNewLabel_2_1_3 = new JLabel("Ingresar empresa nombre:");
@@ -127,7 +129,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 			panel_2.setLayout(null);
 			panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			panel_2.setBackground(new Color(255, 250, 250));
-			panel_2.setBounds(22, 190, 689, 269);
+			panel_2.setBounds(22, 199, 689, 269);
 			contentPane.add(panel_2);
 			{
 				lblNewLabel_3 = new JLabel("Cantidad");
@@ -208,7 +210,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 			panel_3.setLayout(null);
 			panel_3.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"HISTORIAL DE ORDENES", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			panel_3.setBackground(new Color(255, 250, 250));
-			panel_3.setBounds(22, 473, 688, 240);
+			panel_3.setBounds(22, 479, 688, 240);
 			contentPane.add(panel_3);
 			{
 				scrollPane_2 = new JScrollPane();
@@ -263,7 +265,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 			panel.setLayout(null);
 			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Datos Empresa", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			panel.setBackground(new Color(255, 250, 250));
-			panel.setBounds(304, 59, 407, 120);
+			panel.setBounds(304, 68, 407, 120);
 			contentPane.add(panel);
 			{
 				lblNewLabel_2_1 = new JLabel("RUC:");
@@ -310,12 +312,27 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 				panel.add(txtDireccion);
 			}
 		}
+		{
+			btnVolver = new JButton("Volver");
+			btnVolver.addActionListener(this);
+			btnVolver.setBounds(22, 11, 103, 38);
+			contentPane.add(btnVolver);
+		}
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnVolver) {
+			do_btnVolver_actionPerformed(e);
+		}
 		if (e.getSource() == btnAgregar) {
 			do_btnAgregar_actionPerformed(e);
 		}
 	}
 	protected void do_btnAgregar_actionPerformed(ActionEvent e) {
+	}
+	protected void do_btnVolver_actionPerformed(ActionEvent e) {
+		this.dispose();
+		AdministradorGUI volver = new AdministradorGUI(null);
+		volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		volver.setVisible(true);
 	}
 }

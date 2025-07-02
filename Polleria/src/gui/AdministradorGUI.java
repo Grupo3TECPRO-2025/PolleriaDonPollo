@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Gestiones.Usuario;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.security.PrivateKey;
@@ -24,7 +27,9 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 	private JButton btnInicio;
 	private RegistrosGUI ventanaRegistros;
 	private ProveedorGUI ventanaProveedor;
-
+	
+	private RegistrarTrabajadorGUI ventanaRegistrarTrabajador;
+	private Usuario user;
 	
 	
 
@@ -35,7 +40,7 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdministradorGUI frame = new AdministradorGUI();
+					AdministradorGUI frame = new AdministradorGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +52,8 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public AdministradorGUI() {
+	public AdministradorGUI(Usuario user) {
+		this.user = user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 602, 522);
 		contentPane = new JPanel();
@@ -75,6 +81,7 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 		}
 		{
 			btnRegistrarEmpleados = new JButton("Registrar Empleados");
+			btnRegistrarEmpleados.addActionListener(this);
 			btnRegistrarEmpleados.setBounds(210, 280, 168, 42);
 			contentPane.add(btnRegistrarEmpleados);
 		}
@@ -92,6 +99,9 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnRegistrarEmpleados) {
+			do_btnRegistrarEmpleados_actionPerformed(e);
+		}
 		if (e.getSource() == btnRellenarStock) {
 			do_btnRellenarStock_actionPerformed(e);
 		}
@@ -150,5 +160,22 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 	
 	
 	protected void do_btnInicio_actionPerformed(ActionEvent e) {
+		InicioGUI volverInicioGUI = new InicioGUI();
+		volverInicioGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		volverInicioGUI.setVisible(true);
+		
+		this.dispose();
+	}
+	protected void do_btnRegistrarEmpleados_actionPerformed(ActionEvent e) {
+		if (ventanaRegistrarTrabajador != null && ventanaRegistrarTrabajador.isDisplayable()) {
+			ventanaRegistrarTrabajador.dispose();
+        }
+    	
+
+		ventanaRegistrarTrabajador = null;  
+		ventanaRegistrarTrabajador = new RegistrarTrabajadorGUI();
+		ventanaRegistrarTrabajador.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventanaRegistrarTrabajador.setVisible(true);
+		dispose();	
 	}
 }

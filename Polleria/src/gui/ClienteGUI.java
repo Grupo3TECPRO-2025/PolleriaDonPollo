@@ -101,7 +101,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		lblNewLabel.setBackground(new Color(0, 0, 0));
 		lblNewLabel.setForeground(Color.BLACK);
 		lblNewLabel.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
-		lblNewLabel.setBounds(94, 18, 408, 50);
+		lblNewLabel.setBounds(137, 18, 408, 50);
 		contentPane.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
@@ -317,9 +317,18 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 				JLabel lblNewLabel_2_2 = new JLabel("Dirección:");
 				lblNewLabel_2_2.setBounds(18, 84, 138, 25);
 				panel_2.add(lblNewLabel_2_2);
+				{
+					btnVolver = new JButton("Volver");
+					btnVolver.addActionListener(this);
+					btnVolver.setBounds(22, 23, 91, 36);
+					contentPane.add(btnVolver);
+				}
 				
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnVolver) {
+			do_btnVolver_actionPerformed(e);
+		}
 		if (e.getSource() == btnRegistrar) {
 			do_btnRegistrar_actionPerformed(e);
 		}
@@ -445,6 +454,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	private JButton btnRegistrar;
 	private JLabel lblNewLabel_1_3;
 	private JButton btnBucar;
+	private JButton btnVolver;
 	
 	protected void do_btnCanjear_actionPerformed(ActionEvent e) {
 		
@@ -584,5 +594,23 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		if(!txtDni.getText().isBlank()) {
 			
 		}
+	}
+	protected void do_btnVolver_actionPerformed(ActionEvent e) {
+		/*if(user.getRol()=="trabajador") {
+			this.dispose();
+			InicioGUI volverInicioGUI = new InicioGUI();
+			volverInicioGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			volverInicioGUI.setVisible(true);
+				
+		}else {
+			this.dispose();
+			AdministradorGUI volver = new AdministradorGUI(user);
+			volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			volver.setVisible(true);
+		}*/
+		this.dispose();
+		AdministradorGUI volver = new AdministradorGUI(user);
+		volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		volver.setVisible(true);
 	}
 }

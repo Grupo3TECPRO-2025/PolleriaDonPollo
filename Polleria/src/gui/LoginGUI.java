@@ -192,11 +192,15 @@ public class LoginGUI extends JDialog implements ActionListener {
         		ventanaAdministrador.dispose();
             }
         	
+        	this.dispose();
+        	inicio.dispose();
+        	JOptionPane.showMessageDialog(this, "Se ingresó correctamente");
 
         	ventanaAdministrador = null;  
-        	ventanaAdministrador = new AdministradorGUI();
+        	ventanaAdministrador = new AdministradorGUI(null); // <-- SE DEBE CAMBIAR
         	ventanaAdministrador.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         	ventanaAdministrador.setVisible(true);
+        	
 		}
 		
 
