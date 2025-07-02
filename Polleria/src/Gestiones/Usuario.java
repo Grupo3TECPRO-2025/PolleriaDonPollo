@@ -4,13 +4,12 @@ import DatosPersonales.Persona;
 
 public class Usuario {
 	private String user, contraseña,rol;
-	private Persona persona;
+
 	
-	public Usuario(String user, String contraseña, String rol, Persona persona) {
+	public Usuario(String user, String contraseña, String rol) {
 		this.user = user;
 		this.contraseña = contraseña;
 		this.rol = rol;
-		this.persona = persona;
 	}
 
 	public String getUser() {
@@ -37,18 +36,6 @@ public class Usuario {
 		this.rol = rol;
 	}
 
-	public Persona getPersona() {
-		return persona;
-	}
-
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
-	
-	
-	
-
-	
 	
 	
 }

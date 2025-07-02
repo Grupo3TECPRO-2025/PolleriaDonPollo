@@ -1,19 +1,36 @@
 package DatosPersonales;
 
+import Gestiones.Usuario;
+
 public class Administrador extends Persona{
-	String sucursalKey;
+	String direccion;
+	Usuario user;
+	
 
-	public Administrador(int telefono, String nombreCompleto, String DNI, String direccion, String sucursalKey) {
-		super(telefono, nombreCompleto, DNI, direccion);
-		this.sucursalKey = sucursalKey;
+	public Administrador(int telefono, String nombreCompleto, String DNI, String direccion, Usuario user) {
+		super(telefono, nombreCompleto, DNI);
+		this.user = user;
+		this.direccion = direccion;
 	}
 
-	public String getSucursalKey() {
-		return sucursalKey;
+
+	public String getDireccion() {
+		return direccion;
 	}
 
-	public void setSucursalKey(String sucursalKey) {
-		this.sucursalKey = sucursalKey;
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+
+	public Usuario getUser() {
+		return user;
+	}
+
+
+	public void setUser(Usuario user) {
+		this.user = user;
 	}
 	
 	

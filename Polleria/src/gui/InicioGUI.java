@@ -32,8 +32,9 @@ public class InicioGUI extends JFrame implements ActionListener {
 
     public LoginGUI ventanaLogin;
     public RegisterGUI ventanaRegister;
-    private AdministradorGUI ventanaAdministrador;
+    private RegistrosGUI ventanaAdministrador;
     private ProveedorGUI ventanaProveedor;
+    private ClienteGUI ventanaCliente;
 
     
     
@@ -95,16 +96,16 @@ public class InicioGUI extends JFrame implements ActionListener {
         gbcTitulo.insets = new Insets(20, 20, 20, 20);
         getContentPane().add(lblTitulo, gbcTitulo);
 
-        JButton btnCliente = new JButton("Cliente");
-        btnCliente.setFont(btnFont);
-        btnCliente.setPreferredSize(btnSize);
-        btnCliente.setBackground(btnColor);
+        JButton btnTrabajador = new JButton("Trabajador");
+        btnTrabajador.setFont(btnFont);
+        btnTrabajador.setPreferredSize(btnSize);
+        btnTrabajador.setBackground(btnColor);
         
-        GridBagConstraints gbcCliente = new GridBagConstraints();
-        gbcCliente.gridx = 0;
-        gbcCliente.gridy = 1;
-        gbcCliente.insets = new Insets(20, 20, 20, 20);
-        getContentPane().add(btnCliente, gbcCliente);
+        GridBagConstraints gbc_btnTrabajador = new GridBagConstraints();
+        gbc_btnTrabajador.gridx = 0;
+        gbc_btnTrabajador.gridy = 1;
+        gbc_btnTrabajador.insets = new Insets(20, 20, 20, 20);
+        getContentPane().add(btnTrabajador, gbc_btnTrabajador);
 
         JButton btnAdministrador = new JButton("Administrador");
         btnAdministrador.setFont(btnFont);
@@ -116,17 +117,6 @@ public class InicioGUI extends JFrame implements ActionListener {
         gbcAdmin.gridy = 2;
         gbcAdmin.insets = new Insets(20, 20, 20, 20);
         getContentPane().add(btnAdministrador, gbcAdmin);
-
-        JButton btnProveedor = new JButton("Proveedor");
-        btnProveedor.setFont(btnFont);
-        btnProveedor.setPreferredSize(btnSize);
-        btnProveedor.setBackground(btnColor);
-        
-        GridBagConstraints gbcProveedor = new GridBagConstraints();
-        gbcProveedor.gridx = 0;
-        gbcProveedor.gridy = 3;
-        gbcProveedor.insets = new Insets(20, 20, 20, 20);
-        getContentPane().add(btnProveedor, gbcProveedor);
         
         JLayeredPane layeredPane = new JLayeredPane();
         GridBagConstraints gbc_layeredPane = new GridBagConstraints();
@@ -135,19 +125,18 @@ public class InicioGUI extends JFrame implements ActionListener {
         gbc_layeredPane.gridy = 4;
         panel.add(layeredPane, gbc_layeredPane);
 
-        btnCliente.addActionListener(e -> {
-        	if (ventanaLogin != null && ventanaLogin.isDisplayable() && ventanaRegister != null && ventanaRegister.isDisplayable()) {
-                ventanaLogin.dispose();
-                ventanaRegister.dispose();
+        btnTrabajador.addActionListener(e -> {
+        	if (ventanaLogin!= null && ventanaLogin.isDisplayable()) {
+                ventanaCliente.dispose();
             }
 
             ventanaLogin = null;  
-            ventanaLogin = new LoginGUI("cliente",this);
+            ventanaLogin = new LoginGUI("trabajador",this);
         	ventanaLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         	ventanaLogin.setVisible(true);
         	
         	ventanaRegister	= null;  
-        	ventanaRegister = new RegisterGUI("cliente",this);
+        	ventanaRegister = new RegisterGUI("trabajador",this);
         	ventanaRegister.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         	ventanaRegister.setVisible(false);
         });
@@ -167,23 +156,6 @@ public class InicioGUI extends JFrame implements ActionListener {
         	
         	ventanaRegister	= null;  
         	ventanaRegister = new RegisterGUI("administrador",this);
-        	ventanaRegister.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        	ventanaRegister.setVisible(false);
-        });
-
-        btnProveedor.addActionListener(e -> {
-        	if (ventanaLogin != null && ventanaLogin.isDisplayable() && ventanaRegister != null && ventanaRegister.isDisplayable()) {
-                ventanaLogin.dispose();
-                ventanaRegister.dispose();
-            }
-
-            ventanaLogin = null;  
-        	ventanaLogin = new LoginGUI("proveedor",this);
-        	ventanaLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        	ventanaLogin.setVisible(true);
-        	
-        	ventanaRegister	= null;  
-        	ventanaRegister = new RegisterGUI("proveedor",this);
         	ventanaRegister.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         	ventanaRegister.setVisible(false);
         });

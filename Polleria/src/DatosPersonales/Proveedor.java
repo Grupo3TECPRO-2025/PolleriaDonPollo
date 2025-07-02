@@ -1,31 +1,59 @@
 package DatosPersonales;
 
-public class Proveedor extends Persona{
-	String RUC, nombreEmpresa;
+public class Proveedor {
+	String RUC, nombreEmpresa, direccion;
+	int telefono;
 
-	public Proveedor(int telefono, String nombreCompleto, String DNI, String direccion, String rUC,
-			String nombreEmpresa) {
-		super(telefono, nombreCompleto, DNI, direccion);
-		RUC = rUC;
+
+	public Proveedor(String RUC, String nombreEmpresa, String direccion, int telefono) {
+		super();
+		this.RUC = RUC;
 		this.nombreEmpresa = nombreEmpresa;
+		this.direccion = direccion;
+		this.telefono = telefono;
 	}
+
 
 	public String getRUC() {
 		return RUC;
 	}
 
+
 	public void setRUC(String rUC) {
 		RUC = rUC;
 	}
+
 
 	public String getNombreEmpresa() {
 		return nombreEmpresa;
 	}
 
+
 	public void setNombreEmpresa(String nombreEmpresa) {
 		this.nombreEmpresa = nombreEmpresa;
 	}
-	
+
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+
+	public int getTelefono() {
+		return telefono;
+	}
+
+
+	public void setTelefono(int telefono) {
+		this.telefono = telefono;
+	}
+
+
 	
 	
 }

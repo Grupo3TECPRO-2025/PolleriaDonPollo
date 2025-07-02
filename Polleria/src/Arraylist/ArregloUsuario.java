@@ -5,8 +5,11 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import DatosPersonales.Cliente;
 import DatosPersonales.Persona;
+import DatosPersonales.Proveedor;
 import Gestiones.Usuario;
+import gui.ClienteGUI;
 
 public class ArregloUsuario {
 	static public Usuario VerificarLogin(String usuario, String contraseña){
@@ -22,22 +25,10 @@ public class ArregloUsuario {
 	        ResultSet rs = csta.executeQuery();
 
 	        if (rs.next()) {
-	            String nombre = rs.getString("NombreApellido");
-	            String direccion = rs.getString("Direccion");
-	            int telefono = rs.getInt("Telefono");
-	            String dni = rs.getString("DNI"); // puede ser null
+
 	            String rol = rs.getString("Rol");
 
-	            Persona persona;
-
-	            // 👇 Si DNI es null, usar constructor de 3 parámetros
-	            if (dni == null || dni.trim().isEmpty()) {
-	                persona = new Persona(telefono, nombre, direccion);
-	            } else {
-	                persona = new Persona(telefono, nombre, dni, direccion);
-	            }
-
-	            usuariologeado = new Usuario(usuario, contraseña, rol, persona);
+	            usuariologeado = new Usuario(usuario, contraseña, rol);
 	        }
 
 	        rs.close();
@@ -64,23 +55,12 @@ public class ArregloUsuario {
 	        ResultSet rs = csta.executeQuery();
 
 	        if (rs.next()) {
-	            String nombre = rs.getString("NombreApellido");
-	            String direccion = rs.getString("Direccion");
-	            int telefono = rs.getInt("Telefono");
-	            String dni = rs.getString("DNI"); // puede ser null
+
 	            String rol = rs.getString("Rol");
 	            String contraseña = rs.getString("Contraseña");
 
-	            Persona persona;
 
-	            // 👇 Si DNI es null, usar constructor de 3 parámetros
-	            if (dni == null || dni.trim().isEmpty()) {
-	                persona = new Persona(telefono, nombre, direccion);
-	            } else {
-	                persona = new Persona(telefono, nombre, dni, direccion);
-	            }
-
-	            usuariologeado = new Usuario(usuario, contraseña, rol, persona);
+	            usuariologeado = new Usuario(usuario, contraseña, rol);
 	        }
 
 	        rs.close();
@@ -94,45 +74,19 @@ public class ArregloUsuario {
 		return usuariologeado;
 	}
 	
-	static public boolean VerificarSucursalKey(String llave) {
-		boolean existe = false;
 
-		try {
-		    CallableStatement csta = ConexionSQL.getConexion()
-		            .prepareCall("{CALL VerificarSucursalKey(?)}");
-
-		    csta.setString(1, llave);
-
-		    ResultSet rs = csta.executeQuery();
-
-		    // Si hay al menos un resultado, existe
-		    if (rs.next()) {
-		         existe = true;
-		    }
-
-		      rs.close();
-		      csta.close();
-
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-
-		    return existe;
-	}
 		
-	public static boolean RegistrarCliente(Usuario usuario) {
+	public static boolean RegistrarCliente(Cliente cli) {
 	    try {
-	        Persona p = usuario.getPersona();
+	        
 
 	        CallableStatement csta = ConexionSQL.getConexion()
-	            .prepareCall("{CALL RegistrarCliente(?, ?, ?, ?, ?, ?)}");
+	            .prepareCall("{CALL RegistrarCliente(?, ?, ?, ?)}");
 
-	        csta.setString(1, usuario.getUser());
-	        csta.setString(2, usuario.getContraseña());
-	        csta.setString(3, p.getNombreCompleto());
-	        csta.setString(4, p.getDNI());
-	        csta.setString(5, p.getDireccion());
-	        csta.setString(6, String.valueOf(p.getTelefono()));
+	        csta.setString(3, cli.getNombreCompleto());
+	        csta.setString(4, cli.getDNI());
+	        csta.setString(5, cli.getDireccion());
+	        csta.setString(6, String.valueOf(cli.getTelefono()));
 
 	        csta.execute();
 	        csta.close();
@@ -144,7 +98,7 @@ public class ArregloUsuario {
 	    }
 	}
 
-		
+	/*	
 	public static boolean RegistrarAdministrador(Usuario admin, String sucursalKey) {
 	    try {
 	        Persona p = admin.getPersona();
@@ -170,22 +124,21 @@ public class ArregloUsuario {
 	    }
 	}
 
+	 */
 		
 	public static boolean RegistrarProveedor(Usuario proveedor, String ruc, String empresa) {
-	    try {
-	        Persona p = proveedor.getPersona();
+	    Proveedor pro = null;
+		try {
+	    
 
 	        CallableStatement csta = ConexionSQL.getConexion()
 	            .prepareCall("{CALL RegistrarProveedor(?, ?, ?, ?, ?, ?, ?, ?)}");
 
-	        csta.setString(1, proveedor.getUser());
-	        csta.setString(2, proveedor.getContraseña());
-	        csta.setString(3, p.getNombreCompleto());
-	        csta.setString(4, p.getDNI());
-	        csta.setString(5, p.getDireccion());
-	        csta.setString(6, String.valueOf(p.getTelefono()));
-	        csta.setString(7, ruc);
-	        csta.setString(8, empresa);
+	   
+	        csta.setString(3, pro.getNombreEmpresa());
+	        csta.setString(4, pro.getRUC());
+	        csta.setString(5, String.valueOf(pro.getTelefono()));
+	        csta.setString(7, pro.getDireccion());
 
 	        csta.execute();
 	        csta.close();

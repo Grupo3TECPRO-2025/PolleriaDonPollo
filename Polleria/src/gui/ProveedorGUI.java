@@ -20,37 +20,25 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class ProveedorGUI extends JFrame {
+public class ProveedorGUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblNewLabel;
-	private JPanel panel;
-	private JLabel lblNewLabel_1_1;
-	private JLabel lblNewLabel_2;
-	private JLabel lblNewLabel_2_1;
-	private JLabel lblNewLabel_2_1_1;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
 	private JScrollPane scrollPane;
 	private JLabel lblNewLabel_7;
 	private JButton btnEnviar;
 	private JScrollPane scrollPane_1;
 	private JPanel panel_1;
-	private JLabel lblNewLabel_8;
 	private JLabel lblNewLabel_2_1_3;
-	private JTextField textField_9;
-	private JTextField textField_12;
 	private JPanel panel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_2_1_2;
-	private JTextField textField_5;
-	private JComboBox comboBox;
-	private JLabel lblNewLabel_4;
-	private JTextField textField_4;
+	private JTextField txtCant;
+	private JComboBox cbxMateriaPrima;
 	private JTable tbOrden;
 	private JLabel lblNewLabel_5;
 	private JButton btnAgregar;
@@ -59,12 +47,21 @@ public class ProveedorGUI extends JFrame {
 	private JScrollPane scrollPane_2;
 	private JTable tbOrdenHistorial;
 	private JComboBox cbxOrdenH;
-	private JTextField textField_6;
+	private JTextField txtFiltrar;
 	private JButton btnActualizarOrden;
 	private JButton btnVerDetalleOrden;
 	private JLabel lblNewLabel_1;
-	private JTextField textField_7;
+	private JTextField txtBuscar;
+	private JComboBox cbxBuscar;
+	private JPanel panel;
+	private JLabel lblNewLabel_2_1;
+	private JTextField txtRUC;
+	private JTextField txtEmpresa;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_4;
+	private JTextField textField_2;
 	private JLabel lblNewLabel_6;
+	private JTextField txtDireccion;
 
 	/**
 	 * Launch the application.
@@ -102,91 +99,27 @@ public class ProveedorGUI extends JFrame {
 			contentPane.add(lblNewLabel);
 		}
 		{
-			panel = new JPanel();
-			panel.setLayout(null);
-			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Datos Personales", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
-			panel.setBackground(new Color(255, 250, 250));
-			panel.setBounds(22, 59, 389, 120);
-			contentPane.add(panel);
-			{
-				lblNewLabel_1_1 = new JLabel("Nombre:");
-				lblNewLabel_1_1.setBounds(205, 18, 108, 22);
-				panel.add(lblNewLabel_1_1);
-			}
-			{
-				lblNewLabel_2 = new JLabel("Dirección:");
-				lblNewLabel_2.setBounds(24, 62, 108, 20);
-				panel.add(lblNewLabel_2);
-			}
-			{
-				lblNewLabel_2_1 = new JLabel("Teléfono:");
-				lblNewLabel_2_1.setBounds(205, 62, 138, 20);
-				panel.add(lblNewLabel_2_1);
-			}
-			{
-				lblNewLabel_2_1_1 = new JLabel("DNI:");
-				lblNewLabel_2_1_1.setBounds(24, 22, 138, 14);
-				panel.add(lblNewLabel_2_1_1);
-			}
-			{
-				textField = new JTextField();
-				textField.setEditable(false);
-				textField.setBounds(24, 42, 108, 20);
-				panel.add(textField);
-				textField.setColumns(10);
-			}
-			{
-				textField_1 = new JTextField();
-				textField_1.setEditable(false);
-				textField_1.setBounds(205, 42, 152, 20);
-				panel.add(textField_1);
-				textField_1.setColumns(10);
-			}
-			{
-				textField_3 = new JTextField();
-				textField_3.setEditable(false);
-				textField_3.setColumns(10);
-				textField_3.setBounds(205, 85, 152, 20);
-				panel.add(textField_3);
-			}
-			{
-				textField_2 = new JTextField();
-				textField_2.setEditable(false);
-				textField_2.setBounds(24, 85, 152, 20);
-				panel.add(textField_2);
-				textField_2.setColumns(10);
-			}
-		}
-		{
 			panel_1 = new JPanel();
 			panel_1.setLayout(null);
-			panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Empresa Datos", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+			panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Buscar Empresa", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			panel_1.setBackground(new Color(255, 250, 250));
-			panel_1.setBounds(433, 59, 286, 120);
+			panel_1.setBounds(22, 59, 264, 120);
 			contentPane.add(panel_1);
 			{
-				lblNewLabel_8 = new JLabel("Empresa Nombre");
-				lblNewLabel_8.setBounds(24, 61, 108, 20);
-				panel_1.add(lblNewLabel_8);
-			}
-			{
-				lblNewLabel_2_1_3 = new JLabel("RUC:");
-				lblNewLabel_2_1_3.setBounds(24, 21, 138, 14);
+				lblNewLabel_2_1_3 = new JLabel("Ingresar empresa nombre:");
+				lblNewLabel_2_1_3.setBounds(24, 21, 187, 14);
 				panel_1.add(lblNewLabel_2_1_3);
 			}
 			{
-				textField_9 = new JTextField();
-				textField_9.setEditable(false);
-				textField_9.setColumns(10);
-				textField_9.setBounds(24, 41, 108, 20);
-				panel_1.add(textField_9);
+				txtBuscar = new JTextField();
+				txtBuscar.setBounds(24, 46, 187, 20);
+				panel_1.add(txtBuscar);
+				txtBuscar.setColumns(10);
 			}
 			{
-				textField_12 = new JTextField();
-				textField_12.setEditable(false);
-				textField_12.setColumns(10);
-				textField_12.setBounds(24, 84, 152, 20);
-				panel_1.add(textField_12);
+				cbxBuscar = new JComboBox();
+				cbxBuscar.setBounds(24, 77, 187, 22);
+				panel_1.add(cbxBuscar);
 			}
 		}
 		{
@@ -198,7 +131,7 @@ public class ProveedorGUI extends JFrame {
 			contentPane.add(panel_2);
 			{
 				lblNewLabel_3 = new JLabel("Cantidad");
-				lblNewLabel_3.setBounds(22, 133, 108, 20);
+				lblNewLabel_3.setBounds(22, 93, 108, 20);
 				panel_2.add(lblNewLabel_3);
 			}
 			{
@@ -207,32 +140,20 @@ public class ProveedorGUI extends JFrame {
 				panel_2.add(lblNewLabel_2_1_2);
 			}
 			{
-				textField_5 = new JTextField();
-				textField_5.setEditable(false);
-				textField_5.setColumns(10);
-				textField_5.setBounds(22, 152, 75, 20);
-				panel_2.add(textField_5);
+				txtCant = new JTextField();
+				txtCant.setEditable(false);
+				txtCant.setColumns(10);
+				txtCant.setBounds(22, 112, 75, 20);
+				panel_2.add(txtCant);
 			}
 			{
-				comboBox = new JComboBox();
-				comboBox.setBounds(21, 50, 103, 20);
-				panel_2.add(comboBox);
-			}
-			{
-				lblNewLabel_4 = new JLabel("Precio / U");
-				lblNewLabel_4.setBounds(22, 82, 108, 20);
-				panel_2.add(lblNewLabel_4);
-			}
-			{
-				textField_4 = new JTextField();
-				textField_4.setEditable(false);
-				textField_4.setColumns(10);
-				textField_4.setBounds(22, 102, 75, 20);
-				panel_2.add(textField_4);
+				cbxMateriaPrima = new JComboBox();
+				cbxMateriaPrima.setBounds(21, 50, 103, 20);
+				panel_2.add(cbxMateriaPrima);
 			}
 			{
 				scrollPane = new JScrollPane();
-				scrollPane.setBounds(156, 52, 349, 159);
+				scrollPane.setBounds(156, 52, 349, 192);
 				panel_2.add(scrollPane);
 				{
 					tbOrden = new JTable();
@@ -240,15 +161,12 @@ public class ProveedorGUI extends JFrame {
 						new Object[][] {
 						},
 						new String[] {
-							"N\u00B0", "Producto", "Precio/u", "Cant", "SubTo."
+							"N\u00B0", "Producto", "Cantidad"
 						}
 					));
-					scrollPane.setViewportView(tbOrden);
-					tbOrden.getColumnModel().getColumn(0).setPreferredWidth(10);
+					tbOrden.getColumnModel().getColumn(0).setPreferredWidth(15);
 					tbOrden.getColumnModel().getColumn(1).setPreferredWidth(80);
-					tbOrden.getColumnModel().getColumn(2).setPreferredWidth(60);
-					tbOrden.getColumnModel().getColumn(3).setPreferredWidth(30);
-					tbOrden.getColumnModel().getColumn(4).setPreferredWidth(60);
+					scrollPane.setViewportView(tbOrden);
 				}
 			}
 			{
@@ -260,7 +178,8 @@ public class ProveedorGUI extends JFrame {
 			}
 			{
 				btnAgregar = new JButton("Agregar");
-				btnAgregar.setBounds(22, 195, 89, 30);
+				btnAgregar.addActionListener(this);
+				btnAgregar.setBounds(22, 157, 89, 30);
 				panel_2.add(btnAgregar);
 			}
 			{
@@ -282,17 +201,6 @@ public class ProveedorGUI extends JFrame {
 				btnEnviar = new JButton("Enviar");
 				btnEnviar.setBounds(533, 209, 108, 35);
 				panel_2.add(btnEnviar);
-			}
-			{
-				textField_7 = new JTextField();
-				textField_7.setBounds(397, 209, 108, 35);
-				panel_2.add(textField_7);
-				textField_7.setColumns(10);
-			}
-			{
-				lblNewLabel_6 = new JLabel("Precio Total");
-				lblNewLabel_6.setBounds(321, 215, 75, 25);
-				panel_2.add(lblNewLabel_6);
 			}
 		}
 		{
@@ -329,10 +237,10 @@ public class ProveedorGUI extends JFrame {
 				panel_3.add(cbxOrdenH);
 			}
 			{
-				textField_6 = new JTextField();
-				textField_6.setColumns(10);
-				textField_6.setBounds(479, 95, 125, 20);
-				panel_3.add(textField_6);
+				txtFiltrar = new JTextField();
+				txtFiltrar.setColumns(10);
+				txtFiltrar.setBounds(479, 95, 125, 20);
+				panel_3.add(txtFiltrar);
 			}
 			{
 				btnActualizarOrden = new JButton("Actualizar Datos");
@@ -345,10 +253,69 @@ public class ProveedorGUI extends JFrame {
 				panel_3.add(btnVerDetalleOrden);
 			}
 			{
-				lblNewLabel_1 = new JLabel("Elige una opcion para filtrar ");
+				lblNewLabel_1 = new JLabel("Elige una opción para filtrar ");
 				lblNewLabel_1.setBounds(475, 35, 164, 15);
 				panel_3.add(lblNewLabel_1);
 			}
 		}
+		{
+			panel = new JPanel();
+			panel.setLayout(null);
+			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Datos Empresa", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+			panel.setBackground(new Color(255, 250, 250));
+			panel.setBounds(304, 59, 407, 120);
+			contentPane.add(panel);
+			{
+				lblNewLabel_2_1 = new JLabel("RUC:");
+				lblNewLabel_2_1.setBounds(24, 21, 114, 14);
+				panel.add(lblNewLabel_2_1);
+			}
+			{
+				txtRUC = new JTextField();
+				txtRUC.setColumns(10);
+				txtRUC.setBounds(23, 40, 128, 20);
+				panel.add(txtRUC);
+			}
+			{
+				txtEmpresa = new JTextField();
+				txtEmpresa.setColumns(10);
+				txtEmpresa.setBounds(23, 87, 128, 20);
+				panel.add(txtEmpresa);
+			}
+			{
+				lblNewLabel_2 = new JLabel("Nombre Empresa");
+				lblNewLabel_2.setBounds(23, 68, 115, 14);
+				panel.add(lblNewLabel_2);
+			}
+			{
+				lblNewLabel_4 = new JLabel("Teléfono");
+				lblNewLabel_4.setBounds(176, 21, 115, 14);
+				panel.add(lblNewLabel_4);
+			}
+			{
+				textField_2 = new JTextField();
+				textField_2.setColumns(10);
+				textField_2.setBounds(176, 40, 128, 20);
+				panel.add(textField_2);
+			}
+			{
+				lblNewLabel_6 = new JLabel("Dirección");
+				lblNewLabel_6.setBounds(176, 68, 115, 14);
+				panel.add(lblNewLabel_6);
+			}
+			{
+				txtDireccion = new JTextField();
+				txtDireccion.setColumns(10);
+				txtDireccion.setBounds(176, 87, 128, 20);
+				panel.add(txtDireccion);
+			}
+		}
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnAgregar) {
+			do_btnAgregar_actionPerformed(e);
+		}
+	}
+	protected void do_btnAgregar_actionPerformed(ActionEvent e) {
 	}
 }

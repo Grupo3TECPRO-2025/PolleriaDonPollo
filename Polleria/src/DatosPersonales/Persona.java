@@ -2,18 +2,16 @@ package DatosPersonales;
 
 public class Persona {
 	private int  telefono;
-    private String NombreCompleto,DNI,Direccion;
-	public Persona(int telefono, String nombreCompleto, String DNI, String direccion) {
+    private String NombreCompleto,DNI;
+	public Persona(int telefono, String nombreCompleto, String DNI) {
 		this.telefono = telefono;
 		NombreCompleto = nombreCompleto;
 		this.DNI = DNI;
-		Direccion = direccion;
 	}
 	
-	public Persona(int telefono, String nombreCompleto, String direccion) {
+	public Persona(int telefono, String nombreCompleto) {
 		this.telefono = telefono;
 		NombreCompleto = nombreCompleto;
-		Direccion = direccion;
 	}
 	
 	public int getTelefono() {
@@ -36,13 +34,7 @@ public class Persona {
 		return DNI;
 	}
 
-	public String getDireccion() {
-		return Direccion;
-	}
 
-	public void setDireccion(String direccion) {
-		Direccion = direccion;
-	}
 	
     
 }

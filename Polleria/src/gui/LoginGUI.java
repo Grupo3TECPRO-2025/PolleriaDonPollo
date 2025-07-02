@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Arraylist.ArregloUsuario;
+import DatosPersonales.Trabajador;
 import Gestiones.Usuario;
 
 import javax.swing.JLabel;
@@ -31,10 +32,6 @@ public class LoginGUI extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblNewLabel;
-	private JMenuBar MenuBarra;
-	private JMenu Menu;
-	private JMenuItem itemLogin;
-	private JMenuItem itemRegistrar;
 	private JPanel panel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
@@ -141,29 +138,6 @@ public class LoginGUI extends JDialog implements ActionListener {
 			panel.add(btnIngresar);
 		}
 		contentPanel.setLayout(gl_contentPanel);
-		{
-			MenuBarra = new JMenuBar();
-			setJMenuBar(MenuBarra);
-			{
-				Menu = new JMenu("Sistema Menu");
-				MenuBarra.add(Menu);
-				{
-					itemLogin = new JMenuItem("Login");
-					Menu.add(itemLogin);
-				}
-				{
-					itemRegistrar = new JMenuItem("Registrar");
-					Menu.add(itemRegistrar);
-					itemRegistrar.addActionListener(e -> {
-					    setVisible(false);
-					    inicio.ventanaRegister.setVisible(true);
-					}
-					    
-					    
-					);
-				}
-			}
-		}
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnIngresar) {
@@ -174,7 +148,7 @@ public class LoginGUI extends JDialog implements ActionListener {
 		
 		
 		
-		if(rol.equals("cliente")) {
+		if(rol.equals("trabajador")) {
 
 			try {
 				String user = txtUsuario.getText();
@@ -184,7 +158,7 @@ public class LoginGUI extends JDialog implements ActionListener {
 				Usuario u = ArregloUsuario.VerificarLogin(user, password);
 
 				if (u != null) {
-				    System.out.println("Login exitoso: " + u.getPersona().getNombreCompleto());
+				    System.out.println("Login exitoso: " + u.getUser());
 				    System.out.println("Rol: " + u.getRol());
 				    
 				    JOptionPane.showMessageDialog(this, "Se ingresó correctamente");
@@ -225,17 +199,6 @@ public class LoginGUI extends JDialog implements ActionListener {
         	ventanaAdministrador.setVisible(true);
 		}
 		
-		else if(rol.equals("proveedor")) {
 
-        	if (ventanaProveedor != null && ventanaProveedor.isDisplayable()) {
-        		ventanaProveedor.dispose();
-            }
-        	
-
-        	ventanaProveedor = null;  
-        	ventanaProveedor = new ProveedorGUI();
-        	ventanaProveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        	ventanaProveedor.setVisible(true);
-		}
 	}
 }

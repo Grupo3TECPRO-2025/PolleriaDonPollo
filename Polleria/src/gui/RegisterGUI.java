@@ -371,18 +371,10 @@ public class RegisterGUI extends JDialog implements ActionListener {
 					if(DNI.isBlank())nuevaPersona = new Cliente(telefono, nombreCompleto, direccion);
 					else nuevaPersona = new Cliente(telefono, nombreCompleto, DNI, direccion);
 					
-					nuevoUsuario = new Usuario(usuario, contraseña, "cliente", nuevaPersona);
-					
-					if(ArregloUsuario.RegistrarCliente(nuevoUsuario)) JOptionPane.showMessageDialog(this, "Se registró correctamente");
+				
 					
 				}else if(rol.equals("administrador")) {
-					String claveEmpresa = txtClavePolleria.getText();
-					nuevaPersona = new Administrador(telefono, nombreCompleto, DNI, direccion, claveEmpresa);
-					
-					nuevoUsuario = new Usuario(usuario, contraseña, "cliente", nuevaPersona);
-
-					if(ArregloUsuario.RegistrarAdministrador(nuevoUsuario, claveEmpresa)) JOptionPane.showMessageDialog(this, "Se registró correctamente");
-
+				
 					
 				}else if(rol.equals("proveedor")) {
 					String nombreEmpresa = txtNombreEmpresa.getText();
@@ -390,14 +382,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 					
 					String claveProveedor = txtProveedorClave.getText();
 					
-					if(ArregloUsuario.VerificarSucursalKey(claveProveedor))	{
-						nuevaPersona = new Proveedor(telefono, nombreCompleto, DNI, direccion, RUC, nombreEmpresa);
-					
-						nuevoUsuario = new Usuario(usuario, contraseña, "cliente", nuevaPersona);
-
-						if(ArregloUsuario.RegistrarProveedor(nuevoUsuario, RUC, nombreEmpresa)) JOptionPane.showMessageDialog(this, "Se registró correctamente");
-					}
-					else JOptionPane.showMessageDialog(this, "El código de validación no existe, ingrese uno correcto");
+				
 				
 				
 
