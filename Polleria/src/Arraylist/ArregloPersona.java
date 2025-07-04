@@ -43,5 +43,41 @@ public class ArregloPersona {
 	    
 		return perso;
 	}
+	
+	
+	public static Persona obtenerPersonaPorUsuario(String usuario) {
+        Persona persona = null;
+
+        try {
+            CallableStatement cstmt = ConexionSQL.getConexion()
+                .prepareCall("{CALL ObtenerDatosPersona(?)}");
+
+            cstmt.setString(1, usuario);
+
+            ResultSet rs = cstmt.executeQuery();
+
+            if (rs.next()) {
+                int telefono = rs.getInt("Telefono");
+                String nombre = rs.getString("NombreApellido");
+                String dni = rs.getString("DNI");
+                String direccion = ""; // no está en la tabla actual
+                String rol = rs.getString("Rol");
+
+                if (dni == null || dni.trim().isEmpty()) {
+                    persona = new Persona(telefono, nombre); // sin DNI
+                } else {
+                    persona = new Persona(telefono, nombre, dni); // con DNI
+                }
+            }
+
+            rs.close();
+            cstmt.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return persona;
+    }
 
 }

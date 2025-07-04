@@ -20,11 +20,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import Arraylist.ArregloAdministrador;
+import Arraylist.ArregloCliente;
+import Arraylist.ArregloPedido;
+import Arraylist.ArregloPersona;
+import Arraylist.ArregloTrabajador;
 import Arraylist.Carta;
 import CartaPolleria.CuponeraLista;
 import CartaPolleria.Cupon;
 import CartaPolleria.MenuProducto;
+import DatosPersonales.Administrador;
 import DatosPersonales.Cliente;
+import DatosPersonales.Persona;
+import DatosPersonales.Trabajador;
 import Gestiones.DetallePedido;
 import Gestiones.Pedido;
 import Gestiones.Usuario;
@@ -35,12 +43,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.Toolkit;
+import java.awt.desktop.AboutHandler;
 import java.awt.Label;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.JComboBox;
+import javax.print.attribute.standard.PDLOverrideSupported;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
+import java.nio.file.spi.FileTypeDetector;
 import java.awt.event.ItemEvent;
 import javax.swing.SwingConstants;
 
@@ -64,6 +75,9 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	private JButton btnEliminar;
 	private JButton btnCanjear;
 	private Usuario user;
+	private Trabajador trabajador;
+	private Administrador administrador;
+	
 	
 	/**
 	 * Launch the application.
@@ -323,6 +337,11 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 					btnVolver.setBounds(22, 23, 91, 36);
 					contentPane.add(btnVolver);
 				}
+				{
+					lblNewLabel_5 = new JLabel("Trabajador: "+ArregloPersona.obtenerPersonaPorUsuario(user.getUser()).getNombreCompleto());
+					lblNewLabel_5.setBounds(21, 653, 202, 14);
+					contentPane.add(lblNewLabel_5);
+				}
 				
 	}
 	public void actionPerformed(ActionEvent e) {
@@ -359,8 +378,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	Carta cart = new Carta();
 
 	//VARIABLE TEMPORAL DE PEDIDOS
-	int numped= 0;
-	
+
 	
 	protected void do_btnAgregar_actionPerformed(ActionEvent e) {
 		try {
@@ -370,38 +388,55 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	        int cantidad = Integer.parseInt(txtCant.getText()); 
 	        MenuProducto encontrado = cart.Buscar(idProducto);
 	        String metodoPago = cbxMetodoPago.getSelectedItem().toString();
-	        
+	        String direccion = txtDireccion.getText();
+	      
 	        if(encontrado!=null) {
 
 		        double precioU = encontrado.getPrecioUnitario();
+		    	if(AgregarClienteNuevo()) {
+		    		if(cbxPedido.getSelectedItem().equals("Delivery") && txtDireccion.getText().isBlank()) {
+		    			JOptionPane.showMessageDialog(this, "Si es delivery escribe una direccion");
+		    			return;
+		    		}
+		    		
+		    		
+		    		
+		    		if(ped == null) {
+			        	ped=new Pedido(0,metodoPago,direccion,cbxPedido.getSelectedItem().toString().toLowerCase(),cli);
+				   
+			        }
+			        
+		        	if(ped.Buscar(idProducto)!=null) {
+		        		ped.Buscar(idProducto).setCantidad(cantidad + ped.Buscar(idProducto).getCantidad());
+		        	}else {
+		        		DetallePedido nuevoDetalle = new DetallePedido(encontrado, cantidad);
+					    ped.Adicionar(nuevoDetalle);
+		        	}
+		        	
+		        	
+		        	txtPromocion.setText("");
+		    		txtPedidoID.setText("");
+		    		txtNumPedido.setText("");
+		    		txtCant.setText("");
+				    
+		    		
+		    		txtPromocion.setEditable(true);
+		    		
+		    		Activar();
+		    		
+		    		JOptionPane.showMessageDialog(this, "Pedido agregado correctamente.");	
+			        
+		    		
+			        //MOSTRAR TOTAL AL MOMENTO
+			        if(ped.getProm()!=null) txtCosto.setText("$"+ped.CostoTotal(true));
+			        else txtCosto.setText("$"+ped.CostoTotal());
+			        Listar();
+		    	}
 		        
-		        if(ped == null) {
-		        	ped=new Pedido(numped,metodoPago,cli);
-			        numped++;
-		        }
-		        
-	        	if(ped.Buscar(idProducto)!=null) {
-	        		ped.Buscar(idProducto).setCantidad(cantidad + ped.Buscar(idProducto).getCantidad());
-	        	}else {
-	        		DetallePedido nuevoDetalle = new DetallePedido(encontrado, cantidad);
-				    ped.Adicionar(nuevoDetalle);
-	        	}
-	        	
-	        	txtPromocion.setText("");
-	    		txtPedidoID.setText("");
-	    		txtNumPedido.setText("");
-	    		txtCant.setText("");
-			    
-	    		
-	    		txtPromocion.setEditable(true);
-		        JOptionPane.showMessageDialog(this, "Pedido agregado correctamente.");
 		        
 		        
 		        
-		        //MOSTRAR TOTAL AL MOMENTO
-		        if(ped.getProm()!=null) txtCosto.setText("$"+ped.CostoTotal(true));
-		        else txtCosto.setText("$"+ped.CostoTotal());
-		        Listar();
+		        
 
 	        }else JOptionPane.showMessageDialog(this, "No existe el Producto en la Carta.");
 
@@ -455,6 +490,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	private JLabel lblNewLabel_1_3;
 	private JButton btnBucar;
 	private JButton btnVolver;
+	private JLabel lblNewLabel_5;
 	
 	protected void do_btnCanjear_actionPerformed(ActionEvent e) {
 		
@@ -502,7 +538,6 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		txtPromocion.setEditable(false);
 		txtPedidoID.setEditable(false);
 		txtNumPedido.setEditable(false);
-		txtCant.setEditable(false);
 		txtNombre.setEditable(true);
       	txtDni.setEditable(true);
       	txtTelefono.setEditable(true);
@@ -514,6 +549,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		txtCant.setText("");
 		
 	}
+
 	
 	void Activar() {
 		txtPromocion.setEditable(true);
@@ -542,28 +578,46 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 			Listar();	
 			ped = null;
 			JOptionPane.showMessageDialog(this, "La cuenta ha eliminado");
+			
 		}
 		DesactivarCliente();
       	
 	}
 	protected void do_btnEnviar_actionPerformed(ActionEvent e) {
 		try {
+		
 	      	if(ped.tamaño()>0) {
+	      		if(user.getRol().equals("trabajador")) {
+	      			trabajador= ArregloTrabajador.obtenerTrabajador(user.getUser());
+	      		}
+	      		else if(user.getRol().equals("administrador")) {
+	      			administrador =ArregloAdministrador.obtenerAdministrador(user.getUser());
+	      		}
+	      		
+	      	
+	      		if(cbxPedido.getSelectedItem().equals("Delivery") && txtDireccion.getText().isBlank()) {
+	    			JOptionPane.showMessageDialog(this, "Si es delivery escribe una direccion");
+	    			return;
+	    		}
+	      		
+	      		
+	      		ped.setDireccion(txtDireccion.getText());
 	      		//SACAR CUENTA
 		      	if(ped.getProm()!=null) ped.setMonto(ped.CostoTotal(true));
 		        else ped.setMonto(ped.CostoTotal());
 		      	
 		      	//PEDIR FACTURA
-	      		FacturaGenerador.generarFactura(ped);
-		      	
 	      		
+	      		ArregloPedido.RegistrarPedido(ped, trabajador, administrador);
+	      		JOptionPane.showMessageDialog(this, "El pedido fue registrado correctamente!");
+		    
+	
 	      		//REINICIAR PEDIDO
 		      	cli = null;
 				ped.Limpiar();
 				Listar();
 				ped = null;
-		      	Desactivar();
-
+		      	LimpiarCliente();
 	      	}else {
 				JOptionPane.showMessageDialog(this, "Debe haber un producto para hacer un pedido");
 	      		
@@ -583,20 +637,34 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		
 		if(cbxPedido.getSelectedItem().equals("Presencial")) {
 
+			txtDireccion.setEditable(false);
+			txtDireccion.setText("");
 
 		}
 		else if(cbxPedido.getSelectedItem().equals("Delivery")){
+			txtDireccion.setEditable(true);
 
 		}
 		
+		if(ped!=null){
+			if(cbxPedido.getSelectedItem().equals("Presencial")) ped.setDireccion("");
+			
+			ped.setTipo(cbxPedido.getSelectedItem().toString().toLowerCase());
+			System.out.println(ped.getTipo() + " " +ped.getDireccion());
+		}
+		
+
+		
 	}
 	protected void do_btnRegistrar_actionPerformed(ActionEvent e) {
+		AgregarClienteNuevo();
+		ArregloCliente.RegistrarCliente(cli);
 		if(!txtDni.getText().isBlank()) {
 			
 		}
 	}
 	protected void do_btnVolver_actionPerformed(ActionEvent e) {
-		/*if(user.getRol()=="trabajador") {
+		if(user.getRol().equals("trabajador")) {
 			this.dispose();
 			InicioGUI volverInicioGUI = new InicioGUI();
 			volverInicioGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -607,10 +675,49 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 			AdministradorGUI volver = new AdministradorGUI(user);
 			volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			volver.setVisible(true);
-		}*/
-		this.dispose();
-		AdministradorGUI volver = new AdministradorGUI(user);
-		volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		volver.setVisible(true);
+		}
+
 	}
+	
+	boolean AgregarClienteNuevo() {
+		try {
+			String nombre =txtNombre.getText();
+			int telefono = Integer.parseInt(txtTelefono.getText());
+			String dni = txtDni.getText();
+			
+			if (txtTelefono.getText().length() != 9 || !txtTelefono.getText().chars().allMatch(Character::isDigit)) {
+	            JOptionPane.showMessageDialog(null, "El teléfono debe tener exactamente 9 números.");
+	            return false;
+	        }
+			
+			if (!nombre.replace(" ", "").chars().allMatch(Character::isLetter)) {
+	            JOptionPane.showMessageDialog(null, "El nombre solo debe contener letras y espacios.");
+	            return false;
+	        }
+			
+			if(!txtDni.getText().isBlank()) {
+				if (dni.length() != 8 || !dni.chars().allMatch(Character::isDigit)) {
+		            JOptionPane.showMessageDialog(null, "El DNI debe tener exactamente 8 números.");
+		            return false;
+		        }else cli = new Cliente(null,telefono, nombre, dni);
+				
+			}
+			else cli = new Cliente(null,telefono, nombre);
+			return true;
+		}
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "ingresa bien los datos del cliente");
+		}
+		return true;
+	}
+	
+	void GuardarDatos() {
+		txtNombre.setText(cli.getNombreCompleto());
+		txtDireccion.setText(ped.getDireccion());
+		txtTelefono.setText(""+cli.getTelefono());
+		txtDni.setText(cli.getDNI());
+		
+	}
+	
+
 }

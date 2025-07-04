@@ -44,7 +44,7 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 	private JTextField txtDireccion;
 	private JTextField txtDNI;
 	private JButton btnRegistrar;
-	
+	Usuario user;
 	/**
 	 * Launch the application.
 	 */
@@ -52,7 +52,7 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistrarTrabajadorGUI frame = new RegistrarTrabajadorGUI();
+					RegistrarTrabajadorGUI frame = new RegistrarTrabajadorGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +64,8 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 	/**
 	 * Create the frame.
 	 */
-	public RegistrarTrabajadorGUI() {
+	public RegistrarTrabajadorGUI(Usuario user) {
+		this.user = user;
 		setFont(new Font("Dialog", Font.BOLD, 12));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 783, 556);
@@ -271,7 +272,7 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 	        
 	        Usuario userEmpleado = new Usuario(usuario, contrasena, "trabajador");
 
-	        Trabajador emp = new Trabajador(telefono, nombre, dni, direccion, userEmpleado);
+	        Trabajador emp = new Trabajador(null,telefono, nombre, dni, direccion, userEmpleado);
 
 	        JOptionPane.showMessageDialog(this, "REGISTRADO EXITOSAMENTE\n"
 	            + "Usuario: " + usuario + "\nContraseña: " + contrasena);
@@ -418,7 +419,7 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 	}
 	protected void do_btnVolver_actionPerformed(ActionEvent e) {
 		this.dispose();
-		AdministradorGUI volver = new AdministradorGUI(null);
+		AdministradorGUI volver = new AdministradorGUI(user);
 		volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		volver.setVisible(true);
 	}

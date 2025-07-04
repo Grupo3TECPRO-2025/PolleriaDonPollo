@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -64,6 +65,8 @@ public class CartaGUI extends JDialog implements ActionListener {
 	 */
 	public CartaGUI(ClienteGUI ventana) {
 		pedidoGUI = ventana;
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteGUI.class.getResource("/img/DonPollo.jpg")));
+		setTitle("Polleria Don Pollo");
         setBackground(new Color(240, 240, 240));
         setBounds(100, 100, 631, 576);
         getContentPane().setLayout(new BorderLayout());
@@ -175,7 +178,7 @@ public class CartaGUI extends JDialog implements ActionListener {
 		int fila = tableProductos.getSelectedRow();
 	    if (fila != -1) {
 	    
-	    	pedidoGUI.setPedidoId(""+cartaPolleria.Obtener(fila).getIdProducto());
+	    	pedidoGUI.setPedidoId(""+cartaPolleria.getMenu().get(fila).getIdProducto());
 	        dispose();
 	    } else {
 	        JOptionPane.showMessageDialog(this, "Selecciona un producto primero");

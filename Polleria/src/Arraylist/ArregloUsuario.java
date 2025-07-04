@@ -12,6 +12,64 @@ import Gestiones.Usuario;
 import gui.ClienteGUI;
 
 public class ArregloUsuario {
+	
+	public static Usuario obtenerUsuarioTrabajadorPorPedido(int pedidoID) {
+	    Usuario usuario = null;
+
+	    try {
+	        CallableStatement csta = ConexionSQL.getConexion()
+	            .prepareCall("{CALL ObtenerDatosTrabajadorPorPedido(?)}");
+
+	        csta.setInt(1, pedidoID);
+
+	        ResultSet rs = csta.executeQuery();
+
+	        if (rs.next()) {
+	            String user = rs.getString("Usuario");
+	            String rol = rs.getString("Rol");
+
+	            usuario = new Usuario(user, "", rol);
+	        }
+
+	        rs.close();
+	        csta.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return usuario;
+	}
+	
+	
+	public static Usuario obtenerUsuarioAdministradorPorPedido(int pedidoID) {
+	    Usuario usuario = null;
+
+	    try {
+	        CallableStatement csta = ConexionSQL.getConexion()
+	            .prepareCall("{CALL ObtenerDatosAdminPorPedido(?)}");
+
+	        csta.setInt(1, pedidoID);
+
+	        ResultSet rs = csta.executeQuery();
+
+	        if (rs.next()) {
+	            String user = rs.getString("Usuario");
+	            String rol = rs.getString("Rol");
+
+	            usuario = new Usuario(user, "", rol);
+	        }
+
+	        rs.close();
+	        csta.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return usuario;
+	}
+	
 	static public Usuario VerificarLogin(String usuario, String contraseña){
 		Usuario usuariologeado = null;
 	
@@ -30,7 +88,7 @@ public class ArregloUsuario {
 
 	            usuariologeado = new Usuario(usuario, contraseña, rol);
 	        }
-
+	  
 	        rs.close();
 	        csta.close();
 
@@ -76,27 +134,6 @@ public class ArregloUsuario {
 	
 
 		
-	public static boolean RegistrarCliente(Cliente cli) {
-	    try {
-	        
-
-	        CallableStatement csta = ConexionSQL.getConexion()
-	            .prepareCall("{CALL RegistrarCliente(?, ?, ?, ?)}");
-
-	        csta.setString(3, cli.getNombreCompleto());
-	        csta.setString(4, cli.getDNI());
-	        csta.setString(5, cli.getDireccion());
-	        csta.setString(6, String.valueOf(cli.getTelefono()));
-
-	        csta.execute();
-	        csta.close();
-	        return true;
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return false;
-	    }
-	}
 
 	/*	
 	public static boolean RegistrarAdministrador(Usuario admin, String sucursalKey) {

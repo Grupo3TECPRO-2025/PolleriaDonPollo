@@ -44,7 +44,7 @@ public class LoginGUI extends JDialog implements ActionListener {
 	private InicioGUI inicio;
 	
 	private AdministradorGUI ventanaAdministrador;
-    private ProveedorGUI ventanaProveedor;
+    private ProvicionesGUI ventanaProveedor;
     private ClienteGUI ventanaCliente;
 
 	/**
@@ -162,6 +162,7 @@ public class LoginGUI extends JDialog implements ActionListener {
 				    System.out.println("Rol: " + u.getRol());
 				    
 				    JOptionPane.showMessageDialog(this, "Se ingresó correctamente");
+				    inicio.dispose();
 					this.dispose();
 				    
 				    if (ventanaCliente != null && ventanaCliente.isDisplayable()) {
@@ -176,6 +177,7 @@ public class LoginGUI extends JDialog implements ActionListener {
 		        	
 				} else {
 				    System.out.println("Usuario o contraseña incorrectos.");
+				    JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
 				}
 				
 			}catch (Exception ex) {
@@ -188,18 +190,42 @@ public class LoginGUI extends JDialog implements ActionListener {
 		
 		else if(rol.equals("administrador")) {
 
-        	if (ventanaAdministrador != null && ventanaAdministrador.isDisplayable()) {
-        		ventanaAdministrador.dispose();
-            }
-        	
-        	this.dispose();
-        	inicio.dispose();
-        	JOptionPane.showMessageDialog(this, "Se ingresó correctamente");
+			try {
+				String user = txtUsuario.getText();
+				String password = txtContraseña.getText();
+				
+				
+				Usuario u = ArregloUsuario.VerificarLogin(user, password);
 
-        	ventanaAdministrador = null;  
-        	ventanaAdministrador = new AdministradorGUI(null); // <-- SE DEBE CAMBIAR
-        	ventanaAdministrador.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        	ventanaAdministrador.setVisible(true);
+				if (u != null) {
+				    System.out.println("Login exitoso: " + u.getUser());
+				    System.out.println("Rol: " + u.getRol());
+				    
+				    JOptionPane.showMessageDialog(this, "Se ingresó correctamente");
+					
+				    
+					if (ventanaAdministrador != null && ventanaAdministrador.isDisplayable()) {
+		        		ventanaAdministrador.dispose();
+		            }
+		        	
+		        	this.dispose();
+		        	inicio.dispose();
+
+		        	ventanaAdministrador = null;  
+		        	ventanaAdministrador = new AdministradorGUI(u); // <-- SE DEBE CAMBIAR
+		        	ventanaAdministrador.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		        	ventanaAdministrador.setVisible(true);
+		        	
+				} else {
+				    System.out.println("Usuario o contraseña incorrectos.");
+				    JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
+				}
+				
+			}catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, "Ingresa todos los campos");
+			}
+		
+
         	
 		}
 		

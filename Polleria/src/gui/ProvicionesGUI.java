@@ -8,6 +8,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -17,13 +20,16 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import Gestiones.Usuario;
+
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ProveedorGUI extends JFrame implements ActionListener {
+public class ProvicionesGUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -63,6 +69,9 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 	private JLabel lblNewLabel_6;
 	private JTextField txtDireccion;
 	private JButton btnVolver;
+	private JLabel lblNewLabel_8;
+	private JLabel lblNewLabel_9;
+	Usuario user;
 
 	/**
 	 * Launch the application.
@@ -71,7 +80,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProveedorGUI frame = new ProveedorGUI();
+					ProvicionesGUI frame = new ProvicionesGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -83,21 +92,25 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public ProveedorGUI() {
+	public ProvicionesGUI(Usuario user) {
+		this.user = user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 756, 769);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteGUI.class.getResource("/img/DonPollo.jpg")));
+		setTitle("Polleria Don Pollo");
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 218, 168));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
-			lblNewLabel = new JLabel("PROVEEDOR - POLLERIA DON POLLO");
+			lblNewLabel = new JLabel("RELLENAR INVENTARIO");
 			lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblNewLabel.setForeground(Color.BLACK);
 			lblNewLabel.setFont(new Font("Segoe UI Black", Font.PLAIN, 31));
 			lblNewLabel.setBackground(Color.BLACK);
-			lblNewLabel.setBounds(121, 7, 590, 50);
+			lblNewLabel.setBounds(114, 18, 457, 50);
 			contentPane.add(lblNewLabel);
 		}
 		{
@@ -105,7 +118,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 			panel_1.setLayout(null);
 			panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Buscar Empresa", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			panel_1.setBackground(new Color(255, 250, 250));
-			panel_1.setBounds(22, 68, 264, 120);
+			panel_1.setBounds(22, 86, 264, 112);
 			contentPane.add(panel_1);
 			{
 				lblNewLabel_2_1_3 = new JLabel("Ingresar empresa nombre:");
@@ -129,7 +142,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 			panel_2.setLayout(null);
 			panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			panel_2.setBackground(new Color(255, 250, 250));
-			panel_2.setBounds(22, 199, 689, 269);
+			panel_2.setBounds(22, 209, 689, 259);
 			contentPane.add(panel_2);
 			{
 				lblNewLabel_3 = new JLabel("Cantidad");
@@ -265,7 +278,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 			panel.setLayout(null);
 			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Datos Empresa", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			panel.setBackground(new Color(255, 250, 250));
-			panel.setBounds(304, 68, 407, 120);
+			panel.setBounds(304, 85, 407, 113);
 			contentPane.add(panel);
 			{
 				lblNewLabel_2_1 = new JLabel("RUC:");
@@ -274,19 +287,21 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 			}
 			{
 				txtRUC = new JTextField();
+				txtRUC.setEditable(false);
 				txtRUC.setColumns(10);
 				txtRUC.setBounds(23, 40, 128, 20);
 				panel.add(txtRUC);
 			}
 			{
 				txtEmpresa = new JTextField();
+				txtEmpresa.setEditable(false);
 				txtEmpresa.setColumns(10);
-				txtEmpresa.setBounds(23, 87, 128, 20);
+				txtEmpresa.setBounds(23, 78, 128, 20);
 				panel.add(txtEmpresa);
 			}
 			{
 				lblNewLabel_2 = new JLabel("Nombre Empresa");
-				lblNewLabel_2.setBounds(23, 68, 115, 14);
+				lblNewLabel_2.setBounds(23, 61, 115, 14);
 				panel.add(lblNewLabel_2);
 			}
 			{
@@ -296,27 +311,41 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 			}
 			{
 				textField_2 = new JTextField();
+				textField_2.setEditable(false);
 				textField_2.setColumns(10);
 				textField_2.setBounds(176, 40, 128, 20);
 				panel.add(textField_2);
 			}
 			{
 				lblNewLabel_6 = new JLabel("Dirección");
-				lblNewLabel_6.setBounds(176, 68, 115, 14);
+				lblNewLabel_6.setBounds(177, 61, 115, 14);
 				panel.add(lblNewLabel_6);
 			}
 			{
 				txtDireccion = new JTextField();
+				txtDireccion.setEditable(false);
 				txtDireccion.setColumns(10);
-				txtDireccion.setBounds(176, 87, 128, 20);
+				txtDireccion.setBounds(176, 77, 128, 20);
 				panel.add(txtDireccion);
 			}
 		}
 		{
 			btnVolver = new JButton("Volver");
 			btnVolver.addActionListener(this);
-			btnVolver.setBounds(22, 11, 103, 38);
+			btnVolver.setBounds(25, 27, 103, 38);
 			contentPane.add(btnVolver);
+		}
+		{
+			lblNewLabel_8 = new JLabel("");
+			lblNewLabel_8.setBounds(153, 6, 67, 62);
+			contentPane.add(lblNewLabel_8);
+		}
+		{
+			lblNewLabel_9 = new JLabel("");
+			lblNewLabel_9.setIcon(new ImageIcon(new ImageIcon(ClienteGUI.class.getResource
+					("/img/DonPollo.jpg")).getImage().getScaledInstance(70, 62, Image.SCALE_FAST)));
+			lblNewLabel_9.setBounds(634, 10, 67, 62);
+			contentPane.add(lblNewLabel_9);
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
@@ -331,7 +360,7 @@ public class ProveedorGUI extends JFrame implements ActionListener {
 	}
 	protected void do_btnVolver_actionPerformed(ActionEvent e) {
 		this.dispose();
-		AdministradorGUI volver = new AdministradorGUI(null);
+		AdministradorGUI volver = new AdministradorGUI(user);
 		volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		volver.setVisible(true);
 	}

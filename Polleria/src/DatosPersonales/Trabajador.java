@@ -6,18 +6,20 @@ import Gestiones.Pedido;
 import Gestiones.Usuario;
 
 public class Trabajador extends Persona{
+	
 	Usuario user;
 	static public ArrayList<Pedido> listaAtenciones;
-	String direccion;
+	String direccion,TrabajorID;
 	
 	
-	public Trabajador(int telefono, String nombreCompleto, String DNI, String direccion, Usuario user) {
+	
+	
+	public Trabajador(String trabajorID,int telefono, String nombreCompleto, String DNI, String direccion, Usuario user) {
 		super(telefono, nombreCompleto, DNI);
-		this.direccion = direccion;
 		this.user = user;
+		this.direccion = direccion;
+		TrabajorID = trabajorID;
 	}
-	
-	
 	public Usuario getUser() {
 		return user;
 	}
@@ -30,15 +32,20 @@ public class Trabajador extends Persona{
 	public static void setListaAtenciones(ArrayList<Pedido> listaAtenciones) {
 		Trabajador.listaAtenciones = listaAtenciones;
 	}
-	
 	public String getDireccion() {
 		return direccion;
 	}
-
-
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
+	public String getTrabajorID() {
+		return TrabajorID;
+	}
+	public void setTrabajorID(String trabajorID) {
+		TrabajorID = trabajorID;
+	}
 	
+	
+
 
 }

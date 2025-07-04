@@ -22,7 +22,7 @@ public class FacturaGenerador {
             writer.println("------ FACTURA DON POLLO ------");
             writer.println("Número de Pedido: " + pedido.getPedidoId());
             writer.println("Cliente: " + pedido.getCli().getNombreCompleto());
-            writer.println("Dirección: " + pedido.getCli().getDireccion());
+            writer.println("Dirección: " + pedido.getDireccion());
             writer.println("Teléfono: " + pedido.getCli().getTelefono());
             writer.println("Tipo de Pedido: "+pedido.getTipo());
             if(pedido.getCli().getDNI()!=null) writer.println("DNI: " + pedido.getCli().getDNI());

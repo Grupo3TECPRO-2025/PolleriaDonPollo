@@ -1,0 +1,295 @@
+package Arraylist;
+
+import java.sql.Timestamp;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import CartaPolleria.Cupon;
+import CartaPolleria.MenuProducto;
+import DatosPersonales.Administrador;
+import DatosPersonales.Cliente;
+import DatosPersonales.Trabajador;
+import Gestiones.DetallePedido;
+import Gestiones.Pedido;
+
+
+public class ArregloPedido {
+	 public static List<MenuProducto> obtenerProductosMasVendidos() {
+	        List<MenuProducto> lista = new ArrayList<>();
+
+	        try (Connection conn = ConexionSQL.getConexion()) {
+	            CallableStatement cs = conn.prepareCall("{CALL ProductosMasVendidos()}");
+	            ResultSet rs = cs.executeQuery();
+
+	            while (rs.next()) {
+	                String nombreProducto = rs.getString("NombreProducto");
+	                int totalVendido = rs.getInt("TotalVendido");
+	                String productoID = rs.getString("ProductoID");
+
+	                // Aquí usamos el nombre como descripción, y opcionalmente ponemos el total vendido como "precio"
+	                MenuProducto producto = new MenuProducto(productoID, nombreProducto, totalVendido); 
+	                lista.add(producto);
+	            }
+
+	            rs.close();
+	            cs.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        return lista;
+	}
+	 
+	public static double obtenerGananciasTotalesConCupones() {
+	    double total = 0.0;
+
+	    try (Connection conn = ConexionSQL.getConexion()) {
+	        CallableStatement cs = conn.prepareCall("{CALL CalcularGananciasTotalesConCupones()}");
+
+	        ResultSet rs = cs.executeQuery();
+
+	        if (rs.next()) {
+	            total = rs.getDouble("total");
+	        }
+
+	        rs.close();
+	        cs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return total;
+	}
+
+	public static int obtenerTotalPedidos() {
+	    int total = 0;
+
+	    try (Connection conn = ConexionSQL.getConexion()) {
+	        CallableStatement cs = conn.prepareCall("{CALL CalcularTotalPedidos()}");
+
+	        ResultSet rs = cs.executeQuery();
+
+	        if (rs.next()) {
+	            total = rs.getInt("total");
+	        }
+
+	        rs.close();
+	        cs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return total;
+	}
+	
+	
+	public static void RegistrarPedido(Pedido pedido, Trabajador trabajador, Administrador admin) {
+		int pedidoID = -1;
+        try {
+            Connection conn = ConexionSQL.getConexion();
+
+            CallableStatement cs = conn.prepareCall("{CALL RegistrarPedidoCompleto(?, ?, ?, ?, ?, ?, ?, ?,?,?)}");
+
+            // 1. Cliente Datos
+            cs.setString(1, String.valueOf(pedido.getCli().getTelefono()));
+            cs.setString(2, pedido.getCli().getNombreCompleto());
+
+            if (pedido.getCli().getDNI() != null && !pedido.getCli().getDNI().isEmpty()) {
+                cs.setString(3, pedido.getCli().getDNI());
+            } else {
+                cs.setNull(3, java.sql.Types.VARCHAR);
+            }
+
+            // Cupon
+            if (pedido.getProm() != null) {
+                cs.setInt(4, pedido.getProm().getId());
+            } else {
+                cs.setNull(4, java.sql.Types.INTEGER);
+            }
+
+            cs.setString(5, pedido.getMetodoPago().toLowerCase());
+            cs.setString(6, pedido.getTipo().toLowerCase());
+            cs.setTimestamp(7, Timestamp.valueOf(pedido.getFecha()));
+
+            // Trabajador o Admin
+            if (trabajador != null) {
+                cs.setInt(8, Integer.parseInt(trabajador.getTrabajorID()));
+            } else {
+                cs.setNull(8, java.sql.Types.INTEGER);
+            }
+
+            if (admin != null) {
+                cs.setInt(9, Integer.parseInt(admin.getAdminID()));
+            } else {
+                cs.setNull(9, java.sql.Types.INTEGER);
+            }
+
+            if (pedido.getTipo().equalsIgnoreCase("delivery")) {
+                cs.setString(10, pedido.getDireccion());
+            } else {
+                cs.setNull(10, java.sql.Types.VARCHAR);
+            }
+
+            cs.execute();
+            cs.close();
+
+            // Obtener PedidoID generado
+            PreparedStatement ps = conn.prepareStatement("SELECT LAST_INSERT_ID()");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                pedidoID = rs.getInt(1);
+            }
+
+            rs.close();
+            ps.close();
+
+            // Registrar detalles del pedido
+            for (DetallePedido detalle : Pedido.getListaProductos()) {
+                RegistrarDetallePedido(detalle.getProducto().getIdProducto(), pedidoID, detalle.getCantidad());
+            }
+
+            System.out.println("Pedido completo registrado correctamente.");
+
+        } catch (Exception e) {
+            System.err.println("Error al registrar el pedido: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+	
+	public static void RegistrarDetallePedido(String productoID, int pedidoID, int cantidad) {
+	    try (Connection conn = ConexionSQL.getConexion()) {
+	        CallableStatement cs = conn.prepareCall("{CALL RegistrarDetallePedido(?, ?, ?)}");
+
+	        cs.setString(1, productoID);
+	        cs.setInt(2, pedidoID);
+	        cs.setInt(3, cantidad);
+
+	        cs.execute();
+	        cs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static List<Pedido> listarPedidosBasico() {
+	    List<Pedido> listaPedidos = new ArrayList<>();
+
+	    try {
+	        Connection conn = ConexionSQL.getConexion();
+	        CallableStatement cs = conn.prepareCall("{CALL ListarPedidosBasico()}");
+	        ResultSet rs = cs.executeQuery();
+
+	        while (rs.next()) {
+	            int pedidoID = rs.getInt("PedidoID");
+	            String nombreCliente = rs.getString("NombreCliente");
+	            LocalDateTime fecha = rs.getTimestamp("FechaEmision").toLocalDateTime();
+	            // Cliente básico
+	            Cliente cliente = new Cliente(null, 0, nombreCliente); 
+
+	            // Crear pedido
+	            Pedido pedido = new Pedido(pedidoID, null, null, null, cliente,fecha);
+	
+
+	            listaPedidos.add(pedido);
+	        }
+
+	        rs.close();
+	        cs.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return listaPedidos;
+	}
+	
+	public static Pedido obtenerDetallePedidoPorID(int pedidoID) {
+	    Pedido pedido = null;
+
+	    try (Connection conn = ConexionSQL.getConexion()) {
+
+	        CallableStatement cs = conn.prepareCall("{CALL ObtenerDatosPedido(?)}");
+	        cs.setInt(1, pedidoID);
+	        ResultSet rs = cs.executeQuery();
+
+	        if (rs.next()) {
+	            // Obtener datos básicos
+	            String nombreCliente = rs.getString("NombreCliente");
+	            String tipoPedido = rs.getString("TipoPedido");
+	            String metodoPago = rs.getString("MetodoPago");
+	            String direccion = rs.getString("DireccionPedido");
+	            LocalDateTime fecha = rs.getTimestamp("FechaEmision").toLocalDateTime();
+
+	            // Cliente (básico)
+	            Cliente cliente = new Cliente(null, 0, nombreCliente);
+
+	            // Pedido con constructor extendido
+	            pedido = new Pedido(pedidoID, metodoPago, direccion, tipoPedido, cliente,fecha);
+	
+	            // Monto con descuento incluido
+	            pedido.setMonto(rs.getDouble("MontoTotalConDescuento"));
+
+	            // Cupón si existe
+	            int cuponId = rs.getInt("CuponID");
+	            if (!rs.wasNull()) {
+	                double valorCupon = rs.getDouble("ValorCupon");
+	                String tipoCupon = rs.getString("TipoCupon");
+
+	                Cupon cupon = new Cupon(cuponId, valorCupon, tipoCupon);
+	                pedido.setProm(cupon);
+	            }
+
+	            // String trabajador = rs.getString("TrabajadorUsuario");
+	            // String rol = rs.getString("RolTrabajador");
+	        }
+
+	        rs.close();
+	        cs.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return pedido;
+	}
+	
+	 public static List<DetallePedido> obtenerProductosDelPedido(int pedidoID) {
+	        List<DetallePedido> lista = new ArrayList<>();
+
+	        try (Connection conn = ConexionSQL.getConexion()) {
+	            CallableStatement cs = conn.prepareCall("{CALL ObtenerDetallesDePedido(?)}");
+	            cs.setInt(1, pedidoID);
+
+	            ResultSet rs = cs.executeQuery();
+
+	            while (rs.next()) {
+	                String nombreProducto = rs.getString("NombreProducto");
+	                double precio = rs.getDouble("PrecioUnitario");
+	                int cantidad = rs.getInt("Cantidad");
+
+	                // Creamos el MenuProducto sin ID (no viene del SELECT)
+	                MenuProducto mp = new MenuProducto(null, nombreProducto, precio);
+
+	                // Creamos el DetallePedido
+	                DetallePedido detalle = new DetallePedido(mp, cantidad);
+
+	                lista.add(detalle);
+	            }
+
+	            rs.close();
+	            cs.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        return lista;
+	    }
+
+
+}

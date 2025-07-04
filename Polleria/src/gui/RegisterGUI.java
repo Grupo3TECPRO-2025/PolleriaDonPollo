@@ -368,8 +368,8 @@ public class RegisterGUI extends JDialog implements ActionListener {
 				
 				if(rol.equals("cliente")) {
 					
-					if(DNI.isBlank())nuevaPersona = new Cliente(telefono, nombreCompleto, direccion);
-					else nuevaPersona = new Cliente(telefono, nombreCompleto, DNI, direccion);
+					if(DNI.isBlank())nuevaPersona = new Cliente(direccion, telefono, nombreCompleto);
+					else nuevaPersona = new Cliente(direccion, telefono, nombreCompleto);
 					
 				
 					

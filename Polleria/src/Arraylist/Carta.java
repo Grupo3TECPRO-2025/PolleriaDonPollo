@@ -18,7 +18,7 @@ public class Carta {
 	static private List<MenuProducto> menu;
 
 	static public ArrayList<MenuProducto> VerCarta() {
-        ArrayList<MenuProducto> menu = new ArrayList<>();
+        ArrayList<MenuProducto> menuList = new ArrayList<>();
 
         try {
             CallableStatement csta = ConexionSQL.getConexion()
@@ -32,7 +32,7 @@ public class Carta {
                 double precio = rs.getDouble("PrecioUnitario");
 
                 MenuProducto item = new MenuProducto(productoID, descripcion, precio);
-                menu.add(item);
+                menuList.add(item);
             }
 
             rs.close();
@@ -42,7 +42,8 @@ public class Carta {
             e.printStackTrace();
         }
 
-        return menu;
+        menu = menuList;
+        return menuList;
     }
 	
 	public List<MenuProducto> getMenu() {

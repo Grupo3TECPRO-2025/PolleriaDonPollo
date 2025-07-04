@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
@@ -19,10 +21,19 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import Arraylist.ArregloPedido;
+import Arraylist.ArregloPersona;
+import CartaPolleria.MenuProducto;
+import Gestiones.DetallePedido;
+import Gestiones.Pedido;
+import Gestiones.Usuario;
+
 import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class RegistrosGUI extends JFrame implements ActionListener {
@@ -47,7 +58,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 	private JTextField txtUsuario;
 	private JTextField txtNombre;
 	private JPanel panel_3;
-	private JTextField textField_6;
+	private JTextField txtGanancias;
 	private JLabel lblNewLabel_8;
 	private JScrollPane scrollPane_1;
 	private JTextArea txtProductoModa;
@@ -71,6 +82,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 	private JButton btnActualizarOrden;
 	private JButton btnAgregarMateriaPrima;
 	private JButton btnVolver;
+	private Usuario user;
 
 	/**
 	 * Launch the application.
@@ -79,7 +91,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistrosGUI frame = new RegistrosGUI();
+					RegistrosGUI frame = new RegistrosGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -91,7 +103,8 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public RegistrosGUI() {
+	public RegistrosGUI(Usuario user) {
+		this.user = user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 50, 810, 938);
 		contentPane = new JPanel();
@@ -104,28 +117,30 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 		{
 			panel = new JPanel();
 			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
-			panel.setBounds(124, 236, 533, 112);
+			panel.setBounds(68, 236, 631, 112);
 			contentPane.add(panel);
 			panel.setLayout(null);
 			{
 				lblNewLabel = new JLabel("Gestion de Inventario / Stock");
-				lblNewLabel.setBounds(137, 11, 255, 24);
+				lblNewLabel.setBounds(202, 11, 255, 24);
 				panel.add(lblNewLabel);
 				lblNewLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 18));
 			}
 			{
 				btnListar = new JButton("Listar Inventario");
-				btnListar.setBounds(42, 51, 119, 35);
+				btnListar.addActionListener(this);
+				btnListar.setBounds(42, 51, 143, 35);
 				panel.add(btnListar);
 			}
 			{
 				btnAgregarPlato = new JButton("Agregar Plato");
-				btnAgregarPlato.setBounds(190, 52, 119, 35);
+				btnAgregarPlato.addActionListener(this);
+				btnAgregarPlato.setBounds(239, 51, 130, 35);
 				panel.add(btnAgregarPlato);
 			}
 			{
 				btnAgregarMateriaPrima = new JButton("Agregar Materia Prima");
-				btnAgregarMateriaPrima.setBounds(338, 50, 156, 35);
+				btnAgregarMateriaPrima.setBounds(414, 51, 174, 35);
 				panel.add(btnAgregarMateriaPrima);
 			}
 		}
@@ -164,6 +179,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 			}
 			{
 				btnVerDetallePedido = new JButton("Ver Detalle");
+				btnVerDetallePedido.addActionListener(this);
 				btnVerDetallePedido.setBounds(532, 169, 119, 27);
 				panel_1.add(btnVerDetallePedido);
 			}
@@ -185,8 +201,9 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 				panel_1.add(lblNewLabel_4);
 			}
 			{
-				btnActualizarPedido = new JButton("Actualizar Datos");
-				btnActualizarPedido.setBounds(532, 129, 119, 27);
+				btnActualizarPedido = new JButton("Actualizar");
+				btnActualizarPedido.addActionListener(this);
+				btnActualizarPedido.setBounds(532, 129, 124, 27);
 				panel_1.add(btnActualizarPedido);
 			}
 		}
@@ -222,6 +239,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 				txtUsuario.setColumns(10);
 				txtUsuario.setBounds(15, 52, 152, 20);
 				panel_2.add(txtUsuario);
+				txtUsuario.setText(user.getUser());
 			}
 			{
 				txtNombre = new JTextField();
@@ -229,6 +247,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 				txtNombre.setColumns(10);
 				txtNombre.setBounds(15, 95, 152, 20);
 				panel_2.add(txtNombre);
+				txtNombre.setText(ArregloPersona.obtenerPersonaPorUsuario(user.getUser()).getNombreCompleto());
 			}
 		}
 		{
@@ -245,20 +264,25 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 			}
 			{
 				txtNumPedidos = new JTextField();
-				txtNumPedidos.setBounds(17, 46, 142, 20);
+				txtNumPedidos.setEditable(false);
+				txtNumPedidos.setBounds(17, 46, 86, 20);
 				panel_3.add(txtNumPedidos);
+				txtNumPedidos.setText(""+ArregloPedido.obtenerTotalPedidos());
 				txtNumPedidos.setColumns(10);
 			}
 			{
 				lblNewLabel_6 = new JLabel("Producto mas Vendido:");
-				lblNewLabel_6.setBounds(188, 27, 142, 14);
+				lblNewLabel_6.setBounds(165, 24, 142, 17);
 				panel_3.add(lblNewLabel_6);
 			}
 			{
-				textField_6 = new JTextField();
-				textField_6.setColumns(10);
-				textField_6.setBounds(17, 91, 142, 20);
-				panel_3.add(textField_6);
+				txtGanancias = new JTextField();
+				txtGanancias.setEditable(false);
+				txtGanancias.setColumns(10);
+				txtGanancias.setBounds(17, 91, 86, 20);
+				txtGanancias.setText("S/"+ArregloPedido.obtenerGananciasTotalesConCupones());
+			
+				panel_3.add(txtGanancias);
 			}
 			{
 				lblNewLabel_8 = new JLabel("Ganancias");
@@ -267,7 +291,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 			}
 			{
 				scrollPane_1 = new JScrollPane();
-				scrollPane_1.setBounds(188, 48, 107, 63);
+				scrollPane_1.setBounds(128, 48, 205, 63);
 				panel_3.add(scrollPane_1);
 				{
 					txtProductoModa = new JTextArea();
@@ -276,12 +300,13 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 			}
 			{
 				btnActualizar = new JButton("Actualizar");
-				btnActualizar.setBounds(328, 28, 89, 33);
+				btnActualizar.addActionListener(this);
+				btnActualizar.setBounds(350, 29, 100, 33);
 				panel_3.add(btnActualizar);
 			}
 			{
 				btnVerCarta = new JButton("Ver Carta");
-				btnVerCarta.setBounds(328, 78, 89, 33);
+				btnVerCarta.setBounds(350, 79, 100, 33);
 				panel_3.add(btnVerCarta);
 			}
 		}
@@ -351,8 +376,8 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 				panel_4.add(btnVerDetalleOrden);
 			}
 			{
-				btnActualizarOrden = new JButton("Actualizar Datos");
-				btnActualizarOrden.setBounds(530, 133, 119, 27);
+				btnActualizarOrden = new JButton("Actualizar");
+				btnActualizarOrden.setBounds(530, 133, 125, 27);
 				panel_4.add(btnActualizarOrden);
 			}
 		}
@@ -362,16 +387,93 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 			btnVolver.setBounds(36, 27, 101, 38);
 			contentPane.add(btnVolver);
 		}
+		List<Pedido> listaPedidos = ArregloPedido.listarPedidosBasico();
+		listarHistorialPedidos(listaPedidos);
+		actualizarProductosMasVendidosEnLista();
+		txtGanancias.setText("S/."+ArregloPedido.obtenerGananciasTotalesConCupones());
+		
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnAgregarPlato) {
+			do_btnAgregarPlato_actionPerformed(e);
+		}
+		if (e.getSource() == btnListar) {
+			do_btnListar_actionPerformed(e);
+		}
+		if (e.getSource() == btnActualizar) {
+			do_btnActualizar_actionPerformed(e);
+		}
+		if (e.getSource() == btnVerDetallePedido) {
+			do_btnVerDetallePedido_actionPerformed(e);
+		}
+		if (e.getSource() == btnActualizarPedido) {
+			do_btnActualizarPedido_actionPerformed(e);
+		}
 		if (e.getSource() == btnVolver) {
 			do_btnVolver_actionPerformed(e);
 		}
 	}
 	protected void do_btnVolver_actionPerformed(ActionEvent e) {
 		this.dispose();
-		AdministradorGUI volver = new AdministradorGUI(null);
+		AdministradorGUI volver = new AdministradorGUI(user);
 		volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		volver.setVisible(true);
+	}
+	
+	public void listarHistorialPedidos(List<Pedido> listaPedidos) {
+	    DefaultTableModel modelo = (DefaultTableModel) tbPedidoHistorial.getModel();
+	    modelo.setRowCount(0); // Limpiar la tabla antes de llenar
+
+	    int nro = 1;
+	    for (Pedido p : listaPedidos) {
+	        modelo.addRow(new Object[]{
+	            nro++, // Número correlativo
+	            p.getPedidoId(),
+	            p.getCli().getNombreCompleto(),
+	            p.getFecha() // Este debe ser java.sql.Date
+	        });
+	    }
+	}
+	protected void do_btnActualizarPedido_actionPerformed(ActionEvent e) {
+		List<Pedido> listaPedidos = ArregloPedido.listarPedidosBasico();
+		listarHistorialPedidos(listaPedidos);
+		txtGanancias.setText("S/"+ArregloPedido.obtenerGananciasTotalesConCupones());
+		txtNumPedidos.setText(""+ArregloPedido.obtenerTotalPedidos());
+	}
+	protected void do_btnVerDetallePedido_actionPerformed(ActionEvent e) {
+		int filaSeleccionada = tbPedidoHistorial.getSelectedRow();
+	    
+		if (filaSeleccionada != -1) {
+	        int pedidoID = (int) tbPedidoHistorial.getValueAt(filaSeleccionada, 1);
+
+	        // Abrir la ventana con solo el ID
+	        PedidoDetalleGUI ventana = new PedidoDetalleGUI(pedidoID);
+	        ventana.setVisible(true);
+	    } else {
+	        JOptionPane.showMessageDialog(this, "Selecciona un pedido de la tabla.");
+	    }
+	}
+	
+	private void actualizarProductosMasVendidosEnLista() {
+		List<MenuProducto> productosMasVendidos = ArregloPedido.obtenerProductosMasVendidos(); 
+
+	    StringBuilder sb = new StringBuilder();
+	    int index = 1;
+	    for (MenuProducto producto : productosMasVendidos) {
+	        sb.append(index++)
+	          .append(". ")
+	          .append(producto.getDescripcion()) 
+	          .append("\n");
+	    }
+	    
+	    txtProductoModa.setText(sb.toString());
+	}
+	protected void do_btnActualizar_actionPerformed(ActionEvent e) {
+	}
+	protected void do_btnListar_actionPerformed(ActionEvent e) {
+		ListarInventarioGUI listar = new ListarInventarioGUI();
+		listar.setVisible(true);
+	}
+	protected void do_btnAgregarPlato_actionPerformed(ActionEvent e) {
 	}
 }

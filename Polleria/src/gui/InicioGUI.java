@@ -33,7 +33,7 @@ public class InicioGUI extends JFrame implements ActionListener {
     public LoginGUI ventanaLogin;
     public RegisterGUI ventanaRegister;
     private RegistrosGUI ventanaAdministrador;
-    private ProveedorGUI ventanaProveedor;
+    private ProvicionesGUI ventanaProveedor;
     private ClienteGUI ventanaCliente;
 
     
@@ -127,37 +127,29 @@ public class InicioGUI extends JFrame implements ActionListener {
 
         btnTrabajador.addActionListener(e -> {
         	if (ventanaLogin!= null && ventanaLogin.isDisplayable()) {
-                ventanaCliente.dispose();
+                ventanaLogin.dispose();
             }
 
-            ventanaLogin = null;  
+      
             ventanaLogin = new LoginGUI("trabajador",this);
         	ventanaLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         	ventanaLogin.setVisible(true);
         	
-        	ventanaRegister	= null;  
-        	ventanaRegister = new RegisterGUI("trabajador",this);
-        	ventanaRegister.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        	ventanaRegister.setVisible(false);
+
         });
 
         btnAdministrador.addActionListener(e -> {
 
-        	if (ventanaLogin != null && ventanaLogin.isDisplayable() && ventanaRegister != null && ventanaRegister.isDisplayable()) {
+        	if (ventanaLogin != null && ventanaLogin.isDisplayable()) {
                 ventanaLogin.dispose();
-                ventanaRegister.dispose();
+        
             }
         	
-
-            ventanaLogin = null;  
             ventanaLogin = new LoginGUI("administrador",this);
         	ventanaLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         	ventanaLogin.setVisible(true);
         	
-        	ventanaRegister	= null;  
-        	ventanaRegister = new RegisterGUI("administrador",this);
-        	ventanaRegister.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        	ventanaRegister.setVisible(false);
+   
         });
     }
 

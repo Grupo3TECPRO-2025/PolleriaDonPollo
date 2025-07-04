@@ -12,6 +12,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.security.PrivateKey;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class AdministradorGUI extends JFrame implements ActionListener {
 
@@ -26,10 +29,11 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 	private ClienteGUI ventanaCliente;
 	private JButton btnInicio;
 	private RegistrosGUI ventanaRegistros;
-	private ProveedorGUI ventanaProveedor;
+	private ProvicionesGUI ventanaProveedor;
 	
 	private RegistrarTrabajadorGUI ventanaRegistrarTrabajador;
 	private Usuario user;
+	private JLabel lblNewLabel;
 	
 	
 
@@ -64,30 +68,31 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 		{
 			btnRegistrarPedido = new JButton("Registrar Pedido");
 			btnRegistrarPedido.addActionListener(this);
-			btnRegistrarPedido.setBounds(210, 58, 168, 42);
+			btnRegistrarPedido.setBounds(208, 112, 168, 42);
 			contentPane.add(btnRegistrarPedido);
 		}
 		{
 			btnHistorialRegistros = new JButton("Historial Registros");
 			btnHistorialRegistros.addActionListener(this);
-			btnHistorialRegistros.setBounds(210, 130, 168, 42);
+			btnHistorialRegistros.setBounds(208, 184, 168, 42);
 			contentPane.add(btnHistorialRegistros);
 		}
 		{
 			btnRellenarStock = new JButton("Rellenar Stock");
 			btnRellenarStock.addActionListener(this);
-			btnRellenarStock.setBounds(210, 209, 168, 42);
+			btnRellenarStock.setBounds(208, 263, 168, 42);
 			contentPane.add(btnRellenarStock);
 		}
 		{
 			btnRegistrarEmpleados = new JButton("Registrar Empleados");
 			btnRegistrarEmpleados.addActionListener(this);
-			btnRegistrarEmpleados.setBounds(210, 280, 168, 42);
+			btnRegistrarEmpleados.setBounds(208, 334, 168, 42);
 			contentPane.add(btnRegistrarEmpleados);
 		}
 		{
 			btnRegistrarProveedores = new JButton("Registrar Proveedores");
-			btnRegistrarProveedores.setBounds(210, 354, 168, 42);
+			btnRegistrarProveedores.addActionListener(this);
+			btnRegistrarProveedores.setBounds(208, 408, 168, 42);
 			contentPane.add(btnRegistrarProveedores);
 		}
 		{
@@ -96,9 +101,19 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 			btnInicio.setBounds(10, 11, 124, 23);
 			contentPane.add(btnInicio);
 		}
+		{
+			lblNewLabel = new JLabel("ELIGE UNA OPCIÓN");
+			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 36));
+			lblNewLabel.setBounds(123, 48, 351, 48);
+			contentPane.add(lblNewLabel);
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnRegistrarProveedores) {
+			do_btnRegistrarProveedores_actionPerformed(e);
+		}
 		if (e.getSource() == btnRegistrarEmpleados) {
 			do_btnRegistrarEmpleados_actionPerformed(e);
 		}
@@ -121,7 +136,7 @@ public class AdministradorGUI extends JFrame implements ActionListener {
         }
     	
     	ventanaCliente = null;  
-    	ventanaCliente = new ClienteGUI(null);
+    	ventanaCliente = new ClienteGUI(user);
     	ventanaCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     	ventanaCliente.setVisible(true);
     	
@@ -136,7 +151,7 @@ public class AdministradorGUI extends JFrame implements ActionListener {
     	
 
 		ventanaRegistros = null;  
-		ventanaRegistros = new RegistrosGUI();
+		ventanaRegistros = new RegistrosGUI(user);
 		ventanaRegistros.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ventanaRegistros.setVisible(true);
 		dispose();
@@ -150,7 +165,7 @@ public class AdministradorGUI extends JFrame implements ActionListener {
     	
 
 		ventanaProveedor = null;  
-		ventanaProveedor = new ProveedorGUI();
+		ventanaProveedor = new ProvicionesGUI(user);
 		ventanaProveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ventanaProveedor.setVisible(true);
 		dispose();
@@ -173,9 +188,11 @@ public class AdministradorGUI extends JFrame implements ActionListener {
     	
 
 		ventanaRegistrarTrabajador = null;  
-		ventanaRegistrarTrabajador = new RegistrarTrabajadorGUI();
+		ventanaRegistrarTrabajador = new RegistrarTrabajadorGUI(user);
 		ventanaRegistrarTrabajador.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ventanaRegistrarTrabajador.setVisible(true);
 		dispose();	
+	}
+	protected void do_btnRegistrarProveedores_actionPerformed(ActionEvent e) {
 	}
 }

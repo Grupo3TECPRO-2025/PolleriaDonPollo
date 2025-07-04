@@ -7,31 +7,33 @@ import Gestiones.Pedido;
 
 public class Cliente extends Persona{
 
+	private String ClienteID;
     private static List<Pedido> listaPedidos;
-    private String direccion;
     
-	public Cliente(int telefono, String nombreCompleto, String direccion,String DNI) {
+	public Cliente(String ClienteID, int telefono, String nombreCompleto,String DNI) {
 		super(telefono, nombreCompleto, DNI);
-		this.direccion = direccion;
+		this.ClienteID = ClienteID;
 		listaPedidos = new ArrayList<Pedido>();
 	}
 	
-	public Cliente(int telefono, String nombreCompleto, String direccion) {
-		super(telefono, nombreCompleto, direccion);
+	public Cliente(String ClienteID,int telefono, String nombreCompleto) {
+		super(telefono, nombreCompleto);
+		this.ClienteID = ClienteID;
 		listaPedidos = new ArrayList<Pedido>();
 
 	}
 
-	public String getDireccion() {
-		return direccion;
-	}
-	
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
 	
 	public List<Pedido> ListarPedidos() {
 		return listaPedidos;
+	}
+
+	public String getClienteID() {
+		return ClienteID;
+	}
+
+	public void setClienteID(String clienteID) {
+		ClienteID = clienteID;
 	}
 
 }

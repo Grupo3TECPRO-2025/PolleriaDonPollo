@@ -5,10 +5,13 @@ import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import CartaPolleria.Cupon;
+import DatosPersonales.Administrador;
 import DatosPersonales.Cliente;
+import DatosPersonales.Trabajador;
 
 public class Pedido {
 
@@ -18,11 +21,26 @@ public class Pedido {
     static private List<DetallePedido> listaProductos;
     private Cupon prom;
     private Cliente cli;
-    private String tipo, MetodoPago;
-    private int NumMesa;
+    private String tipo, MetodoPago, Direccion;
+    
 
-    public Pedido(int pedidoId, String MetodoPago, Cliente cli)
+
+    public Pedido(int pedidoId, String MetodoPago, String Direccion, String tipo, Cliente cli, LocalDateTime Fecha)
     {
+    	this.tipo = tipo;
+    	this.Direccion = Direccion;
+    	this.pedidoId = pedidoId;
+        this.cli=cli;
+        this.MetodoPago = MetodoPago;
+        listaProductos = new ArrayList<DetallePedido>();
+        fecha = Fecha;
+        
+    }
+    
+    public Pedido(int pedidoId, String MetodoPago, String Direccion, String tipo, Cliente cli)
+    {
+    	this.tipo = tipo;
+    	this.Direccion = Direccion;
     	this.pedidoId = pedidoId;
         this.cli=cli;
         this.MetodoPago = MetodoPago;
@@ -31,19 +49,38 @@ public class Pedido {
         
     }
     
-    public Pedido(int pedidoId, String MetodoPago, int NumMesa, Cliente cli)
-    {
-    	this.pedidoId = pedidoId;
-        this.cli=cli;
-        this.NumMesa = NumMesa;
-        this.MetodoPago = MetodoPago;
-        listaProductos = new ArrayList<DetallePedido>();
-        fecha = LocalDateTime.now();
-        
-    }
+
     
     
-    public String getMetodoPago() {
+    public String getDireccion() {
+		return Direccion;
+	}
+
+
+
+
+	public void setDireccion(String direccion) {
+		Direccion = direccion;
+	}
+
+
+
+
+	public void setFecha(LocalDateTime fecha) {
+		this.fecha = fecha;
+	}
+
+
+
+
+	public void setCli(Cliente cli) {
+		this.cli = cli;
+	}
+
+
+
+
+	public String getMetodoPago() {
 		return MetodoPago;
 	}
 
