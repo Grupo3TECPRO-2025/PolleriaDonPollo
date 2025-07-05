@@ -28,12 +28,13 @@ public class ArregloPedido {
 	            ResultSet rs = cs.executeQuery();
 
 	            while (rs.next()) {
-	                String nombreProducto = rs.getString("NombreProducto");
+	                String nombre = rs.getString("Nombre");
+	                String descripcion = rs.getString("Descripcion");
 	                int totalVendido = rs.getInt("TotalVendido");
 	                String productoID = rs.getString("ProductoID");
 
 	                // Aquí usamos el nombre como descripción, y opcionalmente ponemos el total vendido como "precio"
-	                MenuProducto producto = new MenuProducto(productoID, nombreProducto, totalVendido); 
+	                MenuProducto producto = new MenuProducto(productoID, nombre, descripcion, totalVendido); 
 	                lista.add(producto);
 	            }
 
@@ -269,12 +270,13 @@ public class ArregloPedido {
 	            ResultSet rs = cs.executeQuery();
 
 	            while (rs.next()) {
-	                String nombreProducto = rs.getString("NombreProducto");
+	                String descripcion= rs.getString("Descripcion");
+	                String nombre = rs.getString("Nombre");
 	                double precio = rs.getDouble("PrecioUnitario");
 	                int cantidad = rs.getInt("Cantidad");
 
 	                // Creamos el MenuProducto sin ID (no viene del SELECT)
-	                MenuProducto mp = new MenuProducto(null, nombreProducto, precio);
+	                MenuProducto mp = new MenuProducto(null, nombre, descripcion, precio);
 
 	                // Creamos el DetallePedido
 	                DetallePedido detalle = new DetallePedido(mp, cantidad);

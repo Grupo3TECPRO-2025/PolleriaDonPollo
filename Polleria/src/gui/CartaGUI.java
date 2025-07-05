@@ -45,6 +45,7 @@ public class CartaGUI extends JDialog implements ActionListener {
 	private JTable tableProductos;
     private DefaultTableModel tableModel;
     private ClienteGUI pedidoGUI;
+    private RegistrosGUI registrosGUI;
 
 
 	/**
@@ -52,7 +53,7 @@ public class CartaGUI extends JDialog implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			CartaGUI dialog = new CartaGUI(null);
+			CartaGUI dialog = new CartaGUI();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -63,8 +64,21 @@ public class CartaGUI extends JDialog implements ActionListener {
 	/**
 	 * Create the dialog.
 	 */
+	
 	public CartaGUI(ClienteGUI ventana) {
+		this();
 		pedidoGUI = ventana;
+		
+	}
+	
+	public CartaGUI(RegistrosGUI ventana) {
+		this();
+		registrosGUI = ventana;
+		btnEscoger.setVisible(false);
+
+	}
+	
+	public CartaGUI() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteGUI.class.getResource("/img/DonPollo.jpg")));
 		setTitle("Polleria Don Pollo");
         setBackground(new Color(240, 240, 240));
@@ -87,6 +101,7 @@ public class CartaGUI extends JDialog implements ActionListener {
             };
 
             tableProductos = new JTable(tableModel);
+            tableProductos.setFillsViewportHeight(true);
             tableProductos.setFont(new Font("Tahoma", Font.PLAIN, 15));
             tableProductos.getColumnModel().getColumn(0).setPreferredWidth(300);
             tableProductos.getColumnModel().getColumn(1).setPreferredWidth(40);

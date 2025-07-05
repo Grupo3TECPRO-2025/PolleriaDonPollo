@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class OrdenCompraGUI extends JDialog {
+public class AgregarMateriaPrima extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
@@ -18,7 +18,7 @@ public class OrdenCompraGUI extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			OrdenCompraGUI dialog = new OrdenCompraGUI();
+			AgregarMateriaPrima dialog = new AgregarMateriaPrima();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -29,7 +29,7 @@ public class OrdenCompraGUI extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public OrdenCompraGUI() {
+	public AgregarMateriaPrima() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
@@ -40,15 +40,9 @@ public class OrdenCompraGUI extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				JButton btnVolver = new JButton("Volver");
+				btnVolver.setActionCommand("Cancel");
+				buttonPane.add(btnVolver);
 			}
 		}
 	}

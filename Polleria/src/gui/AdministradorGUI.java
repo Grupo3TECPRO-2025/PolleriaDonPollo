@@ -26,12 +26,17 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 	private JButton btnRegistrarEmpleados;
 	private JButton btnRegistrarProveedores;
 	
-	private ClienteGUI ventanaCliente;
+
 	private JButton btnInicio;
+	
+	
+	private ClienteGUI ventanaCliente;
 	private RegistrosGUI ventanaRegistros;
 	private ProvicionesGUI ventanaProveedor;
-	
 	private RegistrarTrabajadorGUI ventanaRegistrarTrabajador;
+	private RegistroProveedoresGUI ventanaRegistroProveedor;
+	
+
 	private Usuario user;
 	private JLabel lblNewLabel;
 	
@@ -194,5 +199,15 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 		dispose();	
 	}
 	protected void do_btnRegistrarProveedores_actionPerformed(ActionEvent e) {
+		if (ventanaRegistroProveedor != null && ventanaRegistroProveedor.isDisplayable()) {
+			ventanaRegistroProveedor.dispose();
+        }
+    	
+
+		ventanaRegistroProveedor  = null;  
+		ventanaRegistroProveedor  = new RegistroProveedoresGUI(user);
+		ventanaRegistroProveedor .setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventanaRegistroProveedor .setVisible(true);
+		dispose();
 	}
 }

@@ -1,8 +1,13 @@
 package DatosPersonales;
 
+import java.util.ArrayList;
+
+import Inventario.MateriaPrima;
+
 public class Proveedor {
 	String RUC, nombreEmpresa, direccion;
 	int telefono;
+	 private ArrayList<MateriaPrima> TipoProvicion;
 
 
 	public Proveedor(String RUC, String nombreEmpresa, String direccion, int telefono) {
@@ -11,6 +16,17 @@ public class Proveedor {
 		this.nombreEmpresa = nombreEmpresa;
 		this.direccion = direccion;
 		this.telefono = telefono;
+		TipoProvicion = new ArrayList<MateriaPrima>();
+	}
+
+
+	public ArrayList<MateriaPrima> getTipoProvicion() {
+		return TipoProvicion;
+	}
+
+
+	public void setTipoProvicion(ArrayList<MateriaPrima> tipoProvicion) {
+		TipoProvicion = tipoProvicion;
 	}
 
 
