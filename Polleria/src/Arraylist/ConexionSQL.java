@@ -14,7 +14,7 @@ public class ConexionSQL {
 			System.out.println("Driver Correcto");
 
 			cnx = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/PolleriaDonPolloDB", "root", "mysql"
+					"jdbc:mysql://localhost:3306/PolleriaDonPolloDB", "root", "mysql12345"
 					);
 
 			System.out.println("Conexion correcta");

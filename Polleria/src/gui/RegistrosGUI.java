@@ -377,15 +377,16 @@ public class RegistrosGUI extends JFrame implements ActionListener, KeyListener 
 	void listarHistorialPedidos(List<Pedido> listaPedidos) {
 		
 		DefaultTableModel modelo = (DefaultTableModel) tbPedidoHistorial.getModel();
-	    modelo.setRowCount(0); // Limpiar la tabla antes de llenar
+	    modelo.setRowCount(0);
 
 	    int nro = 1;
 	    for (Pedido p : listaPedidos) {
-	        Usuario user = ArregloUsuario.obtenerUsuarioTrabajadorPorPedido(p.getPedidoId());
+	        Usuario traba = ArregloUsuario.obtenerUsuarioTrabajadorPorPedido(p.getPedidoId());
+	        Usuario admin = ArregloUsuario.obtenerUsuarioAdministradorPorPedido(p.getPedidoId());
 	        
-	        if(user.getRol().equals("administrador")) {
-	        	Administrador administrador = ArregloAdministrador.obtenerAdministrador(user.getUser());
-	        	if(p.getCli().getDNI().equals("")) {
+	        if(admin!=null) {
+	        	Administrador administrador = ArregloAdministrador.obtenerAdministrador(admin.getUser());
+	        	if(p.getCli().getDNI()==null) {
 		        	modelo.addRow(new Object[]{
 		    	            p.getPedidoId(),
 		    	            p.getCli().getNombreCompleto(),
@@ -402,9 +403,9 @@ public class RegistrosGUI extends JFrame implements ActionListener, KeyListener 
 		    	            p.getFecha() // Este debe ser java.sql.Date
 		    	        });
 		        }
-	        }else {
-	        	Trabajador trabajador = ArregloTrabajador.obtenerTrabajador(user.getUser());
-	        	if(p.getCli().getDNI().equals("")) {
+	        }else if(traba != null){
+	        	Trabajador trabajador = ArregloTrabajador.obtenerTrabajador(traba.getUser());
+	        	if(p.getCli().getDNI()==null) {
 		        	modelo.addRow(new Object[]{
 		    	            p.getPedidoId(),
 		    	            p.getCli().getNombreCompleto(),

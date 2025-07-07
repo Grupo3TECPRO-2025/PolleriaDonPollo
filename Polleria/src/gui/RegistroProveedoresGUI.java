@@ -496,10 +496,10 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 	}
 	protected void do_btnModificar_actionPerformed(ActionEvent e) {
 		try {
-	        String nombre = txtNombreM.getText().trim();
-	        String ruc = txtRUCM.getText().trim();
-	        int telefono =Integer.parseInt( txtTelefonoM.getText().trim());
-	        String direccion = txtDireccionM.getText().trim();
+	        String nombre = txtNombreM.getText();
+	        String ruc = txtRUCM.getText();
+	        int telefono =Integer.parseInt( txtTelefonoM.getText());
+	        String direccion = txtDireccionM.getText();
 	        String nombreSeleccionado = (String) cbxNombreEmpresa.getSelectedItem();
 
 	        if (nombreSeleccionado == null) {
@@ -507,7 +507,7 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 	            return;
 	        }
 
-	        if (nombre.isEmpty() || ruc.isEmpty() || txtTelefono.getText().isEmpty() || direccion.isEmpty()) {
+	        if (nombre.isEmpty() || ruc.isEmpty() || txtTelefonoM.getText().isEmpty() || direccion.isEmpty()) {
 	            JOptionPane.showMessageDialog(null, "Completa todos los campos para modificar el proveedor.");
 	            return;
 	        }
@@ -528,7 +528,7 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 	    
 
 	    } catch (Exception ex) {
-	        JOptionPane.showMessageDialog(null, "Ocurrió un error al modificar: ");
+	        JOptionPane.showMessageDialog(null, "Ocurrió un error al modificar: "+ex);
 	    }
 	}
 	

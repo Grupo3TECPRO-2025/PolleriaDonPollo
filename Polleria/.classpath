@@ -6,17 +6,17 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Smartgo/git/PolleriaDonPollo/Polleria/com.jgoodies.common_1.8.1.v20240327-0800.jar">
+	<classpathentry kind="lib" path="C:/Users/nesto/git/PolleriaDonPollo/Polleria/mysql-connector-j-9.3.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Smartgo/git/PolleriaDonPollo/Polleria/com.jgoodies.forms_1.9.0.v20240327-0800.jar">
+	<classpathentry kind="lib" path="C:/Users/nesto/git/PolleriaDonPollo/Polleria/com.jgoodies.forms_1.9.0.v20240327-0800.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Smartgo/git/PolleriaDonPollo/Polleria/mysql-connector-j-9.3.0.jar">
+	<classpathentry kind="lib" path="C:/Users/nesto/git/PolleriaDonPollo/Polleria/com.jgoodies.common_1.8.1.v20240327-0800.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
