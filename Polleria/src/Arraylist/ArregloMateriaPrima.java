@@ -63,6 +63,20 @@ public class ArregloMateriaPrima {
 
 	    return lista;
 	}
+	 public static void registrarMateriaPrima(String nombre, int stock) {
+	        try {
+	            Connection conn = ConexionSQL.getConexion();
+	            CallableStatement cs = conn.prepareCall("{CALL RegistrarMateriaPrima(?, ?)}");
+	            cs.setString(1, nombre);
+	            cs.setInt(2, stock);
+	            cs.executeUpdate();
+	            cs.close();
+	            conn.close();
+	            System.out.println("Materia prima registrada correctamente.");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
 	
 	
 

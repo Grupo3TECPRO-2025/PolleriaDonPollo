@@ -3,8 +3,8 @@ package Inventario;
 import CartaPolleria.MenuProducto;
 
 public class PlatoConsumo {
-	MateriaPrima insumo;
-	int cantidad;
+	private MateriaPrima insumo;
+	private int cantidad;
 	public PlatoConsumo(MateriaPrima insumo, int cantidad) {
 		this.insumo = insumo;
 		this.cantidad = cantidad;

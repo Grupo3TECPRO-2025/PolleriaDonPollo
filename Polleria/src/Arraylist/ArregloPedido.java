@@ -20,6 +20,124 @@ import Gestiones.Pedido;
 
 
 public class ArregloPedido {
+	public static List<Pedido> buscarPedidosPorFecha(String fechaString) {
+	    List<Pedido> lista = new ArrayList<>();
+
+	    try {
+	        Connection conn = ConexionSQL.getConexion();
+	        CallableStatement cs = conn.prepareCall("{CALL BuscarPedidosPorFecha(?)}");
+	        cs.setString(1, fechaString); // Ejemplo: "05-07-2025"
+
+	        ResultSet rs = cs.executeQuery();
+	        while (rs.next()) {
+	            int pedidoID = rs.getInt("PedidoID");
+	            String metodoPago = rs.getString("MetodoPago");
+	            String direccion = rs.getString("DireccionPedido");
+	            String tipoPedido = rs.getString("TipoPedido");
+
+	            String nombre = rs.getString("NombreApellido");
+	            int telefono = Integer.parseInt(rs.getString("Telefono"));
+	            String dni = rs.getString("DNI");
+	            String clienteID = rs.getString("ClienteID");
+
+	            Timestamp timestamp = rs.getTimestamp("FechaEmision");
+	            LocalDateTime fecha = timestamp.toLocalDateTime();
+
+	            Cliente cli = new Cliente(clienteID, telefono, nombre, dni);
+	            Pedido pedido = new Pedido(pedidoID, metodoPago, direccion, tipoPedido, cli, fecha);
+
+	            lista.add(pedido);
+	        }
+
+	        rs.close();
+	        cs.close();
+	    } catch (Exception e) {
+	    	//
+	    }
+
+	    return lista;
+	}
+
+	
+	public static List<Pedido> buscarPedidosPorDNICliente(String dniCliente) {
+	    List<Pedido> lista = new ArrayList<>();
+
+	    try {
+	        Connection conn = ConexionSQL.getConexion();
+	        CallableStatement cs = conn.prepareCall("{CALL BuscarPedidosPorDNICliente(?)}");
+	        cs.setString(1, dniCliente);
+
+	        ResultSet rs = cs.executeQuery();
+	        while (rs.next()) {
+	            int pedidoID = rs.getInt("PedidoID");
+	            String metodoPago = rs.getString("MetodoPago");
+	            String direccion = rs.getString("DireccionPedido");
+	            String tipoPedido = rs.getString("TipoPedido");
+
+	            int telefono = Integer.parseInt(rs.getString("Telefono"));
+	            String nombreCompleto = rs.getString("NombreApellido");
+	            String dni = rs.getString("DNI");
+	            String clienteID = rs.getString("ClienteID");
+
+	            Timestamp timestamp = rs.getTimestamp("FechaEmision");
+	            LocalDateTime fecha = timestamp.toLocalDateTime();
+
+	            Cliente cliente = new Cliente(clienteID, telefono, nombreCompleto, dni);
+	            Pedido pedido = new Pedido(pedidoID, metodoPago, direccion, tipoPedido, cliente, fecha);
+
+	            lista.add(pedido);
+	        }
+
+	        rs.close();
+	        cs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
+
+	
+	
+	public static List<Pedido> buscarPedidosPorNombreCliente(String nombreParcial) {
+	    List<Pedido> lista = new ArrayList<>();
+
+	    try {
+	        Connection conn = ConexionSQL.getConexion();
+	        CallableStatement cs = conn.prepareCall("{CALL BuscarPedidosPorNombreCliente(?)}");
+	        cs.setString(1, nombreParcial);
+
+	        ResultSet rs = cs.executeQuery();
+	        while (rs.next()) {
+	            int pedidoID = rs.getInt("PedidoID");
+	            String metodoPago = rs.getString("MetodoPago");
+	            String direccion = rs.getString("DireccionPedido");
+	            String tipoPedido = rs.getString("TipoPedido");
+
+	            int telefono = Integer.parseInt(rs.getString("Telefono"));
+	            String nombreCompleto = rs.getString("NombreApellido");
+	            String dni = rs.getString("DNI");
+	            String clienteID = rs.getString("ClienteID");
+
+	            Timestamp timestamp = rs.getTimestamp("FechaEmision");
+	            LocalDateTime fecha = timestamp.toLocalDateTime();
+
+	            Cliente cliente = new Cliente(clienteID, telefono, nombreCompleto, dni);
+	            Pedido pedido = new Pedido(pedidoID, metodoPago, direccion, tipoPedido, cliente, fecha);
+
+	            lista.add(pedido);
+	        }
+
+	        rs.close();
+	        cs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
+
+
 	 public static List<MenuProducto> obtenerProductosMasVendidos() {
 	        List<MenuProducto> lista = new ArrayList<>();
 
@@ -189,9 +307,10 @@ public class ArregloPedido {
 	        while (rs.next()) {
 	            int pedidoID = rs.getInt("PedidoID");
 	            String nombreCliente = rs.getString("NombreCliente");
+	            String dni = rs.getString("DNI");
 	            LocalDateTime fecha = rs.getTimestamp("FechaEmision").toLocalDateTime();
 	            // Cliente básico
-	            Cliente cliente = new Cliente(null, 0, nombreCliente); 
+	            Cliente cliente = new Cliente(null, 0, nombreCliente, dni); 
 
 	            // Crear pedido
 	            Pedido pedido = new Pedido(pedidoID, null, null, null, cliente,fecha);

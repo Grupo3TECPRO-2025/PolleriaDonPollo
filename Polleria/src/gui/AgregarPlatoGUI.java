@@ -31,8 +31,10 @@ import Inventario.PlatoConsumo;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
-public class AgregarPlatoGUI extends JDialog implements ActionListener {
+public class AgregarPlatoGUI extends JDialog implements ActionListener, ItemListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
@@ -65,6 +67,8 @@ public class AgregarPlatoGUI extends JDialog implements ActionListener {
 	private ArrayList<PlatoConsumo> listaPlatoConsumos;
 	private JLabel lblNombre;
 	private JTextField txtNombre;
+	private JTextField txtDescripcionM;
+	private JLabel lblPrecio_3;
 	/**
 	 * Launch the application.
 	 */
@@ -84,7 +88,7 @@ public class AgregarPlatoGUI extends JDialog implements ActionListener {
 	public AgregarPlatoGUI() {
 		listaPlatoConsumos = new ArrayList<PlatoConsumo>();
 
-		setBounds(100, 100, 470, 576);
+		setBounds(100, 100, 470, 606);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -199,7 +203,7 @@ public class AgregarPlatoGUI extends JDialog implements ActionListener {
 			panel_1.setBackground(new Color(255, 237, 232));
 			panel_1.setLayout(null);
 			panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Modificar Plato", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
-			panel_1.setBounds(47, 319, 350, 168);
+			panel_1.setBounds(47, 319, 350, 203);
 			contentPanel.add(panel_1);
 			{
 				cbxNombre = new JLabel("Nombre plato");
@@ -213,47 +217,63 @@ public class AgregarPlatoGUI extends JDialog implements ActionListener {
 			}
 			{
 				txtNombreM = new JTextField();
+				txtNombreM.setFont(new Font("Tahoma", Font.PLAIN, 11));
 				txtNombreM.setColumns(10);
-				txtNombreM.setBounds(19, 77, 169, 20);
+				txtNombreM.setBounds(19, 77, 143, 20);
 				panel_1.add(txtNombreM);
 			}
 			{
-				lblInsumoQueUtiliza_1 = new JLabel("Precio Unitario");
-				lblInsumoQueUtiliza_1.setBounds(18, 103, 122, 14);
+				lblInsumoQueUtiliza_1 = new JLabel("Precio S/.");
+				lblInsumoQueUtiliza_1.setBounds(178, 58, 122, 14);
 				panel_1.add(lblInsumoQueUtiliza_1);
 			}
 			{
 				txtPlatoID = new JTextField();
 				txtPlatoID.setEditable(false);
 				txtPlatoID.setColumns(10);
-				txtPlatoID.setBounds(215, 77, 112, 20);
+				txtPlatoID.setBounds(257, 77, 70, 20);
 				panel_1.add(txtPlatoID);
 			}
 			{
 				btnModificar = new JButton("Modificar");
-				btnModificar.setBounds(126, 111, 90, 35);
+				btnModificar.addActionListener(this);
+				btnModificar.setBounds(72, 155, 90, 35);
 				panel_1.add(btnModificar);
 			}
 			{
 				btnEliminarM = new JButton("Eliminar");
-				btnEliminarM.setBounds(234, 111, 90, 34);
+				btnEliminarM.setBounds(187, 155, 90, 34);
 				panel_1.add(btnEliminarM);
 			}
 			{
 				cbxPlato = new JComboBox();
-				cbxPlato.setBounds(106, 24, 207, 22);
+				cbxPlato.addItemListener(this);
+				cbxPlato.addActionListener(this);
+				cbxPlato.setBounds(106, 24, 221, 22);
 				panel_1.add(cbxPlato);
 			}
 			{
 				txtPrecioM = new JTextField();
 				txtPrecioM.setColumns(10);
-				txtPrecioM.setBounds(18, 122, 61, 20);
+				txtPrecioM.setBounds(175, 76, 65, 20);
 				panel_1.add(txtPrecioM);
 			}
 			{
 				lblPrecio_2 = new JLabel("IdPlato");
-				lblPrecio_2.setBounds(215, 58, 122, 14);
+				lblPrecio_2.setBounds(257, 58, 70, 14);
 				panel_1.add(lblPrecio_2);
+			}
+			{
+				txtDescripcionM = new JTextField();
+				txtDescripcionM.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				txtDescripcionM.setColumns(10);
+				txtDescripcionM.setBounds(19, 125, 308, 20);
+				panel_1.add(txtDescripcionM);
+			}
+			{
+				lblPrecio_3 = new JLabel("Descripción");
+				lblPrecio_3.setBounds(21, 108, 122, 14);
+				panel_1.add(lblPrecio_3);
 			}
 		}
 		{
@@ -275,8 +295,18 @@ public class AgregarPlatoGUI extends JDialog implements ActionListener {
 			}
 		}
 		ListarMateriaPrima();
+		ListarPlatos();
+		Rellenartexto();
+
+		
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnModificar) {
+			do_btnModificar_actionPerformed(e);
+		}
+		if (e.getSource() == cbxPlato) {
+			do_cbxPlato_actionPerformed(e);
+		}
 		if (e.getSource() == btnEnviarPlato) {
 			do_btnEnviarPlato_actionPerformed(e);
 		}
@@ -342,6 +372,16 @@ public class AgregarPlatoGUI extends JDialog implements ActionListener {
 		
 		
 	}
+	
+	void ListarPlatos() {
+		cbxPlato.removeAllItems();
+		
+		for(MenuProducto pro : ArregloMenuProducto.listarMenuProductos()) {
+			cbxPlato.addItem(pro.getDescripcion());
+		}
+
+	}
+	
 	protected void do_btnEliminar_actionPerformed(ActionEvent e) {
 		
 		int filaSeleccionada = table.getSelectedRow();
@@ -380,17 +420,66 @@ public class AgregarPlatoGUI extends JDialog implements ActionListener {
 				nuevoPlato.setListaDeConsumos(listaPlatoConsumos);
 				ArregloMenuProducto.registrarPlato(nuevoPlato);
 				
+				JOptionPane.showMessageDialog(this, "Se registró correctamente");
+				
 			}else {
 				JOptionPane.showMessageDialog(this, "Debe haber minimo 1 insumo registrado");
 			}
-			
+			ListarPlatos();
+
 			
 			
 			
 		}catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Rellena todos los campos correctamente");
+			JOptionPane.showMessageDialog(this, "Rellena todos los campos correctamente: "+ex);
+		}
+
+		
+	}
+	protected void do_cbxPlato_actionPerformed(ActionEvent e) {
+		if(cbxPlato.getSelectedItem()!=null) {
+			Rellenartexto();
+
 		}
 		
+	}
+	
+	void Rellenartexto() {
 		
+		MenuProducto producto = ArregloMenuProducto.buscarPlatoPorDescripcion(cbxPlato.getSelectedItem().toString()).getFirst();
+		
+		txtNombreM.setText(producto.getNombre());
+		txtDescripcionM.setText(producto.getDescripcion());
+		txtPrecioM.setText(""+producto.getPrecioUnitario());
+		txtPlatoID.setText(producto.getIdProducto());
+		
+	}
+	protected void do_btnModificar_actionPerformed(ActionEvent e) {
+		
+		try {
+			String idPlato = txtPlatoID.getText();
+			String nuevoNombre = txtNombreM.getText();
+			String nuevaDescripcion = txtDescripcion.getText(); 
+			double nuevoPrecio = Double.parseDouble(txtPrecioM.getText());
+			
+			MenuProducto producto = new MenuProducto(idPlato, nuevoNombre, nuevaDescripcion, nuevoPrecio);
+			
+			ArregloMenuProducto.modificarPlato(producto);
+			ListarPlatos();
+			JOptionPane.showMessageDialog(this, "El plato fue registrado correctamente");
+		}
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "El plato no pudo registrarse");
+
+		}
+		
+	}
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getSource() == cbxPlato) {
+			do_cbxPlato_itemStateChanged(e);
+		}
+	}
+	protected void do_cbxPlato_itemStateChanged(ItemEvent e) {
+
 	}
 }

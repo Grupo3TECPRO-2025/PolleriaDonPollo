@@ -1,11 +1,72 @@
 package Arraylist;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import DatosPersonales.Cliente;
 
 public class ArregloCliente {
+	public static ArrayList<Cliente> buscarClientePorDNI(String dniParcial) {
+	    ArrayList<Cliente> lista = new ArrayList<>();
+
+	    try {
+	        Connection conn = ConexionSQL.getConexion();
+	        CallableStatement cs = conn.prepareCall("{CALL BuscarClientePorDNI(?)}");
+	        cs.setString(1, dniParcial);
+
+	        ResultSet rs = cs.executeQuery();
+
+	        while (rs.next()) {
+	            String clienteID = String.valueOf(rs.getInt("ClienteID"));
+	            String nombre = rs.getString("NombreApellido");
+	            String dni = rs.getString("DNI");
+	            int telefono = Integer.parseInt(rs.getString("Telefono"));
+
+	            Cliente cliente = new Cliente(clienteID, telefono, nombre, dni);
+	            lista.add(cliente);
+	        }
+
+	        rs.close();
+	        cs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
+
+	
+	public static ArrayList<Cliente> buscarClientePorNombre(String nombreParcial) {
+        ArrayList<Cliente> lista = new ArrayList<>();
+
+        try {
+            Connection conn = ConexionSQL.getConexion();
+            CallableStatement cs = conn.prepareCall("{CALL BuscarClientePorNombre(?)}");
+            cs.setString(1, nombreParcial);
+
+            ResultSet rs = cs.executeQuery();
+
+            while (rs.next()) {
+                String clienteID = String.valueOf(rs.getInt("ClienteID"));
+                String nombre = rs.getString("NombreApellido");
+                String dni = rs.getString("DNI");
+                int telefono = Integer.parseInt(rs.getString("Telefono"));
+
+                Cliente cliente = new Cliente(clienteID, telefono, nombre, dni);
+                lista.add(cliente);
+            }
+
+            rs.close();
+            cs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+	
 	public static boolean RegistrarCliente(Cliente cli) {
 	    try {
 	        

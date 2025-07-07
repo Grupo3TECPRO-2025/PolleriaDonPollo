@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class AdministradorGUI extends JFrame implements ActionListener {
 
@@ -39,6 +40,7 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 
 	private Usuario user;
 	private JLabel lblNewLabel;
+	private JButton btnClientesRegistros;
 	
 	
 
@@ -64,40 +66,46 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 	public AdministradorGUI(Usuario user) {
 		this.user = user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 602, 522);
+		setBounds(100, 100, 602, 402);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(128, 64, 64));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
 			btnRegistrarPedido = new JButton("Registrar Pedido");
+			btnRegistrarPedido.setBackground(new Color(233, 209, 209));
 			btnRegistrarPedido.addActionListener(this);
-			btnRegistrarPedido.setBounds(208, 112, 168, 42);
+			btnRegistrarPedido.setBounds(76, 111, 168, 42);
 			contentPane.add(btnRegistrarPedido);
 		}
 		{
 			btnHistorialRegistros = new JButton("Historial Registros");
+			btnHistorialRegistros.setBackground(new Color(233, 209, 209));
 			btnHistorialRegistros.addActionListener(this);
-			btnHistorialRegistros.setBounds(208, 184, 168, 42);
+			btnHistorialRegistros.setBounds(317, 111, 168, 42);
 			contentPane.add(btnHistorialRegistros);
 		}
 		{
 			btnRellenarStock = new JButton("Rellenar Stock");
+			btnRellenarStock.setBackground(new Color(233, 209, 209));
 			btnRellenarStock.addActionListener(this);
-			btnRellenarStock.setBounds(208, 263, 168, 42);
+			btnRellenarStock.setBounds(76, 195, 168, 42);
 			contentPane.add(btnRellenarStock);
 		}
 		{
 			btnRegistrarEmpleados = new JButton("Registrar Empleados");
+			btnRegistrarEmpleados.setBackground(new Color(233, 209, 209));
 			btnRegistrarEmpleados.addActionListener(this);
-			btnRegistrarEmpleados.setBounds(208, 334, 168, 42);
+			btnRegistrarEmpleados.setBounds(317, 195, 168, 42);
 			contentPane.add(btnRegistrarEmpleados);
 		}
 		{
 			btnRegistrarProveedores = new JButton("Registrar Proveedores");
+			btnRegistrarProveedores.setBackground(new Color(233, 209, 209));
 			btnRegistrarProveedores.addActionListener(this);
-			btnRegistrarProveedores.setBounds(208, 408, 168, 42);
+			btnRegistrarProveedores.setBounds(76, 276, 168, 42);
 			contentPane.add(btnRegistrarProveedores);
 		}
 		{
@@ -108,10 +116,17 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 		}
 		{
 			lblNewLabel = new JLabel("ELIGE UNA OPCIÓN");
+			lblNewLabel.setForeground(new Color(255, 255, 255));
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 36));
 			lblNewLabel.setBounds(123, 48, 351, 48);
 			contentPane.add(lblNewLabel);
+		}
+		{
+			btnClientesRegistros = new JButton("Clientes Registros");
+			btnClientesRegistros.setBackground(new Color(233, 209, 209));
+			btnClientesRegistros.setBounds(317, 276, 168, 42);
+			contentPane.add(btnClientesRegistros);
 		}
 	}
 

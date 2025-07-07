@@ -70,7 +70,7 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 783, 556);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 128));
+		contentPane.setBackground(new Color(128, 64, 64));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -187,7 +187,7 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 						{
 							lblRegistrarEmpleados = new JLabel("REGISTRAR EMPLEADOS");
 							lblRegistrarEmpleados.setHorizontalAlignment(SwingConstants.CENTER);
-							lblRegistrarEmpleados.setForeground(Color.BLACK);
+							lblRegistrarEmpleados.setForeground(new Color(255, 255, 255));
 							lblRegistrarEmpleados.setFont(new Font("Segoe UI Black", Font.PLAIN, 34));
 							lblRegistrarEmpleados.setBackground(Color.BLACK);
 							lblRegistrarEmpleados.setBounds(69, 11, 670, 50);

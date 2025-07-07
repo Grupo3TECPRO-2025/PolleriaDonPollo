@@ -22,9 +22,16 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
+import Arraylist.ArregloAdministrador;
+import Arraylist.ArregloCliente;
 import Arraylist.ArregloPedido;
 import Arraylist.ArregloPersona;
+import Arraylist.ArregloTrabajador;
+import Arraylist.ArregloUsuario;
 import CartaPolleria.MenuProducto;
+import DatosPersonales.Administrador;
+import DatosPersonales.Cliente;
+import DatosPersonales.Trabajador;
 import Gestiones.DetallePedido;
 import Gestiones.Pedido;
 import Gestiones.Usuario;
@@ -33,10 +40,13 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
-public class RegistrosGUI extends JFrame implements ActionListener {
+public class RegistrosGUI extends JFrame implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -64,26 +74,18 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 	private JTextArea txtProductoModa;
 	private JButton btnVerCarta;
 	private JButton btnVerDetallePedido;
-	private JTextField textField_2;
+	private JTextField txtBuscar;
 	private JComboBox cbxPedidoH;
 	private JLabel lblNewLabel_4;
-	private JPanel panel_4;
-	private JLabel lblOrdenesHistorial;
-	private JScrollPane scrollPane_2;
-	private JTextField textField_3;
-	private JComboBox cbxOrdenH;
-	private JLabel lblNewLabel_7;
-	private JTable tbOrdenHistorial;
 	private JButton btnAgregarPlato;
 	private JButton btnActualizarPedido;
-	private JButton btnVerDetalleOrden;
-	private JButton btnActualizarOrden;
 	private JButton btnAgregarMateriaPrima;
 	private JButton btnVolver;
 	private Usuario user;
 	private ListarInventarioGUI listar;
 	private AgregarPlatoGUI platos;
-
+	private ListarPlatosGUI listarPlatos;
+	private AgregarMateriaPrima agregearMateriaPrima;
 	/**
 	 * Launch the application.
 	 */
@@ -106,18 +108,20 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 	public RegistrosGUI(Usuario user) {
 		this.user = user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 50, 810, 729);
+		setBounds(300, 50, 785, 574);
 		contentPane = new JPanel();
 		contentPane.setAutoscrolls(true);
-		contentPane.setBackground(UIManager.getColor("Button.background"));
+		contentPane.setBackground(new Color(211, 185, 175));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
 			panel = new JPanel();
+			panel.setBackground(new Color(233, 209, 209));
 			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
-			panel.setBounds(34, 226, 710, 86);
+			panel.setBounds(22, 220, 710, 86);
+			panel.setBackground(new Color(255, 250, 250));
 			contentPane.add(panel);
 			panel.setLayout(null);
 			{
@@ -146,88 +150,93 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 			}
 			{
 				btnListarPlatos = new JButton("Listar Platos");
+				btnListarPlatos.addActionListener(this);
 				btnListarPlatos.setBounds(160, 40, 129, 35);
 				panel.add(btnListarPlatos);
 			}
 		}
 		{
 			panel_1 = new JPanel();
+			panel_1.setBackground(new Color(255, 250, 250));
 			panel_1.setLayout(null);
-			panel_1.setBounds(34, 324, 710, 168);
+			panel_1.setBounds(22, 318, 710, 198);
 			panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
 			contentPane.add(panel_1);
 			{
 				lblReportes = new JLabel("PEDIDOS HISTORIAL");
 				lblReportes.setHorizontalAlignment(SwingConstants.CENTER);
 				lblReportes.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 18));
-				lblReportes.setBounds(131, 11, 197, 24);
+				lblReportes.setBounds(178, 17, 197, 24);
 				panel_1.add(lblReportes);
 			}
 			{
 				scrollPane = new JScrollPane();
-				scrollPane.setBounds(17, 52, 478, 102);
+				scrollPane.setBounds(17, 44, 539, 135);
 				panel_1.add(scrollPane);
 				{
 					tbPedidoHistorial = new JTable();
+					tbPedidoHistorial.setFillsViewportHeight(true);
 					tbPedidoHistorial.setModel(new DefaultTableModel(
 						new Object[][] {
 						},
 						new String[] {
-							"N\u00B0", "Venta ID", "cliente", "fecha"
+							"Venta ID", "cliente", "DNI", "Trabajador", "fecha"
 						}
 					));
-					tbPedidoHistorial.getColumnModel().getColumn(0).setMaxWidth(40);
-					tbPedidoHistorial.getColumnModel().getColumn(1).setPreferredWidth(20);
+					tbPedidoHistorial.getColumnModel().getColumn(0).setPreferredWidth(50);
+					tbPedidoHistorial.getColumnModel().getColumn(1).setPreferredWidth(100);
 					tbPedidoHistorial.getColumnModel().getColumn(2).setPreferredWidth(120);
 					tbPedidoHistorial.getColumnModel().getColumn(3).setPreferredWidth(120);
+					tbPedidoHistorial.getColumnModel().getColumn(4).setPreferredWidth(120);
 					scrollPane.setViewportView(tbPedidoHistorial);
 				}
 			}
 			{
 				btnVerDetallePedido = new JButton("Ver Detalle");
 				btnVerDetallePedido.addActionListener(this);
-				btnVerDetallePedido.setBounds(532, 127, 125, 27);
+				btnVerDetallePedido.setBounds(567, 152, 125, 27);
 				panel_1.add(btnVerDetallePedido);
 			}
 			{
-				textField_2 = new JTextField();
-				textField_2.setColumns(10);
-				textField_2.setBounds(532, 70, 125, 20);
-				panel_1.add(textField_2);
+				txtBuscar = new JTextField();
+				txtBuscar.addKeyListener(this);
+				txtBuscar.setColumns(10);
+				txtBuscar.setBounds(567, 95, 125, 20);
+				panel_1.add(txtBuscar);
 			}
 			{
 				cbxPedidoH = new JComboBox();
-				cbxPedidoH.setModel(new DefaultComboBoxModel(new String[] {"Cliente Nombre", "Fecha (mes)", "Fecha (Año)", "Fecha (dd-mm-yy)"}));
-				cbxPedidoH.setBounds(531, 43, 125, 22);
+				cbxPedidoH.setModel(new DefaultComboBoxModel(new String[] {"Nombre", "DNI", "Fecha (dd-mm-yy)"}));
+				cbxPedidoH.setBounds(566, 68, 125, 22);
 				panel_1.add(cbxPedidoH);
 			}
 			{
-				lblNewLabel_4 = new JLabel("Elige una opcion para filtrar ");
-				lblNewLabel_4.setBounds(532, 17, 164, 15);
+				lblNewLabel_4 = new JLabel("Elige una opcion ");
+				lblNewLabel_4.setBounds(566, 44, 164, 15);
 				panel_1.add(lblNewLabel_4);
 			}
 			{
 				btnActualizarPedido = new JButton("Actualizar");
 				btnActualizarPedido.addActionListener(this);
-				btnActualizarPedido.setBounds(532, 95, 125, 27);
+				btnActualizarPedido.setBounds(567, 120, 125, 27);
 				panel_1.add(btnActualizarPedido);
 			}
 		}
 		{
 			lblAdministradorPolleria = new JLabel("REGISTROS - POLLERIA DON POLLO");
 			lblAdministradorPolleria.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblAdministradorPolleria.setBounds(134, 22, 612, 50);
+			lblAdministradorPolleria.setBounds(122, 16, 612, 50);
 			contentPane.add(lblAdministradorPolleria);
-			lblAdministradorPolleria.setForeground(Color.BLACK);
+			lblAdministradorPolleria.setForeground(new Color(0, 0, 0));
 			lblAdministradorPolleria.setFont(new Font("Segoe UI Black", Font.PLAIN, 34));
-			lblAdministradorPolleria.setBackground(Color.BLACK);
+			lblAdministradorPolleria.setBackground(new Color(233, 209, 209));
 		}
 		{
 			panel_2 = new JPanel();
 			panel_2.setLayout(null);
 			panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Datos Personales", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			panel_2.setBackground(new Color(255, 250, 250));
-			panel_2.setBounds(34, 83, 211, 135);
+			panel_2.setBounds(22, 77, 211, 135);
 			contentPane.add(panel_2);
 			{
 				lblNewLabel_1_1 = new JLabel("Usuario");
@@ -261,7 +270,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 			panel_3.setLayout(null);
 			panel_3.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"Reportes / Consultas de Ventas", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
 			panel_3.setBackground(new Color(255, 250, 250));
-			panel_3.setBounds(280, 85, 466, 134);
+			panel_3.setBounds(268, 79, 466, 134);
 			contentPane.add(panel_3);
 			{
 				lblNewLabel_5 = new JLabel("Total de Pedidos");
@@ -318,79 +327,21 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 			}
 		}
 		{
-			panel_4 = new JPanel();
-			panel_4.setLayout(null);
-			panel_4.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
-			panel_4.setBounds(34, 503, 710, 182);
-			contentPane.add(panel_4);
-			{
-				lblOrdenesHistorial = new JLabel("ORDENES HISTORIAL");
-				lblOrdenesHistorial.setHorizontalAlignment(SwingConstants.CENTER);
-				lblOrdenesHistorial.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 18));
-				lblOrdenesHistorial.setBounds(131, 11, 197, 24);
-				panel_4.add(lblOrdenesHistorial);
-			}
-			{
-				scrollPane_2 = new JScrollPane();
-				scrollPane_2.setBounds(17, 52, 478, 111);
-				panel_4.add(scrollPane_2);
-				{
-					tbOrdenHistorial = new JTable();
-					tbOrdenHistorial.setModel(new DefaultTableModel(
-						new Object[][] {
-						},
-						new String[] {
-							"N\u00B0", "Nombre Empresa", "Fecha", "Precio"
-						}
-					));
-					tbOrdenHistorial.getColumnModel().getColumn(0).setMaxWidth(40);
-					tbOrdenHistorial.getColumnModel().getColumn(1).setPreferredWidth(120);
-					tbOrdenHistorial.getColumnModel().getColumn(2).setPreferredWidth(120);
-					tbOrdenHistorial.getColumnModel().getColumn(3).setPreferredWidth(40);
-					scrollPane_2.setViewportView(tbOrdenHistorial);
-				}
-			}
-			{
-				textField_3 = new JTextField();
-				textField_3.setColumns(10);
-				textField_3.setBounds(530, 77, 125, 20);
-				panel_4.add(textField_3);
-			}
-			{
-				cbxOrdenH = new JComboBox();
-				cbxOrdenH.setModel(new DefaultComboBoxModel(new String[] {"Empresa Nombre", "RUC", "fecha (mes)", "fecha (año)", "fecha (dd-mm/yy)"}));
-				cbxOrdenH.setBounds(530, 49, 125, 22);
-				panel_4.add(cbxOrdenH);
-			}
-			{
-				lblNewLabel_7 = new JLabel("Elige una opcion para filtrar ");
-				lblNewLabel_7.setBounds(525, 29, 164, 15);
-				panel_4.add(lblNewLabel_7);
-			}
-			{
-				btnVerDetalleOrden = new JButton("Ver Detalle");
-				btnVerDetalleOrden.setBounds(531, 132, 125, 27);
-				panel_4.add(btnVerDetalleOrden);
-			}
-			{
-				btnActualizarOrden = new JButton("Actualizar");
-				btnActualizarOrden.setBounds(530, 101, 125, 27);
-				panel_4.add(btnActualizarOrden);
-			}
-		}
-		{
 			btnVolver = new JButton("Volver");
 			btnVolver.addActionListener(this);
-			btnVolver.setBounds(36, 27, 101, 38);
+			btnVolver.setBounds(24, 21, 101, 38);
 			contentPane.add(btnVolver);
 		}
 
-		listarHistorialPedidos();
+		listarHistorialPedidos(ArregloPedido.listarPedidosBasico());
 		actualizarProductosMasVendidosEnLista();
 		ActualizarGananciasTotales();
 		
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnListarPlatos) {
+			do_btnListarPlatos_actionPerformed(e);
+		}
 		if (e.getSource() == btnAgregarMateriaPrima) {
 			do_btnAgregarMateriaPrima_actionPerformed(e);
 		}
@@ -423,32 +374,73 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 		volver.setVisible(true);
 	}
 	
-	void listarHistorialPedidos() {
-		List<Pedido> listaPedidos = ArregloPedido.listarPedidosBasico();
+	void listarHistorialPedidos(List<Pedido> listaPedidos) {
+		
 		DefaultTableModel modelo = (DefaultTableModel) tbPedidoHistorial.getModel();
 	    modelo.setRowCount(0); // Limpiar la tabla antes de llenar
 
 	    int nro = 1;
 	    for (Pedido p : listaPedidos) {
-	        modelo.addRow(new Object[]{
-	            nro++, // Número correlativo
-	            p.getPedidoId(),
-	            p.getCli().getNombreCompleto(),
-	            p.getFecha() // Este debe ser java.sql.Date
-	        });
+	        Usuario user = ArregloUsuario.obtenerUsuarioTrabajadorPorPedido(p.getPedidoId());
+	        
+	        if(user.getRol().equals("administrador")) {
+	        	Administrador administrador = ArregloAdministrador.obtenerAdministrador(user.getUser());
+	        	if(p.getCli().getDNI().equals("")) {
+		        	modelo.addRow(new Object[]{
+		    	            p.getPedidoId(),
+		    	            p.getCli().getNombreCompleto(),
+		    	            "Sin DNI",
+		    	            administrador.getNombreCompleto(),
+		    	            p.getFecha() // Este debe ser java.sql.Date
+		    	        });
+		        }else {
+		        	modelo.addRow(new Object[]{
+		    	            p.getPedidoId(),
+		    	            p.getCli().getNombreCompleto(),
+		    	            p.getCli().getDNI(),
+		    	            administrador.getNombreCompleto(),
+		    	            p.getFecha() // Este debe ser java.sql.Date
+		    	        });
+		        }
+	        }else {
+	        	Trabajador trabajador = ArregloTrabajador.obtenerTrabajador(user.getUser());
+	        	if(p.getCli().getDNI().equals("")) {
+		        	modelo.addRow(new Object[]{
+		    	            p.getPedidoId(),
+		    	            p.getCli().getNombreCompleto(),
+		    	            "Sin DNI",
+		    	            trabajador.getNombreCompleto(),
+		    	            p.getFecha() // Este debe ser java.sql.Date
+		    	        });
+		        }else {
+		        	modelo.addRow(new Object[]{
+		    	            p.getPedidoId(),
+		    	            p.getCli().getNombreCompleto(),
+		    	            p.getCli().getDNI(),
+		    	            trabajador.getNombreCompleto(),
+		    	            p.getFecha() 
+		    	        });
+		        }
+	        }
+	    	
+	        
 	    }
 	}
 	protected void do_btnActualizarPedido_actionPerformed(ActionEvent e) {
-		List<Pedido> listaPedidos = ArregloPedido.listarPedidosBasico();
-		listarHistorialPedidos();
-		txtGanancias.setText("S/"+ArregloPedido.obtenerGananciasTotalesConCupones());
-		txtNumPedidos.setText(""+ArregloPedido.obtenerTotalPedidos());
+		try {
+			List<Pedido> listaPedidos = ArregloPedido.listarPedidosBasico();
+			listarHistorialPedidos(ArregloPedido.listarPedidosBasico());
+			txtGanancias.setText("S/"+ArregloPedido.obtenerGananciasTotalesConCupones());
+			txtNumPedidos.setText(""+ArregloPedido.obtenerTotalPedidos());
+		}catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Se actualizó el contenido");
+		}
 	}
 	protected void do_btnVerDetallePedido_actionPerformed(ActionEvent e) {
 		int filaSeleccionada = tbPedidoHistorial.getSelectedRow();
 	    
 		if (filaSeleccionada != -1) {
-	        int pedidoID = (int) tbPedidoHistorial.getValueAt(filaSeleccionada, 1);
+	        int pedidoID = (int) tbPedidoHistorial.getValueAt(filaSeleccionada, 0);
 
 	        // Abrir la ventana con solo el ID
 	        PedidoDetalleGUI ventana = new PedidoDetalleGUI(pedidoID);
@@ -466,7 +458,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 	    for (MenuProducto producto : productosMasVendidos) {
 	        sb.append(index++)
 	          .append(". ")
-	          .append(producto.getDescripcion()) 
+	          .append(producto.getNombre()) 
 	          .append("\n");
 	    }
 	    
@@ -476,7 +468,7 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 		try {
 			actualizarProductosMasVendidosEnLista();
 			ActualizarGananciasTotales();
-			listarHistorialPedidos();
+			listarHistorialPedidos(ArregloPedido.listarPedidosBasico());
 			JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
 		}catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Hubo un error al momento de actualizar");
@@ -520,6 +512,61 @@ public class RegistrosGUI extends JFrame implements ActionListener {
 		
 	}
 	protected void do_btnAgregarMateriaPrima_actionPerformed(ActionEvent e) {
+
+		
+		if (agregearMateriaPrima != null && agregearMateriaPrima.isDisplayable()) {
+			agregearMateriaPrima.dispose();
+    
+        }
+    	
+		agregearMateriaPrima  = new AgregarMateriaPrima();
+		agregearMateriaPrima.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		agregearMateriaPrima.setVisible(true);
+	}
+	protected void do_btnListarPlatos_actionPerformed(ActionEvent e) {
+		if (listarPlatos != null && listarPlatos.isDisplayable()) {
+            listarPlatos.dispose();
+    
+        }
+		listarPlatos = null;
+		listarPlatos = new ListarPlatosGUI();
+		listarPlatos.setVisible(true);
+	}
+	public void keyPressed(KeyEvent e) {
+		if (e.getSource() == txtBuscar) {
+			do_txtBuscar_keyPressed(e);
+		}
+	}
+	public void keyReleased(KeyEvent e) {
+	}
+	public void keyTyped(KeyEvent e) {
+	}
+	protected void do_txtBuscar_keyPressed(KeyEvent e) {
+		
+		try {
+			int fila = cbxPedidoH.getSelectedIndex();
+			List<Pedido> listaClientes = new ArrayList<Pedido>();
+			switch (fila) {
+			case 0: {
+				listaClientes = ArregloPedido.buscarPedidosPorNombreCliente(txtBuscar.getText());
+				break;
+			}case 1:{
+				listaClientes = ArregloPedido.buscarPedidosPorDNICliente(txtBuscar.getText());
+				break;
+			}case 2:{
+				listaClientes = ArregloPedido.buscarPedidosPorFecha(txtBuscar.getText());
+				break;
+			}
+			default:
+				break;
+			}
+			
+			listarHistorialPedidos(listaClientes);
+		}catch (Exception ex) {
+			// TODO: handle exception
+		}
+	   
+
 	}
 }
 

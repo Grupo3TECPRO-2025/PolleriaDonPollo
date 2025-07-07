@@ -95,13 +95,14 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 472);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(128, 64, 64));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
 			panel = new JPanel();
-			panel.setBackground(new Color(255, 255, 255));
+			panel.setBackground(new Color(255, 254, 253));
 			panel.setBounds(10, 64, 657, 215);
 			contentPane.add(panel);
 			panel.setLayout(null);
@@ -209,7 +210,7 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 		{
 			panel_1 = new JPanel();
 			panel_1.setLayout(null);
-			panel_1.setBackground(Color.WHITE);
+			panel_1.setBackground(new Color(255, 254, 253));
 			panel_1.setBounds(10, 289, 657, 133);
 			contentPane.add(panel_1);
 			{
@@ -283,6 +284,7 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 		}
 		{
 			lblNewLabel_2 = new JLabel("REGISTRAR PROVEEDORES");
+			lblNewLabel_2.setForeground(new Color(255, 255, 255));
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 24));
 			lblNewLabel_2.setBounds(178, 17, 329, 30);

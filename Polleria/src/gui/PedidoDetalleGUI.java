@@ -3,12 +3,15 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingConstants;
@@ -29,6 +32,7 @@ import DatosPersonales.Trabajador;
 import Gestiones.DetallePedido;
 import Gestiones.Pedido;
 import Gestiones.Usuario;
+import java.awt.Color;
 
 public class PedidoDetalleGUI extends JDialog {
 
@@ -61,6 +65,10 @@ public class PedidoDetalleGUI extends JDialog {
 	private JLabel lblNewLabel_11;
 	private JTextField txtRol;
 	private int pedidoID;
+	private JTextField txtCosto;
+	private JLabel lblNewLabel_12;
+	private JLabel lblNewLabel_13;
+	private JLabel lblProductosComprados;
 	
 	/**
 	 * Launch the application.
@@ -80,23 +88,27 @@ public class PedidoDetalleGUI extends JDialog {
 	 */
 	public PedidoDetalleGUI(int pedidoID) {
 		this.pedidoID = pedidoID;
-		setBounds(100, 100, 905, 452);
+		setBounds(100, 100, 895, 452);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(128, 64, 64));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
 			JLabel lblNewLabel = new JLabel("DETALLE PEDIDO");
+			lblNewLabel.setForeground(new Color(255, 255, 255));
+			lblNewLabel.setBackground(new Color(255, 255, 255));
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 28));
-			lblNewLabel.setBounds(192, 26, 450, 32);
+			lblNewLabel.setBounds(94, 26, 297, 32);
 			contentPanel.add(lblNewLabel);
 		}
 		{
 			panel = new JPanel();
+			panel.setBackground(new Color(255, 243, 240));
 			panel.setLayout(null);
 			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
-			panel.setBounds(29, 69, 387, 302);
+			panel.setBounds(29, 80, 387, 302);
 			contentPanel.add(panel);
 			{
 				lblNewLabel_1 = new JLabel("Cliente Nombre:");
@@ -222,16 +234,18 @@ public class PedidoDetalleGUI extends JDialog {
 		}
 		{
 			panel_1 = new JPanel();
+			panel_1.setBackground(new Color(255, 243, 240));
 			panel_1.setLayout(null);
 			panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED),"", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
-			panel_1.setBounds(426, 69, 436, 302);
+			panel_1.setBounds(426, 80, 436, 302);
 			contentPanel.add(panel_1);
 			{
 				scrollPane = new JScrollPane();
-				scrollPane.setBounds(27, 30, 386, 242);
+				scrollPane.setBounds(27, 30, 386, 205);
 				panel_1.add(scrollPane);
 				{
 					table = new JTable();
+					table.setFillsViewportHeight(true);
 					table.setModel(new DefaultTableModel(
 						new Object[][] {
 						},
@@ -247,6 +261,34 @@ public class PedidoDetalleGUI extends JDialog {
 					scrollPane.setViewportView(table);
 				}
 			}
+			{
+				txtCosto = new JTextField();
+				txtCosto.setEditable(false);
+				txtCosto.setColumns(10);
+				txtCosto.setBounds(300, 241, 113, 20);
+				panel_1.add(txtCosto);
+			}
+			{
+				lblNewLabel_12 = new JLabel("Total:");
+				lblNewLabel_12.setBounds(239, 241, 58, 21);
+				panel_1.add(lblNewLabel_12);
+			}
+		}
+		{
+			lblNewLabel_13 = new JLabel("");
+			lblNewLabel_13.setBounds(29, 11, 63, 58);
+			contentPanel.add(lblNewLabel_13);
+			lblNewLabel_13.setIcon(new ImageIcon(new ImageIcon(ClienteGUI.class.getResource
+					("/img/DonPollo.jpg")).getImage().getScaledInstance(70, 62, Image.SCALE_FAST)));
+		}
+		{
+			lblProductosComprados = new JLabel("PRODUCTOS COMPRADOS");
+			lblProductosComprados.setHorizontalAlignment(SwingConstants.CENTER);
+			lblProductosComprados.setForeground(Color.WHITE);
+			lblProductosComprados.setFont(new Font("Tahoma", Font.BOLD, 28));
+			lblProductosComprados.setBackground(Color.WHITE);
+			lblProductosComprados.setBounds(445, 26, 387, 32);
+			contentPanel.add(lblProductosComprados);
 		}
 		Pedido pedido = ArregloPedido.obtenerDetallePedidoPorID(pedidoID);
 	    List<DetallePedido> detalles = ArregloPedido.obtenerProductosDelPedido(pedidoID);
@@ -298,6 +340,7 @@ public class PedidoDetalleGUI extends JDialog {
 	    DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 	    modelo.setRowCount(0); // Limpiar tabla
 
+	    double total = 0;
 	    int nro = 1;
 	    for (DetallePedido dp : detalles) {
 	        modelo.addRow(new Object[]{
@@ -307,8 +350,13 @@ public class PedidoDetalleGUI extends JDialog {
 	            dp.getCantidad(),
 	            dp.Costo()
 	        });
+	        total += dp.getCantidad()*dp.getProducto().getPrecioUnitario();
 	    }
+	    txtCosto.setText("S/."+total);
 	}
-
-
+	
+	void totalCosto(ArrayList<DetallePedido> dt) {
+	
+		
+	}
 }
