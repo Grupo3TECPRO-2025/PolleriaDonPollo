@@ -14,6 +14,7 @@ import CartaPolleria.Cupon;
 import CartaPolleria.MenuProducto;
 import DatosPersonales.Administrador;
 import DatosPersonales.Cliente;
+import DatosPersonales.ClienteCuenta;
 import DatosPersonales.Trabajador;
 import Gestiones.DetallePedido;
 import Gestiones.Pedido;
@@ -207,6 +208,81 @@ public class ArregloPedido {
 	    return total;
 	}
 	
+	public static void RegistrarPedidoConCuenta(Pedido pedido, Trabajador trabajador, Administrador admin, ClienteCuenta cuenta) {
+	    int pedidoID = -1;
+
+	    try {
+	        Connection conn = ConexionSQL.getConexion();
+	        CallableStatement cs = conn.prepareCall("{CALL RegistrarPedidoConCuenta(?, ?, ?, ?, ?, ?, ?, ?)}");
+
+	        // 1. ClienteID (de ClienteRegis)
+	        cs.setInt(1, Integer.parseInt(cuenta.getCli().getClienteID()));
+
+	        // 2. CuponID
+	        if (pedido.getProm() != null) {
+	            cs.setInt(2, pedido.getProm().getId());
+	        } else {
+	            cs.setNull(2, java.sql.Types.INTEGER);
+	        }
+
+	        // 3. Metodo de Pago
+	        cs.setString(3, pedido.getMetodoPago().toLowerCase());
+
+	        // 4. Tipo de Pedido
+	        cs.setString(4, pedido.getTipo().toLowerCase());
+
+	        // 5. Fecha del pedido
+	        cs.setTimestamp(5, Timestamp.valueOf(pedido.getFecha()));
+
+	        // 6. TrabajadorID
+	        if (trabajador != null) {
+	            cs.setInt(6, Integer.parseInt(trabajador.getTrabajorID()));
+	        } else {
+	            cs.setNull(6, java.sql.Types.INTEGER);
+	        }
+
+	        // 7. AdminID
+	        if (admin != null) {
+	            cs.setInt(7, Integer.parseInt(admin.getAdminID()));
+	        } else {
+	            cs.setNull(7, java.sql.Types.INTEGER);
+	        }
+
+	        // 8. Dirección si es delivery
+	        if (pedido.getTipo().equalsIgnoreCase("delivery")) {
+	            cs.setString(8, pedido.getDireccion());
+	        } else {
+	            cs.setNull(8, java.sql.Types.VARCHAR);
+	        }
+
+	        cs.execute();
+	        cs.close();
+
+	        // Obtener ID generado
+	        PreparedStatement ps = conn.prepareStatement("SELECT LAST_INSERT_ID()");
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            pedidoID = rs.getInt(1);
+	        }
+
+	        rs.close();
+	        ps.close();
+
+	        // Registrar detalles del pedido
+	        for (DetallePedido detalle : Pedido.getListaProductos()) {
+	            RegistrarDetallePedido(detalle.getProducto().getIdProducto(), pedidoID, detalle.getCantidad());
+	        }
+
+	        System.out.println("✅ Pedido registrado con cuenta de cliente correctamente.");
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al registrar pedido con cuenta: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+
+	
+	
 	
 	public static void RegistrarPedido(Pedido pedido, Trabajador trabajador, Administrador admin) {
 		int pedidoID = -1;
@@ -280,6 +356,8 @@ public class ArregloPedido {
             e.printStackTrace();
         }
     }
+	
+	
 	
 	public static void RegistrarDetallePedido(String productoID, int pedidoID, int cantidad) {
 	    try (Connection conn = ConexionSQL.getConexion()) {

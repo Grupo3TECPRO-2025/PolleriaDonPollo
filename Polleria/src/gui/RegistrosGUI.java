@@ -541,6 +541,28 @@ public class RegistrosGUI extends JFrame implements ActionListener, KeyListener 
 	public void keyReleased(KeyEvent e) {
 	}
 	public void keyTyped(KeyEvent e) {
+		try {
+			int fila = cbxPedidoH.getSelectedIndex();
+			List<Pedido> listaClientes = new ArrayList<Pedido>();
+			switch (fila) {
+			case 0: {
+				listaClientes = ArregloPedido.buscarPedidosPorNombreCliente(txtBuscar.getText());
+				break;
+			}case 1:{
+				listaClientes = ArregloPedido.buscarPedidosPorDNICliente(txtBuscar.getText());
+				break;
+			}case 2:{
+				listaClientes = ArregloPedido.buscarPedidosPorFecha(txtBuscar.getText());
+				break;
+			}
+			default:
+				break;
+			}
+			
+			listarHistorialPedidos(listaClientes);
+		}catch (Exception ex) {
+			// TODO: handle exception
+		}
 	}
 	protected void do_txtBuscar_keyPressed(KeyEvent e) {
 		

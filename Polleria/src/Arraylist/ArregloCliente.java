@@ -3,11 +3,72 @@ package Arraylist;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import DatosPersonales.Cliente;
+import DatosPersonales.ClienteCuenta;
 
 public class ArregloCliente {
+	
+	public static void registrarNuevoClienteConCuenta(ClienteCuenta cuenta) {
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement cs = conn.prepareCall("{CALL RegistrarNuevoClienteConCuenta(?, ?, ?, ?)}")) {
+
+	        // Datos desde el objeto cuenta y su Cliente interno
+	        Cliente cliente = cuenta.getCli();
+
+	        cs.setString(1, String.valueOf(cliente.getTelefono()));
+	        cs.setString(2, cliente.getNombreCompleto());
+	        cs.setString(3, cuenta.getDNI());
+	        cs.setTimestamp(4, Timestamp.valueOf(cuenta.getFechaRegistro())); // LocalDateTime → Timestamp
+
+	        cs.execute();
+	        System.out.println("✅ Cliente con cuenta registrado correctamente.");
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al registrar cliente con cuenta: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+
+
+	
+	public static ClienteCuenta buscarClienteRegisPorDNI(String dni) {
+	    ClienteCuenta cuenta = null;
+
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement stmt = conn.prepareCall("{CALL BuscarClienteRegisPorDNI(?)}")) {
+
+	        stmt.setString(1, dni);
+	        ResultSet rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            // Obtener datos del cliente
+	            String clienteID = String.valueOf(rs.getInt("ClienteID"));
+	            String nombre = rs.getString("NombreApellido");
+	            String telefono = rs.getString("Telefono");
+
+	            // Crear Cliente
+	            Cliente cliente = new Cliente(clienteID, Integer.parseInt(telefono), nombre, dni);
+
+	            // Obtener fecha y puntos
+	            Timestamp fechaRegistro = rs.getTimestamp("FechaRegistro");
+	            int puntos = rs.getInt("PuntosCuenta");
+
+	            // Crear ClienteCuenta
+	            cuenta = new ClienteCuenta(dni, puntos, cliente);
+	            cuenta.setFechaRegistro(fechaRegistro.toLocalDateTime());
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return cuenta;
+	}
+
+	
 	public static ArrayList<Cliente> buscarClientePorDNI(String dniParcial) {
 	    ArrayList<Cliente> lista = new ArrayList<>();
 
@@ -67,7 +128,7 @@ public class ArregloCliente {
         return lista;
     }
 	
-	public static boolean RegistrarCliente(Cliente cli) {
+	public static boolean RegistrarClienteANTIGUO(Cliente cli) {
 	    try {
 	        
 

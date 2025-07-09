@@ -31,6 +31,7 @@ import CartaPolleria.Cupon;
 import CartaPolleria.MenuProducto;
 import DatosPersonales.Administrador;
 import DatosPersonales.Cliente;
+import DatosPersonales.ClienteCuenta;
 import DatosPersonales.Persona;
 import DatosPersonales.Trabajador;
 import Gestiones.DetallePedido;
@@ -77,6 +78,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	private Usuario user;
 	private Trabajador trabajador;
 	private Administrador administrador;
+	private ClienteCuenta cuenta;
 	
 	
 	/**
@@ -392,14 +394,12 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	      
 	        if(encontrado!=null) {
 
-		        double precioU = encontrado.getPrecioUnitario();
 		    	if(AgregarClienteNuevo()) {
 		    		if(cbxPedido.getSelectedItem().equals("Delivery") && txtDireccion.getText().isBlank()) {
 		    			JOptionPane.showMessageDialog(this, "Si es delivery escribe una direccion");
 		    			return;
 		    		}
-		    		
-		    		
+		    				    		
 		    		
 		    		if(ped == null) {
 			        	ped=new Pedido(0,metodoPago,direccion,cbxPedido.getSelectedItem().toString().toLowerCase(),cli);
@@ -535,9 +535,6 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	}
 	
 	void Desactivar() {
-		txtPromocion.setEditable(false);
-		txtPedidoID.setEditable(false);
-		txtNumPedido.setEditable(false);
 		txtNombre.setEditable(true);
       	txtDni.setEditable(true);
       	txtTelefono.setEditable(true);
@@ -553,7 +550,6 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	
 	void Activar() {
 		txtPromocion.setEditable(true);
-		txtPedidoID.setEditable(true);
 		txtNumPedido.setEditable(true);
 		txtCant.setEditable(true);
 		txtNombre.setEditable(false);
@@ -580,8 +576,8 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 			JOptionPane.showMessageDialog(this, "La cuenta ha eliminado");
 			
 		}
-		DesactivarCliente();
-      	
+		Desactivar();
+      	LimpiarCliente();
 	}
 	protected void do_btnEnviar_actionPerformed(ActionEvent e) {
 		try {
@@ -600,6 +596,9 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	    			return;
 	    		}
 	      		
+	      		if(!AgregarClienteNuevo()) {
+	      			return;
+	      		}
 	      		
 	      		ped.setDireccion(txtDireccion.getText());
 	      		//SACAR CUENTA
@@ -608,9 +607,21 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		      	
 		      	//PEDIR FACTURA
 	      		
-	      		ArregloPedido.RegistrarPedido(ped, trabajador, administrador);
-	      		JOptionPane.showMessageDialog(this, "El pedido fue registrado correctamente!");
+		      	if(ArregloCliente.buscarClienteRegisPorDNI(txtDni.getText())!=null) {
+		      		cuenta = ArregloCliente.buscarClienteRegisPorDNI(txtDni.getText());
+		      		Cliente idCliente = ArregloCliente.buscarClientePorDNI(cuenta.getDNI()).getFirst();
+		      		cuenta.getCli().setClienteID(idCliente.getClienteID());
+		      		ArregloPedido.RegistrarPedidoConCuenta(ped, trabajador, administrador, cuenta);
+		      		JOptionPane.showMessageDialog(this, "El pedido fue registrado correctamente con cuenta registrada!");
+
+		      	}else {
+		      		ArregloPedido.RegistrarPedido(ped, trabajador, administrador);  	
+		      		JOptionPane.showMessageDialog(this, "El pedido fue registrado correctamente!");
+
+		      	}
+	      	
 		    
+	
 	
 	      		//REINICIAR PEDIDO
 		      	cli = null;
@@ -618,13 +629,14 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 				Listar();
 				ped = null;
 		      	LimpiarCliente();
+		      	cuenta = null;
 	      	}else {
 				JOptionPane.showMessageDialog(this, "Debe haber un producto para hacer un pedido");
 	      		
 	      	}
 			
 		}catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Hubo un error al momento de realizar el pedido, verifica que \nlos datos esten escritos correctamente");
+			JOptionPane.showMessageDialog(this, "Hubo un error al momento de realizar el pedido, verifica que \nlos datos esten escritos correctamente"+ex);
 		}
 
 	}
@@ -657,11 +669,17 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		
 	}
 	protected void do_btnRegistrar_actionPerformed(ActionEvent e) {
-		AgregarClienteNuevo();
-		ArregloCliente.RegistrarCliente(cli);
-		if(!txtDni.getText().isBlank()) {
-			
+		
+		if(ArregloCliente.buscarClienteRegisPorDNI(txtDni.getText())==null) {
+			if(AgregarClienteNuevo()) {
+				cuenta = new ClienteCuenta(cli.getDNI(), 0 , cli);
+				ArregloCliente.registrarNuevoClienteConCuenta(cuenta);
+			}
 		}
+		else {
+			JOptionPane.showMessageDialog(this, "El cliente ya fue registrado!");
+		}
+
 	}
 	protected void do_btnVolver_actionPerformed(ActionEvent e) {
 		if(user.getRol().equals("trabajador")) {
@@ -707,8 +725,8 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		}
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(this, "ingresa bien los datos del cliente");
+			return false;
 		}
-		return true;
 	}
 	
 	void GuardarDatos() {
