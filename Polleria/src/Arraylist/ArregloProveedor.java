@@ -14,6 +14,73 @@ import Inventario.MateriaPrima;
 
 public class ArregloProveedor {
 
+	public static boolean habilitarProveedorPorRUC(String ruc) {
+	    boolean resultado = false;
+
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement stmt = conn.prepareCall("{CALL HabilitarProveedorPorRUC(?)}")) {
+
+	        stmt.setString(1, ruc);
+	        stmt.execute();
+
+	        resultado = true;
+	        System.out.println("✅ Proveedor habilitado correctamente.");
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al habilitar proveedor: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return resultado;
+	}
+
+	
+	public static boolean deshabilitarProveedorPorNombre(String nombreEmpresa) {
+	    boolean actualizado = false;
+
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement cs = conn.prepareCall("{CALL EliminarProveedor(?)}")) {
+
+	        cs.setString(1, nombreEmpresa);
+	        int filasAfectadas = cs.executeUpdate(); // usamos executeUpdate porque UPDATE devuelve cantidad de filas
+
+	        actualizado = (filasAfectadas > 0);
+
+	        if (actualizado) {
+	            System.out.println("✅ Proveedor deshabilitado correctamente.");
+	        } else {
+	            System.out.println("⚠ No se encontró un proveedor habilitado con ese nombre.");
+	        }
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al deshabilitar proveedor: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return actualizado;
+	}
+
+	public static boolean verificarProveedorHabilitado(String ruc) {
+	    boolean habilitado = false;
+
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement cs = conn.prepareCall("{CALL VerificarProveedorHabilitado(?)}")) {
+
+	        cs.setString(1, ruc);
+	        ResultSet rs = cs.executeQuery();
+
+	        if (rs.next()) {
+	            habilitado = true;
+	        }
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al verificar proveedor habilitado: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return habilitado;
+	}
+
 	public static ArrayList<Proveedor> buscarProveedorPorNombre(String nombre) {
 	    ArrayList<Proveedor> lista = new ArrayList<>();
 

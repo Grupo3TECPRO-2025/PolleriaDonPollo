@@ -429,6 +429,20 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 		        JOptionPane.showMessageDialog(null, "Completa todos los campos del proveedor.");
 		        return;
 		    }
+		    
+
+			if (ArregloProveedor.habilitarProveedorPorRUC(ruc)) {
+			    JOptionPane.showMessageDialog(null, "Proveedor Reintegrado");
+			    proveedores = ArregloProveedor.listarProveedores();
+			    for (Proveedor pro : proveedores) {
+					cbxNombreEmpresa.addItem(pro.getNombreEmpresa());
+				}
+			    return;
+			    
+			} else {
+				
+			}
+		    
 
 		    ArrayList<String> tipos = new ArrayList<>();
 		    DefaultTableModel modelo = (DefaultTableModel) table.getModel();
@@ -533,6 +547,7 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 	}
 	
 	protected void do_btnEliminar_1_actionPerformed(ActionEvent e) {
+		
 		try {
 	        String nombreSeleccionado = (String) cbxNombreEmpresa.getSelectedItem();
 
@@ -560,10 +575,9 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 	            JOptionPane.showMessageDialog(null, "Proveedor eliminado correctamente.");
 	            cbxNombreEmpresa.removeAllItems();
 	            
-	            proveedores = ArregloProveedor.listarProveedores();
-	            for (Proveedor pro : proveedores) {
-	    			cbxNombreEmpresa.addItem(pro.getNombreEmpresa());
-	    		}
+	            ArregloProveedor.EliminarProveedor(nombreSeleccionado);
+	            
+	            ActualizarNombreEmpresas();
 	            
 
 	        }else {
@@ -587,7 +601,10 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 		cbxNombreEmpresa.removeAllItems();
         proveedores = ArregloProveedor.listarProveedores();
  		for (Proveedor pro : proveedores) {
- 			cbxNombreEmpresa.addItem(pro.getNombreEmpresa());
+ 			if(ArregloProveedor.verificarProveedorHabilitado(pro.getRUC())) {
+ 	 			cbxNombreEmpresa.addItem(pro.getNombreEmpresa());
+ 				
+ 			}
  		}
          	
 	}

@@ -4,13 +4,124 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import DatosPersonales.Cliente;
 import DatosPersonales.ClienteCuenta;
 
 public class ArregloCliente {
 	
+	public static boolean habilitarClienteRegisPorDNI(String dni) {
+	    boolean exito = false;
+
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement cs = conn.prepareCall("{CALL HabilitarClienteRegisPorDNI(?)}")) {
+
+	        cs.setString(1, dni);
+	        cs.execute();
+	        exito = true;
+	        System.out.println("✅ Cliente registrado habilitado correctamente.");
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al habilitar cliente registrado: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return exito;
+	}
+
+	
+	public static boolean deshabilitarClienteRegisPorDNI(String dni) {
+	    boolean actualizado = false;
+
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement cs = conn.prepareCall("{CALL EliminarClienteRegisPorDNI(?)}")) {
+
+	        cs.setString(1, dni);
+	        int filas = cs.executeUpdate(); // devuelve cuántas filas fueron afectadas
+
+	        actualizado = (filas > 0);
+
+	        if (actualizado) {
+	            System.out.println("✅ Cliente deshabilitado correctamente.");
+	        } else {
+	            System.out.println("⚠ No se encontró un cliente habilitado con ese DNI.");
+	        }
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al deshabilitar cliente registrado: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return actualizado;
+	}
+
+	public static List<ClienteCuenta> buscarClientesRegisPorNombre(String nombreParcial) {
+	    List<ClienteCuenta> lista = new ArrayList<>();
+
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement cs = conn.prepareCall("{CALL BuscarClientesRegisPorNombre(?)}")) {
+
+	        cs.setString(1, nombreParcial);
+	        ResultSet rs = cs.executeQuery();
+
+	        while (rs.next()) {
+	            String dni = rs.getString("DNI");
+	            int clienteID = rs.getInt("ClienteID");
+	            String nombre = rs.getString("NombreApellido");
+	            int telefono = Integer.parseInt(rs.getString("Telefono"));
+	            int puntos = rs.getInt("PuntosCuenta");
+	            LocalDateTime fecha = rs.getTimestamp("FechaRegistro").toLocalDateTime();
+
+	            Cliente cliente = new Cliente(String.valueOf(clienteID), telefono, nombre, dni);
+	            ClienteCuenta cuenta = new ClienteCuenta(dni, puntos, cliente);
+	            cuenta.setFechaRegistro(fecha);
+
+	            lista.add(cuenta);
+	        }
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al buscar clientes registrados por nombre: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
+
+	
+	public static ClienteCuenta verificarClienteRegisHabilitado(String dni) {
+	    ClienteCuenta cuenta = null;
+
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement cs = conn.prepareCall("{CALL VerificarClienteRegisHabilitado(?)}")) {
+
+	        cs.setString(1, dni);
+	        ResultSet rs = cs.executeQuery();
+
+	        if (rs.next()) {
+	            // Extraer datos de ClienteRegis
+	            int clienteID = rs.getInt("ClienteID");
+	            String dniEncontrado = rs.getString("DNI");
+	            int puntos = rs.getInt("PuntosCuenta");
+	            Timestamp fecha = rs.getTimestamp("FechaRegistro");
+
+	            // Como no devuelve datos de Persona, generamos un Cliente parcial
+	            Cliente cliente = new Cliente(String.valueOf(clienteID), 0, "", dniEncontrado);
+
+	            cuenta = new ClienteCuenta(dniEncontrado, puntos, cliente);
+	            cuenta.setFechaRegistro(fecha.toLocalDateTime());
+	        }
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al verificar cliente regis habilitado: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return cuenta;
+	}
+
 	public static void registrarNuevoClienteConCuenta(ClienteCuenta cuenta) {
 	    try (Connection conn = ConexionSQL.getConexion();
 	         CallableStatement cs = conn.prepareCall("{CALL RegistrarNuevoClienteConCuenta(?, ?, ?, ?)}")) {
@@ -92,6 +203,45 @@ public class ArregloCliente {
 	        rs.close();
 	        cs.close();
 	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
+
+	public static List<ClienteCuenta> listarClientesRegisHabilitados() {
+	    List<ClienteCuenta> lista = new ArrayList<>();
+
+	    try {
+	    	Connection conn = ConexionSQL.getConexion();
+	    
+	         CallableStatement cs = conn.prepareCall("{CALL ListarClientesRegisHabilitados()}");
+
+	        ResultSet rs = cs.executeQuery();
+
+	        while (rs.next()) {
+	            // Datos personales
+	            String dni = rs.getString("DNI");
+	            int clienteID = rs.getInt("ClienteID");
+	            String nombre = rs.getString("NombreApellido");
+	            int telefono = Integer.parseInt(rs.getString("Telefono"));
+
+	            // Cliente
+	            Cliente cliente = new Cliente(String.valueOf(clienteID), telefono, nombre, dni);
+
+	            // ClienteCuenta
+	            int puntos = rs.getInt("PuntosCuenta");
+	            LocalDateTime fecha = rs.getTimestamp("FechaRegistro").toLocalDateTime();
+	            ClienteCuenta cuenta = new ClienteCuenta(dni, puntos, cliente);
+	            cuenta.setFechaRegistro(fecha);
+
+	            lista.add(cuenta);
+	        }
+
+	        rs.close();
+	        cs.close();
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al listar clientes con cuenta habilitados: " + e.getMessage());
 	        e.printStackTrace();
 	    }
 

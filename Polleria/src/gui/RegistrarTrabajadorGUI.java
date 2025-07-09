@@ -29,8 +29,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
-public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, MouseListener {
+public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, MouseListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -163,24 +165,22 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 			}
 			{
 				btnModificar = new JButton("MODIFICAR");
-				btnModificar.setBounds(126, 51, 96, 33);
+				btnModificar.setBounds(126, 51, 106, 33);
 				panel_1.add(btnModificar);
 				{
 					btnEliminar = new JButton("ELIMINAR");
 					btnEliminar.setBounds(20, 51, 96, 33);
 					panel_1.add(btnEliminar);
 					{
-						btnBuscar = new JButton("BUSCAR");
-						btnBuscar.setBounds(71, 137, 103, 32);
-						panel_1.add(btnBuscar);
 						{
 							txtBusqueda = new JTextField();
+							txtBusqueda.addKeyListener(this);
 							txtBusqueda.setBounds(126, 107, 96, 19);
 							panel_1.add(txtBusqueda);
 							txtBusqueda.setColumns(10);
 						}
 						{
-							lblBusquedaPorDni = new JLabel("Busqueda por DNI:");
+							lblBusquedaPorDni = new JLabel("Buscar nombre:");
 							lblBusquedaPorDni.setBounds(20, 108, 115, 20);
 							panel_1.add(lblBusquedaPorDni);
 						}
@@ -199,13 +199,15 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 							btnVolver.setBounds(21, 20, 116, 38);
 							contentPane.add(btnVolver);
 						}
-						btnBuscar.addActionListener(this);
 					}
 					btnEliminar.addActionListener(this);
 				}
 				btnModificar.addActionListener(this);
 			}
 		}
+		
+		ArrayList<Trabajador>lista = ArregloTrabajador.buscarTrabajadoresPorNombre("");
+		mostrarEnTabla(lista);
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnVolver) {
@@ -217,16 +219,12 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 		if (e.getSource() == btnModificar) {
 			do_btnModificar_actionPerformed(e);
 		}
-		if (e.getSource() == btnBuscar) {
-			do_btnBuscar_actionPerformed(e);
-		}
 		if (e.getSource() == btnRegistrar) {
 			do_btnRegistrar_actionPerformed(e);
 		}
 	}
 	private JScrollPane scrollPane;
 	private JTable table;
-	private JButton btnBuscar;
 	private JTextField txtBusqueda;
 	private JLabel lblOpciones;
 	private JButton btnModificar;
@@ -267,6 +265,8 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 	            return;
 	        }
 
+	        
+	       
 	        String usuario = generarUsuario(nombre, dni);
 	        String contrasena = generarContrasena();
 	        
@@ -274,10 +274,29 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 
 	        Trabajador emp = new Trabajador(null,telefono, nombre, dni, direccion, userEmpleado);
 
+	        if (ArregloTrabajador.habilitarTrabajadorPorDNI(dni)) {
+	            ArrayList<Trabajador> lista = ArregloTrabajador.buscarTrabajadoresPorNombre("");
+	            mostrarEnTabla(lista);
+	            limpiarCampos();
+	            JOptionPane.showMessageDialog(null, "Empleado Reintegrado.");
+	            return;
+	        } 
+	        
+	        if (ArregloTrabajador.registrarTrabajador(emp)) {
+	            JOptionPane.showMessageDialog(this, "REGISTRADO EXITOSAMENTE\n"
+	                + "Usuario: " + usuario + "\nContraseña: " + contrasena);
+	            ArrayList<Trabajador>lista = ArregloTrabajador.buscarTrabajadoresPorNombre("");
+	    		mostrarEnTabla(lista);
+	            limpiarCampos();
+	        } else {
+	            JOptionPane.showMessageDialog(this, "❌ No se pudo registrar el trabajador en la base de datos.");
+	        }
+	        
 	        JOptionPane.showMessageDialog(this, "REGISTRADO EXITOSAMENTE\n"
 	            + "Usuario: " + usuario + "\nContraseña: " + contrasena);
 
-	        mostrarEnTabla();
+	        ArrayList<Trabajador>lista = ArregloTrabajador.buscarTrabajadoresPorNombre("");
+			mostrarEnTabla(lista);
 	        limpiarCampos();
 	    } catch (Exception ex) {
 	        JOptionPane.showMessageDialog(this, "¡Error al registrar empleado!");
@@ -300,12 +319,15 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 	}
 
 	
-	public void mostrarEnTabla() {
+	public void mostrarEnTabla(ArrayList<Trabajador> arregloEmpleado) {
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 	    modelo.setRowCount(0);
 	    
-	    ArrayList<Trabajador> arregloEmpleado = ArregloTrabajador.listarTrabajadores();
 
+	    if(arregloEmpleado==null) {
+	    	return;
+	    }
+	    
 	    for (Trabajador emp : arregloEmpleado) {
 	        Object[] fila = {
 	            emp.getDNI(),
@@ -325,24 +347,6 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 	    txtTelefono.setText("");
 	    txtDireccion.setText("");
 	    txtDNI.setEditable(true);
-	}
-	
-	protected void do_btnBuscar_actionPerformed(ActionEvent e) {
-		String dni = txtBusqueda.getText().trim();
-	    txtBusqueda.setText("");
-
-	    Trabajador emp = ArregloTrabajador.VerificarDNITrabajador(dni);
-
-	    if (emp != null) {
-	        JOptionPane.showMessageDialog(null,
-	            "Empleado encontrado:\n" +
-	            "Nombre: " + emp.getNombreCompleto() + "\n" +
-	            "Teléfono: " + emp.getTelefono() + "\n" +
-	            "Dirección: " + emp.getDireccion()
-	        );
-	    } else {
-	        JOptionPane.showMessageDialog(null, "Empleado no encontrado.");
-	    }
 	}
 	
 	
@@ -378,19 +382,41 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 
 	protected void do_btnModificar_actionPerformed(ActionEvent e) {
 		String dniActual = txtDNI.getText().trim();
+	    String nombre = txtNombre.getText().trim();
+	    String telefonoStr = txtTelefono.getText().trim();
+	    String direccion = txtDireccion.getText().trim();
 
-	    Trabajador emp = ArregloTrabajador.VerificarDNITrabajador(dniActual);
+	    if (!camposCompletos(dniActual, nombre, telefonoStr, direccion)) {
+	        JOptionPane.showMessageDialog(null, "¡Complete todos los campos!");
+	        return;
+	    }
 
-	    if (emp != null) {
-	        emp.setNombreCompleto((txtNombre.getText().trim()));
-	        emp.setTelefono(Integer.parseInt(txtTelefono.getText().trim()));
-	        emp.setDireccion(txtDireccion.getText().trim());
+	    if (dniActual.length() != 8 || !dniActual.chars().allMatch(Character::isDigit)) {
+	        JOptionPane.showMessageDialog(null, "El DNI debe tener exactamente 8 dígitos.");
+	        return;
+	    }
 
+	    if (telefonoStr.length() != 9 || !telefonoStr.chars().allMatch(Character::isDigit)) {
+	        JOptionPane.showMessageDialog(null, "El teléfono debe tener exactamente 9 dígitos.");
+	        return;
+	    }
+
+	    if (!nombre.replace(" ", "").chars().allMatch(Character::isLetter)) {
+	        JOptionPane.showMessageDialog(null, "El nombre solo debe contener letras y espacios.");
+	        return;
+	    }
+
+	    int telefono = Integer.parseInt(telefonoStr);
+
+	    boolean actualizado = ArregloTrabajador.modificarDatosTrabajador(dniActual, nombre, telefono, direccion);
+
+	    if (actualizado) {
 	        JOptionPane.showMessageDialog(null, "Empleado modificado correctamente.");
-	        mostrarEnTabla();
+	        ArrayList<Trabajador> lista = ArregloTrabajador.buscarTrabajadoresPorNombre("");
+	        mostrarEnTabla(lista);
 	        limpiarCampos();
 	    } else {
-	        JOptionPane.showMessageDialog(null, "NO SE PUEDE MODIFICAR EL DNI");
+	        JOptionPane.showMessageDialog(null, "No se pudo modificar. ¿Está deshabilitado el trabajador?");
 	    }
 	}
 	protected void do_btnEliminar_actionPerformed(ActionEvent e) {
@@ -401,12 +427,14 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 	        return;
 	    }
 
-	    Trabajador emp = ArregloTrabajador.VerificarDNITrabajador(dni);
+	    Persona emp = ArregloPersona.VerificarDNI(dni);
 
 	    if (emp != null) {
-	        if(ArregloTrabajador.EliminarTrabajador(dni)) {
+	        if(ArregloTrabajador.eliminarTrabajadorPorDNI(dni)) {
 	        	
-	        	mostrarEnTabla();
+	        	
+	        	ArrayList<Trabajador>lista = ArregloTrabajador.buscarTrabajadoresPorNombre("");
+	    		mostrarEnTabla(lista);
 		        limpiarCampos();
 		        JOptionPane.showMessageDialog(null, "Empleado eliminado.");	
 	        }else {
@@ -422,5 +450,21 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 		AdministradorGUI volver = new AdministradorGUI(user);
 		volver.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		volver.setVisible(true);
+	}
+	
+
+	public void keyPressed(KeyEvent e) {
+	}
+	public void keyReleased(KeyEvent e) {
+	}
+	public void keyTyped(KeyEvent e) {
+		if (e.getSource() == txtBusqueda) {
+			do_txtBusqueda_keyTyped(e);
+		}
+	}
+	protected void do_txtBusqueda_keyTyped(KeyEvent e) {
+		ArrayList<Trabajador>lista = ArregloTrabajador.buscarTrabajadoresPorNombre(txtBusqueda.getText());
+		mostrarEnTabla(lista);
+		
 	}
 }

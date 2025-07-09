@@ -21,6 +21,46 @@ import Gestiones.Pedido;
 
 
 public class ArregloPedido {
+	
+	public static List<Pedido> buscarPedidosPorNombreTrabajador(String nombreParcial) {
+	    List<Pedido> lista = new ArrayList<>();
+
+	    try {
+	        Connection conn = ConexionSQL.getConexion();
+	        CallableStatement cs = conn.prepareCall("{CALL ListarPedidosPorNombreTrabajador(?)}");
+	        cs.setString(1, nombreParcial);
+
+	        ResultSet rs = cs.executeQuery();
+	        while (rs.next()) {
+	            int pedidoID = rs.getInt("PedidoID");
+	            String metodoPago = rs.getString("MetodoPago");
+	            String direccion = rs.getString("DireccionPedido");
+	            String tipoPedido = rs.getString("TipoPedido");
+
+	            // Datos del cliente
+	            String nombreCliente = rs.getString("NombreCliente");
+	            String dni = rs.getString("DNICliente");
+
+	            Timestamp timestamp = rs.getTimestamp("FechaEmision");
+	            LocalDateTime fecha = timestamp.toLocalDateTime();
+
+	            Cliente cliente = new Cliente(null, 0, nombreCliente, dni);
+	            Pedido pedido = new Pedido(pedidoID, metodoPago, direccion, tipoPedido, cliente, fecha);
+
+	            lista.add(pedido);
+	        }
+
+	        rs.close();
+	        cs.close();
+	    } catch (Exception e) {
+	        System.err.println("❌ Error al buscar pedidos por trabajador: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
+
+	
 	public static List<Pedido> buscarPedidosPorFecha(String fechaString) {
 	    List<Pedido> lista = new ArrayList<>();
 

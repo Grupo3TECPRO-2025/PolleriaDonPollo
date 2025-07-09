@@ -170,6 +170,7 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		panel_1.add(lblNewLabel_1_3);
 		
 		btnBucar = new JButton("Buscar");
+		btnBucar.addActionListener(this);
 		btnBucar.setBounds(274, 109, 91, 30);
 		panel_1.add(btnBucar);
 		{
@@ -347,6 +348,9 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 				
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnBucar) {
+			do_btnBucar_actionPerformed(e);
+		}
 		if (e.getSource() == btnVolver) {
 			do_btnVolver_actionPerformed(e);
 		}
@@ -605,9 +609,10 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 		      	if(ped.getProm()!=null) ped.setMonto(ped.CostoTotal(true));
 		        else ped.setMonto(ped.CostoTotal());
 		      	
+		      	
 		      	//PEDIR FACTURA
 	      		
-		      	if(ArregloCliente.buscarClienteRegisPorDNI(txtDni.getText())!=null) {
+		      	if(ArregloCliente.buscarClienteRegisPorDNI(txtDni.getText())!=null && ArregloCliente.verificarClienteRegisHabilitado(txtDni.getText())!=null) {
 		      		cuenta = ArregloCliente.buscarClienteRegisPorDNI(txtDni.getText());
 		      		Cliente idCliente = ArregloCliente.buscarClientePorDNI(cuenta.getDNI()).getFirst();
 		      		cuenta.getCli().setClienteID(idCliente.getClienteID());
@@ -677,7 +682,9 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 			}
 		}
 		else {
-			JOptionPane.showMessageDialog(this, "El cliente ya fue registrado!");
+			if(ArregloCliente.habilitarClienteRegisPorDNI(txtDni.getText())) {
+				JOptionPane.showMessageDialog(this, "El cliente fue reintegrado!");
+			}else JOptionPane.showMessageDialog(this, "No pudo integrarse el cliente");
 		}
 
 	}
@@ -738,4 +745,18 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	}
 	
 
+	protected void do_btnBucar_actionPerformed(ActionEvent e) {
+		ClienteRegistradoGUI dialog = new ClienteRegistradoGUI(this);
+		dialog.setVisible(true);
+	}
+	
+	public void setClienteDesdeSeleccion(Cliente clienteSeleccionado) {
+	    this.cli = clienteSeleccionado;
+	    txtNombre.setText(cli.getNombreCompleto());
+	    txtTelefono.setText(String.valueOf(cli.getTelefono()));
+	    txtDni.setText(cli.getDNI());
+	    txtNombre.setEditable(false);
+	    txtTelefono.setEditable(false);
+	    txtDni.setEditable(false);
+	}
 }

@@ -40,7 +40,6 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 
 	private Usuario user;
 	private JLabel lblNewLabel;
-	private JButton btnClientesRegistros;
 	
 	
 
@@ -105,7 +104,7 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 			btnRegistrarProveedores = new JButton("Registrar Proveedores");
 			btnRegistrarProveedores.setBackground(new Color(233, 209, 209));
 			btnRegistrarProveedores.addActionListener(this);
-			btnRegistrarProveedores.setBounds(76, 276, 168, 42);
+			btnRegistrarProveedores.setBounds(199, 275, 168, 42);
 			contentPane.add(btnRegistrarProveedores);
 		}
 		{
@@ -121,12 +120,6 @@ public class AdministradorGUI extends JFrame implements ActionListener {
 			lblNewLabel.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 36));
 			lblNewLabel.setBounds(123, 48, 351, 48);
 			contentPane.add(lblNewLabel);
-		}
-		{
-			btnClientesRegistros = new JButton("Clientes Registros");
-			btnClientesRegistros.setBackground(new Color(233, 209, 209));
-			btnClientesRegistros.setBounds(317, 276, 168, 42);
-			contentPane.add(btnClientesRegistros);
 		}
 	}
 
