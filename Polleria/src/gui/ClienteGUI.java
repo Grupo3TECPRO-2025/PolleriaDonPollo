@@ -25,8 +25,8 @@ import Arraylist.ArregloCliente;
 import Arraylist.ArregloPedido;
 import Arraylist.ArregloPersona;
 import Arraylist.ArregloTrabajador;
+import Arraylist.Arreglocupon;
 import Arraylist.Carta;
-import CartaPolleria.CuponeraLista;
 import CartaPolleria.Cupon;
 import CartaPolleria.MenuProducto;
 import DatosPersonales.Administrador;
@@ -480,7 +480,6 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	}
 	
 	
-	CuponeraLista lis = new CuponeraLista();
 	private JButton btnCancelarPedido;
 	private JLabel lblNewLabel_4;
 	private JButton btnEnviar;
@@ -504,13 +503,17 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 
 			if(ped!=null) {
 				int codigoIngresado = Integer.parseInt(txtPromocion.getText());
-				Cupon prom = lis.Buscar(codigoIngresado);
+				Cupon prom = Arreglocupon.obtenerCuponDisponiblePorID(codigoIngresado);
 				
 				if(prom!= null) {
 					ped.setProm(prom);
 					txtCosto.setText("$"+ped.CostoTotal(true));
-					JOptionPane.showMessageDialog(this, "El cupon ha sido canjeado!");
+					JOptionPane.showMessageDialog(this, "El cupón ha sido canjeado!");
 					txtPromocion.setEditable(false);
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "El cupón no esta disponible");
+					
 				}
 			}else JOptionPane.showMessageDialog(this, "Primero haz una orden");
 			
@@ -604,14 +607,22 @@ public class ClienteGUI extends JFrame implements ActionListener, ItemListener {
 	      			return;
 	      		}
 	      		
+	      		
 	      		ped.setDireccion(txtDireccion.getText());
 	      		//SACAR CUENTA
-		      	if(ped.getProm()!=null) ped.setMonto(ped.CostoTotal(true));
-		        else ped.setMonto(ped.CostoTotal());
+		      	if(ped.getProm()!=null) {
+		      		 ped.setMonto(ped.CostoTotal(true));
+		      		 Arreglocupon.actualizarEstadoCupon(ped.getProm().getId(), "usado");
+		      	}
+		      	else {
+		      		ped.setMonto(ped.CostoTotal());
+		      	}
 		      	
 		      	
 		      	//PEDIR FACTURA
 	      		
+
+		      	
 		      	if(ArregloCliente.buscarClienteRegisPorDNI(txtDni.getText())!=null && ArregloCliente.verificarClienteRegisHabilitado(txtDni.getText())!=null) {
 		      		cuenta = ArregloCliente.buscarClienteRegisPorDNI(txtDni.getText());
 		      		Cliente idCliente = ArregloCliente.buscarClientePorDNI(cuenta.getDNI()).getFirst();

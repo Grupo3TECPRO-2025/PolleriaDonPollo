@@ -181,13 +181,13 @@ public class Pedido {
     
     public double CostoTotal(Boolean aux) {
     	double total=0.0;
-    	if(prom.getTipo().trim().toLowerCase()=="fijo") {
+    	if(prom.getTipo().trim().toLowerCase().equals("fijo")) {
         	for(int i=0;i<listaProductos.size();i++) {
         		total+=Obtener(i).Costo();
         	}
         	total-=prom.getDescuento();
     	}
-    	else if(prom.getTipo().trim().toLowerCase()=="porcentaje"){
+    	else if(prom.getTipo().trim().toLowerCase().equals("porcentaje")){
             for(int i=0;i<listaProductos.size();i++) {
             		total+=Obtener(i).Costo();
             }
