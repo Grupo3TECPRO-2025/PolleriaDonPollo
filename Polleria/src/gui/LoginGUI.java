@@ -40,7 +40,6 @@ public class LoginGUI extends JDialog implements ActionListener {
 	private JTextField txtContraseña;
 	private JButton btnIngresar;
 	private String rol;
-	private RegisterGUI registrar;
 	private InicioGUI inicio;
 	
 	private AdministradorGUI ventanaAdministrador;

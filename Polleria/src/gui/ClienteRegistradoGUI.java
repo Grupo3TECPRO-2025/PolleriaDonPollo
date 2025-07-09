@@ -90,14 +90,14 @@ public class ClienteRegistradoGUI extends JDialog implements KeyListener, Action
 			contentPanel.add(txtBuscar);
 		}
 		{
-			lblNewLabel = new JLabel("Ingresa el Nombre del Producto");
+			lblNewLabel = new JLabel("Ingresa el nombre de un cliente:");
 			lblNewLabel.setForeground(Color.WHITE);
 			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			lblNewLabel.setBounds(31, 68, 242, 19);
 			contentPanel.add(lblNewLabel);
 		}
 		{
-			lblListarInventario = new JLabel("LISTAR INVENTARIO");
+			lblListarInventario = new JLabel("CLIENTES REGISTRADOS");
 			lblListarInventario.setHorizontalAlignment(SwingConstants.CENTER);
 			lblListarInventario.setForeground(Color.WHITE);
 			lblListarInventario.setFont(new Font("Tahoma", Font.BOLD, 22));

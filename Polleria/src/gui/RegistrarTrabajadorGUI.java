@@ -130,7 +130,7 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 			{
 				btnRegistrar = new JButton("REGISTRAR");
 				btnRegistrar.addActionListener(this);
-				btnRegistrar.setBounds(76, 161, 103, 37);
+				btnRegistrar.setBounds(70, 161, 129, 37);
 				panel.add(btnRegistrar);
 			}
 		}
@@ -274,7 +274,10 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 
 	        Trabajador emp = new Trabajador(null,telefono, nombre, dni, direccion, userEmpleado);
 
-	        if (ArregloTrabajador.habilitarTrabajadorPorDNI(dni)) {
+	   
+
+	        if (ArregloTrabajador.obtenerEstadoTrabajador(dni).equals("deshabilitado")) {
+	        	ArregloTrabajador.habilitarTrabajadorPorDNI(dni);
 	            ArrayList<Trabajador> lista = ArregloTrabajador.buscarTrabajadoresPorNombre("");
 	            mostrarEnTabla(lista);
 	            limpiarCampos();
@@ -292,14 +295,12 @@ public class RegistrarTrabajadorGUI extends JFrame implements ActionListener, Mo
 	            JOptionPane.showMessageDialog(this, "❌ No se pudo registrar el trabajador en la base de datos.");
 	        }
 	        
-	        JOptionPane.showMessageDialog(this, "REGISTRADO EXITOSAMENTE\n"
-	            + "Usuario: " + usuario + "\nContraseña: " + contrasena);
 
 	        ArrayList<Trabajador>lista = ArregloTrabajador.buscarTrabajadoresPorNombre("");
 			mostrarEnTabla(lista);
 	        limpiarCampos();
 	    } catch (Exception ex) {
-	        JOptionPane.showMessageDialog(this, "¡Error al registrar empleado!");
+	        JOptionPane.showMessageDialog(this, "¡Error al registrar empleado!"+ex);
 	    }		
 	}
 	public String generarUsuario(String nombre, String dni) {

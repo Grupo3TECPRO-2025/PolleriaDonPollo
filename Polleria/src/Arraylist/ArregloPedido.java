@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import CartaPolleria.Cupon;
 import CartaPolleria.MenuProducto;
 import DatosPersonales.Administrador;
@@ -21,6 +23,31 @@ import Gestiones.Pedido;
 
 
 public class ArregloPedido {
+	
+	
+	public static void consumirMateriaPrimaPorPlato(String productoID) {
+	    Connection conn = null;
+	    CallableStatement cs = null;
+
+	    try {
+	        conn = ConexionSQL.getConexion();  
+	        cs = conn.prepareCall("{CALL ConsumirMateriaPrimaPorPlato(?)}");
+	        cs.setString(1, productoID);
+	        cs.execute();
+	        System.out.println("✔ Stock actualizado para el producto: " + productoID);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "❌ Error al consumir materia prima para el producto.");
+	    } finally {
+	        try {
+	            if (cs != null) cs.close();
+	            if (conn != null) conn.close();
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	}
+
 	
 	public static List<Pedido> buscarPedidosPorNombreTrabajador(String nombreParcial) {
 	    List<Pedido> lista = new ArrayList<>();
@@ -298,7 +325,6 @@ public class ArregloPedido {
 	        cs.execute();
 	        cs.close();
 
-	        // Obtener ID generado
 	        PreparedStatement ps = conn.prepareStatement("SELECT LAST_INSERT_ID()");
 	        ResultSet rs = ps.executeQuery();
 	        if (rs.next()) {
@@ -310,7 +336,10 @@ public class ArregloPedido {
 
 	        // Registrar detalles del pedido
 	        for (DetallePedido detalle : Pedido.getListaProductos()) {
-	            RegistrarDetallePedido(detalle.getProducto().getIdProducto(), pedidoID, detalle.getCantidad());
+	        	for(int i = 0; i<detalle.getCantidad();i++) {
+	        		consumirMateriaPrimaPorPlato(detalle.getProducto().getIdProducto());
+	        	}
+	        	RegistrarDetallePedido(detalle.getProducto().getIdProducto(), pedidoID, detalle.getCantidad());
 	        }
 
 	        System.out.println("✅ Pedido registrado con cuenta de cliente correctamente.");
@@ -386,6 +415,9 @@ public class ArregloPedido {
 
             // Registrar detalles del pedido
             for (DetallePedido detalle : Pedido.getListaProductos()) {
+            	for(int i = 0; i<detalle.getCantidad();i++) {
+	        		consumirMateriaPrimaPorPlato(detalle.getProducto().getIdProducto());
+	        	}
                 RegistrarDetallePedido(detalle.getProducto().getIdProducto(), pedidoID, detalle.getCantidad());
             }
 

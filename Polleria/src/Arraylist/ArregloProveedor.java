@@ -14,6 +14,9 @@ import Inventario.MateriaPrima;
 
 public class ArregloProveedor {
 
+
+
+	
 	public static boolean habilitarProveedorPorRUC(String ruc) {
 	    boolean resultado = false;
 
@@ -60,6 +63,7 @@ public class ArregloProveedor {
 	    return actualizado;
 	}
 
+	
 	public static boolean verificarProveedorHabilitado(String ruc) {
 	    boolean habilitado = false;
 
@@ -71,6 +75,9 @@ public class ArregloProveedor {
 
 	        if (rs.next()) {
 	            habilitado = true;
+	        }
+	        else {
+	        	return false;
 	        }
 
 	    } catch (Exception e) {

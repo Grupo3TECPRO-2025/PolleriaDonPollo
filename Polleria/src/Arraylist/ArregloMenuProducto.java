@@ -12,6 +12,9 @@ import Inventario.MateriaPrima;
 import Inventario.PlatoConsumo;
 
 public class ArregloMenuProducto {
+	
+	
+	
 	public static ArrayList<PlatoConsumo> obtenerInsumosPorProductoID(String productoID) {
         ArrayList<PlatoConsumo> lista = new ArrayList<>();
 

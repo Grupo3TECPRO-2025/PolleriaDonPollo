@@ -303,10 +303,7 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 			cbxTipoProvicion.addItem(mPrima.getNombre());
 		}
 		
-		proveedores = ArregloProveedor.listarProveedores();
-		for (Proveedor pro : proveedores) {
-			cbxNombreEmpresa.addItem(pro.getNombreEmpresa());
-		}
+		ActualizarNombreEmpresas();
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnVolver) {
@@ -529,11 +526,9 @@ public class RegistroProveedoresGUI extends JFrame implements ActionListener, It
 	        boolean modificado = false;
 	        Proveedor promodificado = new Proveedor(ruc, nombre, direccion, telefono);
 	        if(ArregloProveedor.modificarProveedorPorNombre(nombreSeleccionado, promodificado)){
-	        	cbxNombreEmpresa.removeItem(nombreSeleccionado);
 		        JOptionPane.showMessageDialog(null, "Proveedor modificado correctamente.");
-		         
-		        
-		         
+		        ActualizarNombreEmpresas();
+		         		        
 	        }else {
 	            JOptionPane.showMessageDialog(null, "Proveedor no encontrado en la lista.");
 	        }

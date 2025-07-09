@@ -10,8 +10,30 @@ import Gestiones.Usuario;
 
 public class ArregloTrabajador {
 	
+	public static String obtenerEstadoTrabajador(String dni) {
+	    String estado = "";
+
+	    try (Connection conn = ConexionSQL.getConexion();
+	         CallableStatement cs = conn.prepareCall("{CALL ObtenerEstadoTrabajadorPorDNI(?)}")) {
+
+	        cs.setString(1, dni);
+
+	        ResultSet rs = cs.executeQuery();
+	        if (rs.next()) {
+	            estado = rs.getString("Estado");
+	        }
+
+	        rs.close();
+	        cs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return estado;
+	}
+
+	
 	public static boolean habilitarTrabajadorPorDNI(String dni) {
-	    boolean habilitado = false;
 
 	    try (Connection conn = ConexionSQL.getConexion();
 	         CallableStatement stmt = conn.prepareCall("{CALL HabilitarTrabajadorPorDNI(?)}")) {
@@ -19,15 +41,17 @@ public class ArregloTrabajador {
 	        stmt.setString(1, dni);
 	        stmt.execute();
 
-	        habilitado = true;
+	        
 	        System.out.println("✅ Trabajador habilitado correctamente.");
 
+	        return true;
 	    } catch (Exception e) {
 	        System.err.println("❌ Error al habilitar trabajador: " + e.getMessage());
 	        e.printStackTrace();
+		    return false;
+
 	    }
 
-	    return habilitado;
 	}
 
 	public static boolean eliminarTrabajadorPorDNI(String dni) {

@@ -11,7 +11,6 @@ public class InicioGUI extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     public LoginGUI ventanaLogin;
-    public RegisterGUI ventanaRegister;
     private RegistrosGUI ventanaAdministrador;
     private ProvicionesGUI ventanaProveedor;
     private ClienteGUI ventanaCliente;

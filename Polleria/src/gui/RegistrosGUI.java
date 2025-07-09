@@ -125,7 +125,7 @@ public class RegistrosGUI extends JFrame implements ActionListener, KeyListener 
 			contentPane.add(panel);
 			panel.setLayout(null);
 			{
-				lblNewLabel = new JLabel("Gestion de Inventario / Stock");
+				lblNewLabel = new JLabel("Gestión de Inventario / Stock");
 				lblNewLabel.setBounds(202, 11, 255, 24);
 				panel.add(lblNewLabel);
 				lblNewLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 18));
@@ -211,7 +211,7 @@ public class RegistrosGUI extends JFrame implements ActionListener, KeyListener 
 				panel_1.add(cbxPedidoH);
 			}
 			{
-				lblNewLabel_4 = new JLabel("Elige una opcion ");
+				lblNewLabel_4 = new JLabel("Elige una opción ");
 				lblNewLabel_4.setBounds(566, 44, 164, 15);
 				panel_1.add(lblNewLabel_4);
 			}
@@ -286,7 +286,7 @@ public class RegistrosGUI extends JFrame implements ActionListener, KeyListener 
 				txtNumPedidos.setColumns(10);
 			}
 			{
-				lblNewLabel_6 = new JLabel("Producto mas Vendido:");
+				lblNewLabel_6 = new JLabel("Producto más Vendido:");
 				lblNewLabel_6.setBounds(165, 24, 142, 17);
 				panel_3.add(lblNewLabel_6);
 			}
